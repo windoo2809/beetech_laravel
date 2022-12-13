@@ -62,7 +62,7 @@ class UserController extends Controller
 
     /**
      * Write code on Method
-     *
+     * @param request $request
      * @return response()
      */
     public function postRegister(Request $request) {

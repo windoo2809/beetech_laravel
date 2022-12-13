@@ -31,7 +31,7 @@ class AdminController extends Controller
     } 
     /**
      * Write code on Method
-     *
+     * @param request $request
      * @return response()
      */
     public function postLogin(Request $request){
