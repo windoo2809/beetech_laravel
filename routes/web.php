@@ -36,6 +36,7 @@ Route::prefix('admin')->middleware('admin.login')->group(function(){
 //showuser
     // Route::resource('user'[UserController::class]);
     Route::get('show-user',[ShowUserController::class , 'index'])->name('admin.show-user');
+    Route::get('add-user',[ShowUserController::class , 'create'])->name('admin.add-user');
 });
 Route::prefix('admin-auth')->group(function (){
     //login

@@ -1,13 +1,14 @@
-<!-- @extends('admin.dashboard')
+@extends('admin.dashboard')
 @section('title','Add User')
+@section('content')
 <div class="content-wrapper">
-    <div class="content mt-2">
+    <div class="content ">
         <div class="animated fadeIn">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body card-block">
-                            <form action="{{route('category-ve.store')}}" method="post" enctype="multipart/form-data"
+                            <form action="" method="post" enctype="multipart/form-data"
                                 class="form-horizontal">
                                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                                 <div class="row form-group">
@@ -37,4 +38,5 @@
             </div>
         </div>
     </div>
-</div> -->
+</div>
+@endsection
