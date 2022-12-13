@@ -1,4 +1,4 @@
-@extends('admin.dashboard');
+<!-- @extends('admin.dashboard');
 @section('title', 'User')
 @section('content')
 <div class="table-responsive">
@@ -39,4 +39,4 @@
 </div>
 {{$users->links()}}
 
-@endsection
+@endsection -->

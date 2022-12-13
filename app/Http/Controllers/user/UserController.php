@@ -11,27 +11,38 @@ use Illuminate\Support\Facades\Hash;
 
 
 class UserController extends Controller
-{   
+{     /**
+    * Write code on Method
+    *
+    * @return response()
+    */
     public function index(){
         return view('user.dashboard');
-    }
-    //getLogin
+    }  
+
+    /**
+    * Write code on Method
+    *
+    * @return response()
+    */
     public function getLogin(){
         return view('user.layout.login');
     } 
-    //postLogin
+
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
     public function postLogin(Request $request){
-        //validate form
         $request->validate([
             'email'=>'required|email',
             'password'=>'required',
         ]);
-        //khai báo mảng 
         $data = [
             'email' => $request->email,
             'password' => $request->password,
         ];
-        //kiểm tra mảng khi login
         if(Auth::guard('user')->attempt($data)){
            return view('user.dashboard', $data);
         }
@@ -39,11 +50,21 @@ class UserController extends Controller
             return redirect()->route('user.layout.login')->with('error','Wrong email or password');
         }
     }
-    //getRegister
+
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
     public function getRegister(){
         return view('user.layout.register');
     }
-    //postRegister
+
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
     public function postRegister(Request $request) {
         $request->validate([
             'email'=>'required|email',
@@ -63,7 +84,11 @@ class UserController extends Controller
         $user->save();
         return redirect()->route('user.layout.login')->with('success','Register success');
     }
-
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
     public function logout(){
         Auth::logout();
         return redirect()->route('user.layout.login')->with('success','Logout success');

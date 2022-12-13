@@ -1,4 +1,4 @@
-@extends('admin.dashboard')
+<!-- @extends('admin.dashboard')
 @section('title','Add User')
 <div class="content-wrapper">
     <div class="content mt-2">
@@ -10,7 +10,6 @@
                             <form action="{{route('category-ve.store')}}" method="post" enctype="multipart/form-data"
                                 class="form-horizontal">
                                 <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                <!-- @method('PATCH') -->
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label for="name" class=" form-control-label">Tên </label>
                                     </div>
@@ -33,9 +32,9 @@
                                 <input class="btn btn-success float-right" type="submit" value="Thêm">
                             </form>
                         </div>
-                    </div><!-- .content -->
-                </div><!-- .content -->
-            </div><!-- .content -->
-        </div><!-- .content -->
-    </div><!-- .content -->
-</div><!-- .content -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->

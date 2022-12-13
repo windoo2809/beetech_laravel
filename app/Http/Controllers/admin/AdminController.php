@@ -12,27 +12,37 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {   
+  /**
+     * Write code on Method
+     *
+     * @return response()
+     */
     public function index(){
+        
             return view('admin.dashboard');
     }
-    //getLogin
+     /**
+     * Write code on Method
+     *
+     * @return response()
+     */
     public function getLogin(){
-        //trả về view
         return view('admin.layout.login');
     } 
-    //postLogin
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
     public function postLogin(Request $request){
-        //validate form
         $request->validate([
             'email'=>'required',
             'password'=>'required',
         ]);
-        //khai báo mảng 
         $data = [
             'email' => $request->email,
             'password' => $request->password,
         ];
-        //kiểm tra mảng khi login
         if(Auth::guard('admin')->attempt($data)){
             return view('admin.dashboard', $data);
          }
@@ -40,13 +50,22 @@ class AdminController extends Controller
              return redirect()->route('admin.layout.login')->with('error','Wrong email or password');
          }
     }
-    //getRegister
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
     public function getRegister(){
         return view('admin.layout.register');
     }
-    //postRegister
+
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
     public function postRegister(Request $request) {
-        //validate form
+
         $request->validate([
             'email'=>'required|email',
             'user_name'=>'required',
@@ -66,7 +85,11 @@ class AdminController extends Controller
         $admin->save();
         return redirect('admin.layout.login')->with('success','Register success');
     }
-
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
     public function logout(){
         Auth::logout();
         return redirect()->route('admin.layout.login')->with('success','Logout success');
