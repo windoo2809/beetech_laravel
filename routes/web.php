@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\user\UserController;
 use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\admin\ShowUserController;
 
 
 Route::get('/', function () {
@@ -12,8 +13,9 @@ Route::get('/', function () {
 //auth-user
 Route::prefix('user')->middleware('user.login')->group(function(){
     Route::get('dashboard', [UserController::class, 'index'])->name('user.dashboard');
-    //logout
+//logout
     Route::post('logout', [UserController::class, 'logout'])->name('user.logout');
+
 });
 Route::prefix('user')->group(function (){
 //login
@@ -31,6 +33,9 @@ Route::prefix('admin')->middleware('admin.login')->group(function(){
     Route::get('dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 //logout
     Route::post('logout', [AdminController::class, 'logout'])->name('admin.logout');
+//showuser
+    // Route::resource('user'[UserController::class]);
+    Route::get('show-user',[ShowUserController::class , 'index'])->name('admin.show-user');
 });
 Route::prefix('admin-auth')->group(function (){
     //login
