@@ -4,6 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+
+
 /**
 *@property integer $id
 *@property string  $user_name
@@ -16,8 +20,10 @@ use Illuminate\Database\Eloquent\Model;
 *@property string  $status
 *@property integer $flag_delete
 */
-class Admin extends Model
+class Admin extends Authenticatable
 {
+    protected $guard = 'admin';
+    
     use HasFactory;
     public $timestamps = true;
     protected $fillable = [

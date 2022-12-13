@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\user;
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -21,21 +21,23 @@ class UserController extends Controller
     } 
     //postLogin
     public function postLogin(Request $request){
+        //validate form
         $request->validate([
             'email'=>'required|email',
             'password'=>'required',
         ]);
+        //khai báo mảng 
         $data = [
             'email' => $request->email,
             'password' => $request->password,
         ];
-        if(Auth::attempt($data)){
+        //kiểm tra mảng khi login
+        if(Auth::guard('user')->attempt($data)){
            return view('user.dashboard', $data);
         }
         else{
-         return redirect('user-login')->with('error','Wrong email or password');
+            return redirect()->route('user.layout.login')->with('error','Wrong email or password');
         }
-      
     }
     //getRegister
     public function getRegister(){
@@ -59,7 +61,13 @@ class UserController extends Controller
         $user->birthday = $request->birthday;
         $user->password = Hash::make($request->password);
         $user->save();
-        return redirect('user-login')->with('success','Register success');
+        return redirect()->route('user.layout.login')->with('success','Register success');
+    }
+
+    public function logout(){
+        Auth::logout();
+        return redirect()->route('user.layout.login')->with('success','Logout success');
+
     }
 
 }

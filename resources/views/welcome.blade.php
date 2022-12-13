@@ -1,7 +1,7 @@
 <div class="h1">
-<a href="{{url ('admin-login')}}">Admin login</a>
+<a href="{{route ('admin.layout.login')}}">Admin login</a>
 
-<a href="{{url ('user-login')}}">User login</a>
+<a href="{{route ('user.layout.login')}}">User login</a>
 
 
 </div>

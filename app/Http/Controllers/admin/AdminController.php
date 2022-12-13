@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -13,29 +13,32 @@ use Illuminate\Support\Facades\Hash;
 class AdminController extends Controller
 {   
     public function index(){
-        return view('admin.dashboard');
+            return view('admin.dashboard');
     }
     //getLogin
     public function getLogin(){
+        //trả về view
         return view('admin.layout.login');
     } 
     //postLogin
     public function postLogin(Request $request){
+        //validate form
         $request->validate([
             'email'=>'required',
             'password'=>'required',
         ]);
+        //khai báo mảng 
         $data = [
             'email' => $request->email,
             'password' => $request->password,
         ];
-        if(Auth::attempt($data)){
-           return view('admin.dashboard', $data);
-        }
-        else{
-         return redirect('admin-login')->with('error','Wrong email or password');
-        }
-      
+        //kiểm tra mảng khi login
+        if(Auth::guard('admin')->attempt($data)){
+            return view('admin.dashboard', $data);
+         }
+         else{
+             return redirect()->route('admin.layout.login')->with('error','Wrong email or password');
+         }
     }
     //getRegister
     public function getRegister(){
@@ -43,6 +46,7 @@ class AdminController extends Controller
     }
     //postRegister
     public function postRegister(Request $request) {
+        //validate form
         $request->validate([
             'email'=>'required|email',
             'user_name'=>'required',
@@ -51,6 +55,7 @@ class AdminController extends Controller
             'birthday'=>'required',
             'password'=>'required',
         ]);
+        //
         $admin = new Admin();
         $admin->email = $request->email;
         $admin->user_name = $request->user_name;
@@ -59,7 +64,13 @@ class AdminController extends Controller
         $admin->birthday = $request->birthday;
         $admin->password = Hash::make($request->password);
         $admin->save();
-        return redirect('admin-login')->with('success','Register success');
+        return redirect('admin.layout.login')->with('success','Register success');
+    }
+
+    public function logout(){
+        Auth::logout();
+        return redirect()->route('admin.layout.login')->with('success','Logout success');
+
     }
 
 }

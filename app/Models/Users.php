@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
 /**
 *@property integer $id
 *@property string  $email
@@ -16,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
 *@property string  $status
 *@property integer $flag_delete
 */
-class Users extends Model
+class Users extends Authenticatable
 {
     use HasFactory;
     public $timestamps = true;

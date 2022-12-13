@@ -13,7 +13,7 @@
                 </div>
                 @endif
                 @csrf
-                <h1 style="text-align: center;">Login</h1>
+                <h1 style="text-align: center;">User Login </h1>
                 <div class="container">
                     <label for="psw"><b>Email</b></label>
                     <input type="text" placeholder="Enter Email" name="email" value="{{old('email')}}">
@@ -27,7 +27,7 @@
                 </div>
                 <div class="container" style="background-color:#f1f1f1">
                     <a href="{{url ('/')}}"> <button type="button" class="cancelbtn">Exit</button></a>
-                    <span class="psw"><a href="{{url ('user-register')}}">Register?</a></span>
+                    <span class="psw"><a href="{{route ('user.layout.register')}}">Register?</a></span>
                 </div>
             </form>
         </div>
