@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 class AdminController extends Controller
 {   
   /**
-     * Write code on Method
+     * Display a listing of the resource.
      *
      * @return response()
      */
@@ -22,7 +22,7 @@ class AdminController extends Controller
             return view('admin.dashboard');
     }
      /**
-     * Write code on Method
+     * Show the form for creating a new resource.
      *
      * @return response()
      */
@@ -30,7 +30,7 @@ class AdminController extends Controller
         return view('admin.layout.login');
     } 
     /**
-     * Write code on Method
+     * postLogin a newly created resource in storage.
      * @param request $request
      * @return response()
      */
@@ -51,7 +51,7 @@ class AdminController extends Controller
          }
     }
     /**
-     * Write code on Method
+     * Show the form for creating a new resource.
      *
      * @return response()
      */
@@ -60,7 +60,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Write code on Method
+     *  postRegister a newly created resource in storage.
      *
      * @return response()
      */
@@ -86,13 +86,13 @@ class AdminController extends Controller
         return redirect('admin.layout.login')->with('success','Register success');
     }
     /**
-     * Write code on Method
+     * Remove the specified resource from storage.
      *
      * @return response()
      */
     public function logout(){
         Auth::logout();
-        return redirect()->route('admin.layout.login')->with('success','Logout success');
+        return redirect()->route('admin.show-user')->with('success','Logout success');
 
     }
 

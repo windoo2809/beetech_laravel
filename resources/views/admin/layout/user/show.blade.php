@@ -1,41 +1,99 @@
 @extends('admin.dashboard');
 @section('title', 'User')
 @section('content')
-<div class="table-responsive">
-    <table class="align-middle mb-0 table table-borderless table-striped table-hover">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Birthday</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Password</th>
-                <th>Reset Password</th>
-                <th>Status</th>
-                <th>Flag Delete</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($users as $user)
-            <tr>
-                <td>{{$user->id}}</td>
-                <td>{{$user->user_name}}</td>
-                <td>{{$user->email}}</td>
-                <td>{{$user->birthday}}</td>
-                <td>{{$user->first_name}}</td>
-                <td>{{$user->last_name}}</td>
-                <td>{{$user->password}}</td>
-                <td>{{$user->reset_password}}</td>
-                <td>{{$user->status}}</td>
-                <td>{{$user->flag_delete}}</td>
-                <td><a href="{{url('/category-ve')}}/{{$user->id}}/edit" class="btn btn-warning">Cập nhật</a></td>
-                <td><a href="delete-category-ve/{{$user->id}}" class="btn btn-danger">Xóa</a></td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Projects</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Projects</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Projects</h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            @if(session('success'))
+                <div class="alert alert-success text-center">
+                    {{session('success')}}
+                </div>
+                @endif
+            <div class="card-body p-0">
+                <table class="table table-striped projects">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Birthday</th>
+                            <th>Flag Delete</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    @foreach($users as $row)
+                    <tbody>
+                        <tr>
+                            <td>{{ $row->id }}</td>
+                            <td>{{ $row->user_name }}</td>
+                            <td>{{ $row->email }}</td>
+                            <td>{{ $row->first_name }}</td>
+                            <td>{{ $row->last_name }}</td>
+                            <td>{{ $row->birthday }}</td>
+                            <td> {{ $row->flag_delete }}</td>
+
+                            <td class="project-actions text-right">
+                                <a class="btn btn-primary btn-sm" href="#">
+                                    <i class="fas fa-folder">
+                                    </i>
+                                    View
+                                </a>
+                                <a class="btn btn-info btn-sm" href="{{route ('user.edit',$row->id)}}">
+                                    <i class="fas fa-pencil-alt">
+                                    </i>
+                                    Edit
+                                </a>
+                                <a class="btn btn-danger btn-sm" href="#">
+                                    <i class="fas fa-trash">
+                                    </i>
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                    @endforeach
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
 </div>
 {{$users->links()}}
 

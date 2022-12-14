@@ -13,14 +13,15 @@ Route::get('/', function () {
 //auth-user
 Route::prefix('user')->middleware('user.login')->group(function(){
     Route::get('dashboard', [UserController::class, 'index'])->name('user.dashboard');
+
 //logout
     Route::post('logout', [UserController::class, 'logout'])->name('user.logout');
-
 });
-Route::prefix('user')->group(function (){
+Route::prefix('auth-user')->group(function (){
 //login
     Route::get('login', [UserController::class, 'getLogin'])->name('user.layout.login');
     Route::post('login', [UserController::class, 'postLogin'])->name('user.layout.login'); 
+
 //register
     Route::get('register', [UserController::class, 'getRegister'])->name('user.layout.register');
     Route::post('register', [UserController::class, 'postRegister'])->name('user.layout.register');
@@ -31,12 +32,12 @@ Route::prefix('user')->group(function (){
 //auth-admin
 Route::prefix('admin')->middleware('admin.login')->group(function(){
     Route::get('dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+
 //logout
     Route::post('logout', [AdminController::class, 'logout'])->name('admin.logout');
-//showuser
-    // Route::resource('user'[UserController::class]);
-    Route::get('show-user',[ShowUserController::class , 'index'])->name('admin.show-user');
-    Route::get('add-user',[ShowUserController::class , 'create'])->name('admin.add-user');
+
+//crud-user
+    Route::resource('user', ShowUserController::class);
 });
 Route::prefix('admin-auth')->group(function (){
     //login

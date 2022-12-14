@@ -8,6 +8,8 @@ use DB;
 use Auth;
 use App\Models\Users;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\userRequest;
+
 class ShowUserController extends Controller
 {
     /**
@@ -17,7 +19,14 @@ class ShowUserController extends Controller
      */
     public function index()
     {
-        $users = Users::paginate(1);
+        $users = Users::select(
+            'id',
+            'user_name',
+            'email',
+            'first_name',
+            'last_name',
+            'birthday',
+            'flag_delete')->paginate(15);
         return view('admin.layout.user.show', compact('users'));
     }
 
@@ -28,7 +37,7 @@ class ShowUserController extends Controller
      */
     public function create()
     {
-        return view('admin.layout.user.add');
+        return view('admin.layout.user.create');
     }
 
     /**
@@ -37,12 +46,10 @@ class ShowUserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(userRequest $request)
     {
-        $users = $request->all();
-
-        $users = new User();
-        $category_ve->name= $data['name'];
+        Users::create($request->all());
+        return redirect()->route('user.index')->with("success", "Create success");
     }
 
     /**
@@ -53,7 +60,7 @@ class ShowUserController extends Controller
      */
     public function show($id)
     {
-        //
+      
     }
 
     /**
@@ -64,7 +71,13 @@ class ShowUserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $users = Users::find($id);
+        $data = [
+            'users' =>$users,
+        ];
+        return view('admin.layout.user.update', $data);
+
+
     }
 
     /**
@@ -76,7 +89,17 @@ class ShowUserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+      
+        $users = Users::find($id);
+        $users->email= $data['email'];
+        $users->user_name= $data['user_name'];
+        $users->first_name= $data['first_name'];
+        $users->last_name= $data['last_name'];
+        $users->birthday= $data['birthday'];
+        $users->save();
+
+        return redirect()->route('user.index')->with("success", "Edit success");
     }
 
     /**

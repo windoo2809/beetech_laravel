@@ -11,8 +11,9 @@ use Illuminate\Support\Facades\Hash;
 
 
 class UserController extends Controller
-{     /**
-    * Write code on Method
+{    
+/**
+    * Display a listing of the resource.
     *
     * @return response()
     */
@@ -21,7 +22,7 @@ class UserController extends Controller
     }  
 
     /**
-    * Write code on Method
+    *  Show the form for creating a new resource.
     *
     * @return response()
     */
@@ -30,7 +31,7 @@ class UserController extends Controller
     } 
 
     /**
-     * Write code on Method
+     * postLogin a newly created resource in storage.
      *
      * @return response()
      */
@@ -52,7 +53,7 @@ class UserController extends Controller
     }
 
     /**
-     * Write code on Method
+     *  Show the form for creating a new resource.
      *
      * @return response()
      */
@@ -61,7 +62,7 @@ class UserController extends Controller
     }
 
     /**
-     * Write code on Method
+     * postRegister a newly created resource in storage.
      * @param request $request
      * @return response()
      */
@@ -85,7 +86,7 @@ class UserController extends Controller
         return redirect()->route('user.layout.login')->with('success','Register success');
     }
     /**
-     * Write code on Method
+     * Remove the specified resource from storage.
      *
      * @return response()
      */

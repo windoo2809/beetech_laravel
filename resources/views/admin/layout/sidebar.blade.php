@@ -12,7 +12,9 @@
             <div class="image">
                 <img src="{{asset ('dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
             </div>
-          dadas
+            <div class="info">
+                <a href="#" class="d-block">{{Auth::guard('admin')->user()->email}}</a>
+            </div>
         </div>
 
         <!-- SidebarSearch Form -->
@@ -42,13 +44,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route ('admin.show-user')}}" class="nav-link">
+                            <a href="{{route ('user.index')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Danh sách</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route ('admin.add-user')}}" class="nav-link">
+                            <a href="{{route ('user.create')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Thêm</p>
                             </a>

@@ -16,8 +16,8 @@ class UserLoginmiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check()){
-            if (Auth::user()){
+        if (Auth::check('user')){
+            if (Auth::guard('user')){
                 return $next($request);
             }
             return redirect()->route('user.layout.login')->with('error', 'Permission denied');

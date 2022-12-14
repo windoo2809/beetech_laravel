@@ -22,7 +22,6 @@
             <button type="submit">logout</button>
             @csrf
     </form>
-
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
         <!-- Navbar Search -->
