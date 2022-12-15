@@ -9,7 +9,7 @@ use Auth;
 use Alert;
 use App\Models\Users;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\userRequest;
+use App\Http\Requests\UserRequest;
 
 class ShowUserController extends Controller
 {
@@ -20,7 +20,7 @@ class ShowUserController extends Controller
      */
     public function index()
     {
-        $users = Users::select(
+        $user = Users::select(
             'id',
             'user_name',
             'email',
@@ -28,7 +28,7 @@ class ShowUserController extends Controller
             'last_name',
             'birthday',
             'flag_delete')->paginate(15);
-        return view('admin.layout.user.show', compact('users'));
+        return view('admin.layout.user.show', compact('user'));
     }
 
     /**
@@ -47,7 +47,7 @@ class ShowUserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(userRequest $request)
+    public function store(UserRequest $request)
     {
 
         $user = new Users();
@@ -82,9 +82,10 @@ class ShowUserController extends Controller
      */
     public function edit($id)
     {
-        if(Users::where('id',$id)->exists()){
-            $users = Users::find($id);
-           return view('admin.layout.user.update',compact('users'));
+        $user = Users::find($id);
+
+        if($user != null){
+           return view('admin.layout.user.update',compact('user'));
         }else{
             Alert::error('Error', 'ID does not exist');
             return redirect()->back();
@@ -100,16 +101,23 @@ class ShowUserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->all();
-        
-        $users = Users::find($id);
+        $user = Users::find($id);
 
-        $users->email= $data['email'];
-        $users->user_name= $data['user_name'];
-        $users->first_name= $data['first_name'];
-        $users->last_name= $data['last_name'];
-        $users->birthday= $data['birthday'];
-        $users->save();
+        if($user != null){
+            $user->email = $request->email;
+            $user->user_name = $request->user_name;
+            $user->first_name = $request->first_name;
+            $user->last_name = $request->last_name;
+            $user->birthday = $request->birthday;
+        
+            $user->save();
+
+            Alert::success('success', 'Update success');
+            return redirect()->route('user.index');
+         }else{
+             Alert::error('Error', 'ID does not exist');
+             return redirect()->back();
+         }
 
         Alert::success('success', 'Edit succes');
         return redirect()->route('user.index');
@@ -123,10 +131,17 @@ class ShowUserController extends Controller
      */
     public function destroy($id)
     {
-        $users = Users::find($id);
-        $users->delete();
+        $user = Users::find($id);
+            
+        if($user != null){
+            $user->delete();
+            Alert::success('success', 'Delete succes');
+            return redirect()->route('user.index');        
+        }else{
+            Alert::error('error', 'ID does not exist');
+            return redirect()->back();
+        }
+     
 
-        Alert::success('success', 'Delete succes');
-        return redirect()->route('user.index');
     }
 }

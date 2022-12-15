@@ -21,7 +21,7 @@
 
     <!-- Main content -->
     <section class="content">
-        <form action="{{route ('user.update', $users->id)}}" method="post" enctype="multipart/form-data">
+        <form action="{{route ('user.update', $user->id)}}" method="post" enctype="multipart/form-data">
             @csrf
             @method("PUT")
             <div class="row">
@@ -39,35 +39,41 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="text" name="email" class="form-control" value="{{$users->email}} ">
+                                <input type="text" name="email" class="form-control" value="{{$user->email}} ">
                                 @error('email')<small class="alert-danger">{{ $message }}</small>@enderror <br>
                             </div>
 
                             <div class="form-group">
                                 <label for="user_name">Username</label>
                                 <input type="text" name="user_name" name="user_name" class="form-control"
-                                    value="{{$users->user_name}} ">
+                                    value="{{$user->user_name}} ">
                                 @error('user_name')<small class="alert-danger">{{ $message }}</small>@enderror <br>
                             </div>
 
                             <div class="form-group">
                                 <label for="first_name">First Name</label>
                                 <input type="text" name="first_name" class="form-control"
-                                    value="{{$users->first_name}} ">
+                                    value="{{$user->first_name}} ">
                                 @error('first_name')<small class="alert-danger">{{ $message }}</small>@enderror <br>
                             </div>
 
                             <div class="form-group">
                                 <label for="last_name">Last Name</label>
-                                <input type="text" name="last_name" class="form-control" value="{{$users->last_name}}">
+                                <input type="text" name="last_name" class="form-control" value="{{$user->last_name}}">
                                 @error('last_name')<small class="alert-danger">{{ $message }}</small>@enderror <br>
                             </div>
 
                             <div class="form-group">
                                 <label for="birthday">Birthday</label>
-                                <input type="date" name="birthday" class="form-control" value="{{$users->birthday}} ">
+                                <input type="date" name="birthday" class="form-control" value="{{$user->birthday}} ">
                                 @error('birthday')<small class="alert-danger">{{ $message }}</small>@enderror <br>
                             </div>
+<!--                             
+                            <div class="form-group">
+                                <label for="birthday">Password</label>
+                                <input type="password" name="password" class="form-control" value="{{$user->password}} ">
+                                @error('password')<small class="alert-danger">{{ $message }}</small>@enderror <br>
+                            </div> -->
 
                         </div>
                         <!-- /.card-body -->
