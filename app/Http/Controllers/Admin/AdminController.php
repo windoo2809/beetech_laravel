@@ -92,7 +92,7 @@ class AdminController extends Controller
      */
     public function logout(){
         Auth::logout();
-        return redirect()->route('admin.show-user')->with('success','Logout success');
+        return redirect()->route('admin.layout.login')->with('success','Logout success');
 
     }
 

@@ -1,6 +1,7 @@
 @extends('admin.dashboard')
 @section('title','Add User')
 @section('content')
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -21,7 +22,7 @@
 
     <!-- Main content -->
     <section class="content">
-        <form action="{{ route ('user.store')}}" method="post" enctype="multipart/form-data">
+        <form enctype="multipart/form-data" action="{{ route ('user.store')}}" method="post">
             @csrf
             <div class="row">
                 <div class="col-md-6">
@@ -35,43 +36,52 @@
                             </div>
                         </div>
                         <div class="card-body">
-                        <div class="form-group">
+                            <div class="form-group">
                                 <label for="email">Email</label>
                                 <input type="text" name="email" class="form-control" value="{{old('email')}} ">
                                 @error('email')<small class="alert-danger">{{ $message }}</small>@enderror <br>
                             </div>
-                           
+
                             <div class="form-group">
                                 <label for="user_name">Username</label>
-                                <input type="text" name="user_name" name="user_name" class="form-control" value="{{old('user_name')}} ">
+                                <input type="text" name="user_name" name="user_name" class="form-control"
+                                    value="{{old('user_name')}} ">
                                 @error('user_name')<small class="alert-danger">{{ $message }}</small>@enderror <br>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="first_name">First Name</label>
-                                <input type="text" name="first_name" class="form-control" value="{{old('first_name')}} ">
+                                <input type="text" name="first_name" class="form-control"
+                                    value="{{old('first_name')}} ">
                                 @error('first_name')<small class="alert-danger">{{ $message }}</small>@enderror <br>
                             </div>
-                           
+
                             <div class="form-group">
                                 <label for="last_name">Last Name</label>
                                 <input type="text" name="last_name" class="form-control" value="{{old('last_name')}} ">
                                 @error('last_name')<small class="alert-danger">{{ $message }}</small>@enderror <br>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="birthday">Birthday</label>
                                 <input type="date" name="birthday" class="form-control" value="{{old('birthday')}} ">
                                 @error('birthday')<small class="alert-danger">{{ $message }}</small>@enderror <br>
                             </div>
-                      
-                            
+
+                            <div class="form-group">
+                                <label for="birthday">Avatar</label>
+                                <input type="file" name="avatar" class="form-control" value="{{old('avatar')}} ">
+                                @error('avatar')<small class="alert-danger">{{ $message }}</small>@enderror <br>
+                            </div>
+
+
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input type="text" name="password" class="form-control" value="{{old('password')}} ">
+                                <input type="password" name="password" class="form-control"
+                                    value="{{old('password')}} ">
                                 @error('password')<small class="alert-danger">{{ $message }}</small>@enderror <br>
                             </div>
-                           
+
                         </div>
                         <!-- /.card-body -->
                     </div>

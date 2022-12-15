@@ -23,7 +23,7 @@ class Users extends Authenticatable
     use HasFactory;
     public $timestamps = true;
     protected $fillable = [
-        'email','user_name','birthday','first_name','last_name','password'
+        'email','user_name','birthday','first_name','last_name','password','avatar'
     ];
     protected $primarykey = 'id';
     protected $table = 'users';

@@ -1,6 +1,5 @@
 @extends('admin.dashboard');
 @section('title', 'User')
-
 @section('content')
 
 <div class="content-wrapper ">
@@ -16,7 +15,6 @@
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
                         <li class="breadcrumb-item active">Projects</li>
                     </ol>
-
                 </div>
             </div>
         </div><!-- /.container-fluid -->
@@ -51,10 +49,9 @@
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Birthday</th>
+                            <th>Avatar</th>
                             <th>Flag Delete</th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
+                          
                         </tr>
                     </thead>
                     @foreach($user as $row)
@@ -66,25 +63,25 @@
                             <td>{{ $row->first_name }}</td>
                             <td>{{ $row->last_name }}</td>
                             <td>{{ $row->birthday }}</td>
-                            <td> {{ $row->flag_delete }}</td>
+                            <td >
+                                <img src="{{asset ('upload/user/'. $row->avatar)}}" alt="Ảnh không tồn tại"  width="100px" height="100px">
+                            </td>
+                            <td  class="text-center"> {{ $row->flag_delete }}</td>
 
                             <td class="project-actions text-right">
                                 <a class="btn btn-primary btn-sm" href="#">
-                                    <i class="fas fa-folder">
-                                    </i>
+                                    <i class="fas fa-folder"></i>
                                     View
                                 </a>
                                 <a class="btn btn-info btn-sm" href="{{route ('user.edit',$row->id)}}">
-                                    <i class="fas fa-pencil-alt">
-                                    </i>
+                                    <i class="fas fa-pencil-alt"></i>
                                     Edit
                                 </a>
                                 <form action="{{route('user.destroy',$row->id)}}" method="post">
                                     @method("DELETE")
                                     @csrf
                                     <button class="btn btn-danger btn-sm" type="submit">
-                                        <i class="fas fa-trash">
-                                        </i>
+                                        <i class="fas fa-trash"></i>
                                         Delete
                                     </button>
                                 </form>
@@ -97,10 +94,8 @@
             <!-- /.card-body -->
         </div>
         <!-- /.card -->
-
     </section>
     <!-- /.content -->
+    {{$user->links()}}
 </div>
-{{$user->links()}}
-
 @endsection

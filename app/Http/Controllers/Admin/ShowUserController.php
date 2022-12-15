@@ -4,12 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use DB;
 use Auth;
 use Alert;
 use App\Models\Users;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\UpdateUserRequest;
+
 
 class ShowUserController extends Controller
 {
@@ -27,7 +30,9 @@ class ShowUserController extends Controller
             'first_name',
             'last_name',
             'birthday',
+            'avatar',
             'flag_delete')->paginate(15);
+           
         return view('admin.layout.user.show', compact('user'));
     }
 
@@ -44,19 +49,22 @@ class ShowUserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\UserRequest  $request
+     * @param  \App\Http\Requests\UserRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(UserRequest $request)
-    {
-
+    {   
+        $image_name = time().'.'.$request->avatar->extension();
+        $request->avatar->move(public_path('upload/user/'), $image_name);
+    
         $user = new Users();
         $user->email = $request->email;
         $user->user_name = $request->user_name;
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->birthday = $request->birthday;
-        $user->password = $request->password;
+        $user->avatar = $image_name; 
+        $user->password =  Hash::make($request->password);
         $user->save();
 
         Alert::success('success', 'Create success');
@@ -95,21 +103,25 @@ class ShowUserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\UpdateUserRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
         $user = Users::find($id);
-
+    
         if($user != null){
             $user->email = $request->email;
             $user->user_name = $request->user_name;
             $user->first_name = $request->first_name;
             $user->last_name = $request->last_name;
             $user->birthday = $request->birthday;
-        
+            if($request->hasFile('avatar')){
+                $image_name = time().'.'.$request->avatar->extension();
+                $request->avatar->move(public_path('upload/user/'), $image_name);
+                $user->avatar = $image_name;
+            }
             $user->save();
 
             Alert::success('success', 'Update success');
@@ -118,9 +130,6 @@ class ShowUserController extends Controller
              Alert::error('Error', 'ID does not exist');
              return redirect()->back();
          }
-
-        Alert::success('success', 'Edit succes');
-        return redirect()->route('user.index');
     }
 
     /**

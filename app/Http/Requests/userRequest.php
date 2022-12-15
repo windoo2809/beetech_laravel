@@ -29,7 +29,8 @@ class UserRequest extends FormRequest
             'first_name' => 'required|max:50|',
             'last_name' => 'required|max:50|',
             'birthday' => 'required|date|',
-            'password' => 'required|max:100'
+            'password' => 'required|max:100',
+            'avatar' => 'required|image|mimes:jpg,png,jpeg|max:3000|dimensions:min_width=100,min_height=100,max_width=1000,max_height=1000'
            ];
     }
     public function messages() {
@@ -52,6 +53,12 @@ class UserRequest extends FormRequest
 
              'password.required' => 'Vui lòng nhập Password',
              'password.max' => 'Password không được quá 100',
+
+             'avatar.required' => 'Vui lòng chọn Avatar',
+             'avatar.max' => 'Avatar không được quá 3MB',
+             'avatar.mimes' => 'Avatar không đúng định dạng',
+             'avatar.image' => 'Avatar phải là ảnh',
+
         ];
     }
 }

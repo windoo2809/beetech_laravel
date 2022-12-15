@@ -1,6 +1,7 @@
 @extends('admin.dashboard')
 @section('title','Edit User')
 @section('content')
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -68,13 +69,18 @@
                                 <input type="date" name="birthday" class="form-control" value="{{$user->birthday}} ">
                                 @error('birthday')<small class="alert-danger">{{ $message }}</small>@enderror <br>
                             </div>
-<!--                             
+
+                            <div class="form-group">
+                                <label for="avatar">Avatar</label>
+                                <input type="file" name="avatar" class="form-control" value="{{old('{$user->avatar')}} ">
+                                @error('avatar')<small class="alert-danger">{{ $message }}</small>@enderror <br>
+                            </div>
+                            <!--                             
                             <div class="form-group">
                                 <label for="birthday">Password</label>
                                 <input type="password" name="password" class="form-control" value="{{$user->password}} ">
                                 @error('password')<small class="alert-danger">{{ $message }}</small>@enderror <br>
                             </div> -->
-
                         </div>
                         <!-- /.card-body -->
                     </div>
