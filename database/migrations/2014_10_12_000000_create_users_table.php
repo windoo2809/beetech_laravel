@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('last_name')->varchar(255);
             $table->string('password')->varchar(255);
             $table->string('reset_password')->varchar(255);
-            $table->boolean('status')->varchar(255);
+            $table->string('status')->varchar(255);
             $table->tinyInteger('flag_delete')->tinyint(1)->default(0);
             $table->timestamps();
         });
