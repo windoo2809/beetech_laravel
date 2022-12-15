@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
+use Alert;
 use App\Models\Users;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\userRequest;
@@ -48,8 +49,18 @@ class ShowUserController extends Controller
      */
     public function store(userRequest $request)
     {
-        Users::create($request->all());
-        return redirect()->route('user.index')->with("success", "Create success");
+
+        $user = new Users();
+        $user->email = $request->email;
+        $user->user_name = $request->user_name;
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->birthday = $request->birthday;
+        $user->password = $request->password;
+        $user->save();
+
+        Alert::success('success', 'Create success');
+        return redirect()->route('user.index');
     }
 
     /**
@@ -71,13 +82,13 @@ class ShowUserController extends Controller
      */
     public function edit($id)
     {
-        $users = Users::find($id);
-        $data = [
-            'users' =>$users,
-        ];
-        return view('admin.layout.user.update', $data);
-
-
+        if(Users::where('id',$id)->exists()){
+            $users = Users::find($id);
+           return view('admin.layout.user.update',compact('users'));
+        }else{
+            Alert::error('Error', 'ID does not exist');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -90,8 +101,9 @@ class ShowUserController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-      
+        
         $users = Users::find($id);
+
         $users->email= $data['email'];
         $users->user_name= $data['user_name'];
         $users->first_name= $data['first_name'];
@@ -99,7 +111,8 @@ class ShowUserController extends Controller
         $users->birthday= $data['birthday'];
         $users->save();
 
-        return redirect()->route('user.index')->with("success", "Edit success");
+        Alert::success('success', 'Edit succes');
+        return redirect()->route('user.index');
     }
 
     /**
@@ -110,6 +123,10 @@ class ShowUserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $users = Users::find($id);
+        $users->delete();
+
+        Alert::success('success', 'Delete succes');
+        return redirect()->route('user.index');
     }
 }

@@ -25,9 +25,9 @@
 
         <!-- Content Wrapper. Contains page content -->
         <!-- yield content -->
-
     <!-- Content Header (Page header) -->
         @yield('content')
+        @include('sweetalert::alert')
     <!-- /.content-header -->
 
     <!-- Main content -->

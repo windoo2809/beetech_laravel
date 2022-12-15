@@ -28,7 +28,6 @@
                     <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">General</h3>
-
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                     <i class="fas fa-minus"></i>
@@ -65,9 +64,10 @@
                                 <input type="date" name="birthday" class="form-control" value="{{old('birthday')}} ">
                                 @error('birthday')<small class="alert-danger">{{ $message }}</small>@enderror <br>
                             </div>
+                      
                             
                             <div class="form-group">
-                                <label for="password">Last Name</label>
+                                <label for="password">Password</label>
                                 <input type="text" name="password" class="form-control" value="{{old('password')}} ">
                                 @error('password')<small class="alert-danger">{{ $message }}</small>@enderror <br>
                             </div>

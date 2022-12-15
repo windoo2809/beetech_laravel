@@ -49,12 +49,12 @@
                                 <p>Danh sách</p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="{{route ('user.create')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Thêm</p>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                 </li>
                 <!-- <li class="nav-item">

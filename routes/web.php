@@ -35,7 +35,6 @@ Route::prefix('admin')->middleware('admin.login')->group(function(){
 
 //logout
     Route::post('logout', [AdminController::class, 'logout'])->name('admin.logout');
-
 //crud-user
     Route::resource('user', ShowUserController::class);
 });
