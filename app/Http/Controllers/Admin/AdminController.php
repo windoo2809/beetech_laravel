@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
+use Alert;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Hash;
 
@@ -18,7 +19,6 @@ class AdminController extends Controller
      * @return response()
      */
     public function index(){
-        
             return view('admin.dashboard');
     }
      /**
@@ -65,7 +65,6 @@ class AdminController extends Controller
      * @return response()
      */
     public function postRegister(Request $request) {
-
         $request->validate([
             'email'=>'required|email',
             'user_name'=>'required',

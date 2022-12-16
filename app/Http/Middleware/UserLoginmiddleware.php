@@ -16,12 +16,10 @@ class UserLoginmiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check('user')){
-            if (Auth::guard('user')){
-                return $next($request);
-            }
+        if (Auth::guard('users')->check()) {
+            return $next($request);
+        } else {
             return redirect()->route('user.layout.login')->with('error', 'Permission denied');
-        };
-        return redirect()->route('user.layout.login')->with('error', 'Permission denied');
+        }
     }
 }

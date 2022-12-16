@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>UserLTE 3 | Dashboard User</title>
+    <title>AdminLTE 3 | Dashboard User</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -25,6 +25,14 @@
 
         <!-- Content Wrapper. Contains page content -->
         <!-- yield content -->
+    <!-- Content Header (Page header) -->
+        @yield('content')
+        @include('sweetalert::alert')
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <!-- /.content -->
+  </div>
         <!-- /.content-wrapper -->
 
         <!-- /.control-sidebar -->

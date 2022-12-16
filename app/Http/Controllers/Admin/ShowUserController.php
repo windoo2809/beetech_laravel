@@ -67,7 +67,7 @@ class ShowUserController extends Controller
         $user->password =  Hash::make($request->password);
         $user->save();
 
-        Alert::success('success', 'Create success');
+        Alert::success('Success', 'Create success');
         return redirect()->route('user.index');
     }
 
@@ -124,7 +124,7 @@ class ShowUserController extends Controller
             }
             $user->save();
 
-            Alert::success('success', 'Update success');
+            Alert::success('Success', 'Update success');
             return redirect()->route('user.index');
          }else{
              Alert::error('Error', 'ID does not exist');
@@ -144,13 +144,11 @@ class ShowUserController extends Controller
             
         if($user != null){
             $user->delete();
-            Alert::success('success', 'Delete succes');
+            Alert::success('Success', 'Delete succes');
             return redirect()->route('user.index');        
         }else{
-            Alert::error('error', 'ID does not exist');
+            Alert::error('Error', 'ID does not exist');
             return redirect()->back();
         }
-     
-
     }
 }
