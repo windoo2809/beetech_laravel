@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'user',
+        'guard' => 'users',
         'passwords' => 'users',
         'guard' => 'admin',
         'passwords' => 'admin',
@@ -38,7 +38,7 @@ return [
     */
 
     'guards' => [
-        'user' => [
+        'users' => [
             'driver' => 'session',
             'provider' => 'users',
         ],
@@ -99,12 +99,6 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
-            'table' => 'password_resets',
-            'expire' => 60,
-            'throttle' => 60,
-        ],
-        'admin' => [
-            'provider' => 'admin',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

@@ -1,0 +1,129 @@
+<?php
+
+namespace App\Http\Controllers\User;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\ProductCategory;
+use Alert;
+
+class ShowProductCategoryController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $product_category = ProductCategory::select(
+            'id',
+            'name',
+            'parent_id',
+            )->paginate(15);
+           
+        return view('user.layout.product-category.show', compact('product_category'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('user.layout.product-category.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $product_category = new ProductCategory();
+        $product_category->name = $request->name;
+        $product_category->parent_id = $request->parent_id;
+      
+        $product_category->save();
+
+        Alert::success('Success', 'Create success');
+        return redirect()->route('product-category.index');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $product_category = ProductCategory::find($id);
+
+        if($product_category != null){
+           return view('user.layout.product-category.update',compact('product_category'));
+        }else{
+            Alert::error('Error', 'ID does not exist');
+            return redirect()->back();
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $product_category = ProductCategory::find($id);
+    
+        if($product_category != null){
+            $product_category->name = $request->name;
+            $product_category->parent_id = $request->parent_id;
+          
+            $product_category->save();
+
+            Alert::success('Success', 'Update success');
+            return redirect()->route('product-category.index');
+         }else{
+             Alert::error('Error', 'ID does not exist');
+             return redirect()->back();
+         }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $product_category = ProductCategory::find($id);
+            
+        if($product_category != null){
+            $product_category->delete();
+            Alert::success('Success', 'Delete succes');
+            return redirect()->route('product-category.index');        
+        }else{
+            Alert::error('Error', 'ID does not exist');
+            return redirect()->back();
+        }
+    }
+}

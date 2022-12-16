@@ -11,49 +11,46 @@ use Illuminate\Support\Facades\Hash;
 
 
 class UserController extends Controller
-{    
-/**
-    * Display a listing of the resource.
-    *
-    * @return response()
-    */
+{   
+  /**
+     * Display a listing of the resource.
+     *
+     * @return response()
+     */
     public function index(){
-        return view('user.dashboard');
-    }  
-
-    /**
-    *  Show the form for creating a new resource.
-    *
-    * @return response()
-    */
+            return view('user.dashboard');
+    }
+     /**
+     * Show the form for creating a new resource.
+     *
+     * @return response()
+     */
     public function getLogin(){
         return view('user.layout.login');
     } 
-
     /**
      * postLogin a newly created resource in storage.
-     *
+     * @param request $request
      * @return response()
      */
     public function postLogin(Request $request){
         $request->validate([
-            'email'=>'required|email',
+            'email'=>'required',
             'password'=>'required',
         ]);
         $data = [
             'email' => $request->email,
             'password' => $request->password,
         ];
-        if(Auth::guard('user')->attempt($data)){
-           return view('user.dashboard', $data);
-        }
-        else{
-            return redirect()->route('user.layout.login')->with('error','Wrong email or password');
-        }
+        if(Auth::guard('users')->attempt($data)){
+            return view('user.dashboard', $data);
+         }
+         else{
+             return redirect()->route('user.layout.login')->with('error','Wrong email or password');
+         }
     }
-
     /**
-     *  Show the form for creating a new resource.
+     * Show the form for creating a new resource.
      *
      * @return response()
      */
@@ -62,11 +59,12 @@ class UserController extends Controller
     }
 
     /**
-     * postRegister a newly created resource in storage.
-     * @param request $request
+     *  postRegister a newly created resource in storage.
+     *
      * @return response()
      */
     public function postRegister(Request $request) {
+
         $request->validate([
             'email'=>'required|email',
             'user_name'=>'required',
@@ -75,6 +73,7 @@ class UserController extends Controller
             'birthday'=>'required',
             'password'=>'required',
         ]);
+        //
         $user = new Users();
         $user->email = $request->email;
         $user->user_name = $request->user_name;
@@ -93,7 +92,6 @@ class UserController extends Controller
     public function logout(){
         Auth::logout();
         return redirect()->route('user.layout.login')->with('success','Logout success');
-
     }
 
 }
