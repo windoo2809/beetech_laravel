@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Alert;
 use App\models\Product;
+use App\models\ProductCategory;
+use App\Http\Requests\ProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 
 
 class ProductController extends Controller
@@ -38,17 +41,18 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('user.layout.product.create');
+        $categories = ProductCategory::whereNull('parent_id')->get();
+        return view('user.layout.product.create', compact('categories'));
 
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Request\ProductRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         $image_name = time().'.'.$request->avatar->extension();
         $request->avatar->move(public_path('upload/product/'), $image_name);
@@ -57,7 +61,7 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->stock = $request->stock;
         $product->sku = $request->sku;
-        $product->expired_at = $request->expired_at;
+        $product->expired_at = $request->date('expired_at');
         $product->category_id = $request->category_id;
         $product->avatar = $image_name; 
         $product->save();
@@ -74,7 +78,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+ 
     }
 
     /**
@@ -85,19 +89,47 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = Product::find($id);
+        $categories = ProductCategory::whereNull('parent_id')->get();
+
+        if($product != null){
+           return view('user.layout.product.update',compact('product','categories'));
+        }else{
+            Alert::error('Error', 'ID does not exist');
+            return redirect()->back();
+        }
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Request\UpdateProductRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateProductRequest $request, $id)
     {
-        //
+        $product = Product::find($id);
+    
+        if($product != null){
+            $product->name = $request->name;
+            $product->sku = $request->sku;
+            $product->stock = $request->stock;
+            $product->expired_at = $request->expired_at;
+            $product->category_id = $request->category_id;
+            if($request->hasFile('avatar')){
+                $image_name = time().'.'.$request->avatar->extension();
+                $request->avatar->move(public_path('upload/product/'), $image_name);
+                $product->avatar = $image_name;
+            }
+            $product->save();
+
+            Alert::success('Success', 'Update success');
+            return redirect()->route('product.index');
+         }else{
+             Alert::error('Error', 'ID does not exist');
+             return redirect()->back();
+         }
     }
 
     /**
