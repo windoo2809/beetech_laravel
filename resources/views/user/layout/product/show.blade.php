@@ -1,7 +1,7 @@
 @extends('user.dashboard');
 @section('title', 'Product')
 @section('content')
-<!-- <style>
+<style>
 button {
     cursor: pointer;
 }
@@ -120,7 +120,7 @@ button {
     font-size: 0.875rem;
     line-height: 1.75;
 }
-</style> -->
+</style>
 <div class="content-wrapper ">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -187,7 +187,7 @@ button {
                             <td>{{ $row->category_id }}</td>
 
                             <td class="project-actions text-right">
-                                <!-- <button class="trigger btn-primary btn-sm" data-modal-trigger="trigger-1{{$row->id}}">
+                                <button class="trigger btn-primary btn-sm" data-modal-trigger="trigger-1{{$row->id}}">
                                 <i class="fas fa-folder"></i>View </button>
                                 <div class="modal" data-modal="trigger-1{{$row->id}}">
                                     <article class="content-wrapper">
@@ -206,7 +206,7 @@ button {
                                                 height="300px">
                                         </footer>
                                     </article>
-                                </div> -->
+                                </div>
                                 <a class="btn btn-info btn-sm" href="{{route ('product.edit',$row->id)}}">
                                     <i class="fas fa-pencil-alt"></i>
                                     Edit
@@ -232,7 +232,7 @@ button {
     </section>
     <!-- /.content -->
 </div>
-<!-- <script>
+<script>
 const buttons = document.querySelectorAll('.trigger[data-modal-trigger]');
 
 for (let button of buttons) {
@@ -254,5 +254,5 @@ function modalEvent(button) {
         modal.classList.toggle('open');
     });
 }
-</script> -->
+</script>
 @endsection
