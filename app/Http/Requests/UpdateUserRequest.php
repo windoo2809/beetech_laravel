@@ -44,7 +44,7 @@ class UpdateUserRequest extends FormRequest
     }
     public function messages() {
         return [
-            'email.required' => 'Vui lòng nhập Username',
+            'email.required' => 'Vui lòng nhập Email',
             'email.unique' => 'Email đã tồn tại',
 
             'user_name.required' => 'Vui lòng nhập Username',
@@ -63,7 +63,6 @@ class UpdateUserRequest extends FormRequest
             'avatar.max' => 'Avatar không được quá 3MB',
             'avatar.mimes' => 'Avatar không đúng định dạng',
             'avatar.image' => 'Avatar phải là ảnh',
-
         ];
     }
 }

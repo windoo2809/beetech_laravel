@@ -22,7 +22,8 @@
 
     <!-- Main content -->
     <section class="content">
-        <form enctype="multipart/form-data" action="{{ route ('product-category.update',$product_category->id)}}" method="post">
+        <form enctype="multipart/form-data" action="{{ route ('product-category.update',$product_category->id)}}"
+            method="post">
             @csrf
             @method("PUT")
             <div class="row">
@@ -39,14 +40,30 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" name="name" class="form-control" value="{{$product_category->name}} ">
+                                <input type="text" name="name" class="form-control"
+                                    value="{{$product_category->name}} ">
                                 @error('name')<small class="alert-danger">{{ $message }}</small>@enderror <br>
                             </div>
 
                             <div class="form-group">
                                 <label for="parent_id">Parent ID</label>
-                                <input type="text" name="parent_id" name="parent_id" class="form-control"
-                                    value="{{$product_category->parent_id}} ">
+                                <select class="form-select" name=" parent_id" aria-label="Default select example">
+                                    @if($product_category->parent_id == null) 
+                                    <option value="{{$product_category->parent_id }}"> 
+                                        Null
+                                    </option>
+                                    @else
+                                    <option value="{{$product_category->categoryChildren->id}}"> 
+                                        {{$product_category -> categoryChildren -> name }}
+                                    </option>
+                                    <option value=""> Null </option>
+                                    @endif
+                                    @foreach($children as $child)
+                                        <option value="{{$child->id }}"> 
+                                            {{$child->name}}
+                                        </option>
+                                    @endforeach
+                                </select>
                                 @error('parent_id')<small class="alert-danger">{{ $message }}</small>@enderror <br>
                             </div>
 
