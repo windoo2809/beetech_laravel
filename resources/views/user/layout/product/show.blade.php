@@ -1,7 +1,7 @@
 @extends('user.dashboard');
 @section('title', 'Product')
 @section('content')
-<!-- <style>
+<style>
 button {
     cursor: pointer;
 }
@@ -120,7 +120,7 @@ button {
     font-size: 0.875rem;
     line-height: 1.75;
 }
-</style> -->
+</style>
 <div class="content-wrapper ">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -187,8 +187,8 @@ button {
                             <td>{{ $row->category_id }}</td>
 
                             <td class="project-actions text-right">
-                                <!-- <button class="trigger btn-primary btn-sm" data-modal-trigger="trigger-1{{$row->id}}">
-                                <i class="fas fa-folder"></i>View </button>
+                                <button class="trigger btn-primary btn-sm" data-modal-trigger="trigger-1{{$row->id}}">
+                                    <i class="fas fa-folder"></i>View </button>
                                 <div class="modal" data-modal="trigger-1{{$row->id}}">
                                     <article class="content-wrapper">
                                         <button class="close"></button>
@@ -206,19 +206,17 @@ button {
                                                 height="300px">
                                         </footer>
                                     </article>
-                                </div> -->
+                                </div>
                                 <a class="btn btn-info btn-sm" href="{{route ('product.edit',$row->id)}}">
                                     <i class="fas fa-pencil-alt"></i>
                                     Edit
                                 </a>
-                                <form action="{{route('product.destroy',$row->id)}}" method="post">
-                                    @method("DELETE")
-                                    @csrf
-                                    <button class="btn btn-danger btn-sm" type="submit">
-                                        <i class="fas fa-trash"></i>
-                                        Delete
-                                    </button>
-                                </form>
+                                <a onclick="destroy(this)" data-id="{{$row->id}}" id="user_delete"
+                                    class="btn btn-danger btn-sm">
+                                    <i class="fas fa-pencil-alt"></i>
+                                    Delete
+                                </a>
+
                             </td>
                         </tr>
                     </tbody>
@@ -232,27 +230,38 @@ button {
     </section>
     <!-- /.content -->
 </div>
-<!-- <script>
-const buttons = document.querySelectorAll('.trigger[data-modal-trigger]');
-
-for (let button of buttons) {
-    modalEvent(button);
-}
-function modalEvent(button) {
-    button.addEventListener('click', () => {
-        const trigger = button.getAttribute('data-modal-trigger');
-        // console.log('trigger', trigger)
-        const modal = document.querySelector(`[data-modal=${trigger}]`);
-        // console.log('modal', modal)
-        const contentWrapper = modal.querySelector('.content-wrapper');
-        const close = modal.querySelector('.close');
-
-        close.addEventListener('click', () => modal.classList.remove('open'));
-        modal.addEventListener('click', () => modal.classList.remove('open'));
-        contentWrapper.addEventListener('click', (e) => e.stopPropagation());
-
-        modal.classList.toggle('open');
-    });
-}
-</script> -->
+<script>
+// function destroy(e) {
+//     let id = e.getAttribute('data-id');
+//     // alert(id);
+//     swal({
+//             title: "Are you sure?",
+//             text: "Once deleted, you will not be able to recover this imaginary file!",
+//             icon: "warning",
+//             buttons: true,
+//             dangerMode: true,
+//         })
+//         .then((willDelete) => {
+//             if (willDelete) {
+//                 $.ajax({
+//                     type: 'DELETE',
+//                     url: '{{route('product.destroy',$row->id)}}',
+//                     data: {
+//                         id: id,
+//                         "_token": "{{csrf_token()}}",
+//                     },
+//                     success: function(response) {
+//                         // alert
+//                         swal("Poof! Your imaginary file has been deleted!", {
+//                             icon: "success",
+//                         });
+//                         $("#" + id + "").remove(); //remove without refreshing
+//                     }
+//                 }); // ajax end
+//             } else {
+//                 swal("Your imaginary file is safe!");
+//             }
+//         });
+// }
+</script>
 @endsection
