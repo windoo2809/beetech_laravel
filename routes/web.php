@@ -1,11 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+//UserController
 use App\Http\Controllers\user\UserController;
 use App\Http\Controllers\user\ShowProductCategoryController;
+use App\Http\Controllers\user\ProductController;
 
+//AdminController
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\ShowUserController;
+
 
 
 Route::get('/', function () {
@@ -19,6 +23,8 @@ Route::prefix('user')->middleware('user.login')->group(function(){
     Route::post('logout', [UserController::class, 'logout'])->name('user.logout');
 //crud product-category
     Route::resource('product-category', ShowProductCategoryController::class);
+//crud product
+    Route::resource('product', ProductController::class);
 });
 
 Route::prefix('user')->group(function (){

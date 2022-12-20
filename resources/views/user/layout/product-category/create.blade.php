@@ -44,8 +44,13 @@
 
                             <div class="form-group">
                                 <label for="parent_id">Parent ID</label>
-                                <input type="text" name="parent_id" name="parent_id" class="form-control"
-                                    value="{{old('parent_id')}} ">
+                                <select class="form-select" name=" parent_id" aria-label="Default select example">
+                                    @foreach($children as $child)
+                                        <option value="{{$child->id }}"> 
+                                            {{$child->name}}
+                                        </option>
+                                    @endforeach
+                                </select>
                                 @error('parent_id')<small class="alert-danger">{{ $message }}</small>@enderror <br>
                             </div>
 

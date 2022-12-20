@@ -1,5 +1,5 @@
 @extends('user.dashboard');
-@section('title', 'Product Category')
+@section('title', 'Product')
 @section('content')
 
 <div class="content-wrapper ">
@@ -26,7 +26,7 @@
             <div class="card-header">
                 <h3 class="card-title">@yield('title')</h3>
                 <div class="card-tools">
-                    <a class="btn btn-info btn-sm" href="{{route ('product-category.create')}}">
+                    <a class="btn btn-info btn-sm" href="{{route ('product.create')}}">
                         <i class="fas fa-pencil-alt">
                         </i>
                         Add
@@ -45,27 +45,39 @@
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
-                            <th>Parent ID</th>
+                            <th>Sku</th>
+                            <th>Stock</th>
+                            <th>Expired at</th>
+                            <th>Avatar</th>
+                            <th>Category ID</th>
                         </tr>
                     </thead>
-                    @foreach($product_category as $row)
+                    @foreach($product as $row)
                     <tbody>
                         <tr>
                             <td>{{ $row->id }}</td>
                             <td>{{ $row->name }}</td>
+                            <td>{{ $row->sku }}</td>
+                            <td>{{ $row->stock }}</td>
+                            <td>{{ $row->expired_at }}</td>
+                            <td >
+                                <img src="{{asset ('upload/product/'. $row->avatar)}}" alt="Ảnh không tồn tại"   width="100px" height="100px">
+                            </td>
+                            <td>{{ $row->category_id }}</td>
+
                             <td>
-                               {{ optional($row -> categoryChildren) -> name }}
+                    
                             </td>
                             <td class="project-actions text-right">
                                 <a class="btn btn-primary btn-sm" href="#">
                                     <i class="fas fa-folder"></i>
                                     View
                                 </a>
-                                <a class="btn btn-info btn-sm" href="{{route ('product-category.edit',$row->id)}}">
+                                <a class="btn btn-info btn-sm" href="{{route ('product.edit',$row->id)}}">
                                     <i class="fas fa-pencil-alt"></i>
                                     Edit
                                 </a>
-                                <form action="{{route('product-category.destroy',$row->id)}}" method="post">
+                                <form action="{{route('product.destroy',$row->id)}}" method="post">
                                     @method("DELETE")
                                     @csrf
                                     <button class="btn btn-danger btn-sm" type="submit">
@@ -81,7 +93,7 @@
             </div>
             <!-- /.card-body -->
         </div>
-            {{$product_category->links()}}
+            {{$product->links()}}
 
         <!-- /.card -->
     </section>

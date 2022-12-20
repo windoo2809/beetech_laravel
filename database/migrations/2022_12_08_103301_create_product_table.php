@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('product', function (Blueprint $table) {
                 $table->id();
                 $table->string('sku')->varchar(255)->unique();
-                $table->string('user_name')->varchar(255)->unique();
+                $table->string('name')->varchar(255)->unique();
                 $table->string('stock')->int();
                 $table->string('avatar')->date();
                 $table->date('expired_at');

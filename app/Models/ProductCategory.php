@@ -18,4 +18,8 @@ class ProductCategory extends Model
     ];
     protected $primarykey = 'id';
     protected $table = 'product_category';
+
+    public function categoryChildren() {
+        return $this->belongsTo(ProductCategory::class, 'parent_id','id');
+    }
 }

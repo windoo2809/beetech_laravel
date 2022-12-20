@@ -5,7 +5,9 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ProductCategory;
+use App\Http\Requests\ProductCategoryRequest;
 use Alert;
+
 
 class ShowProductCategoryController extends Controller
 {
@@ -21,8 +23,10 @@ class ShowProductCategoryController extends Controller
             'name',
             'parent_id',
             )->paginate(15);
+
+        $children = ProductCategory::whereNull('parent_id')->get();
            
-        return view('user.layout.product-category.show', compact('product_category'));
+        return view('user.layout.product-category.show', compact('product_category','children'));
     }
 
     /**
@@ -31,26 +35,32 @@ class ShowProductCategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('user.layout.product-category.create');
+    {   
+        $children = ProductCategory::select('id','parent_id','name')->whereNull('parent_id')->get();
+        return view('user.layout.product-category.create', compact('children'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\ProductCategoryRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductCategoryRequest $request)
     {
-        $product_category = new ProductCategory();
-        $product_category->name = $request->name;
-        $product_category->parent_id = $request->parent_id;
-      
-        $product_category->save();
-
-        Alert::success('Success', 'Create success');
-        return redirect()->route('product-category.index');
+        if($product_category != null){
+            $product_category = new ProductCategory();
+            $product_category->name = $request->name;
+            $product_category->parent_id = $request->parent_id;
+            $product_category->save();
+            
+            Alert::success('Success', 'Create success');
+            return redirect()->route('product-category.index');
+         }else{
+             Alert::error('Error', 'ID does not exist');
+             return redirect()->back();
+         }
+       
     }
 
     /**
@@ -73,9 +83,10 @@ class ShowProductCategoryController extends Controller
     public function edit($id)
     {
         $product_category = ProductCategory::find($id);
+        $children = ProductCategory::select('id','parent_id','name')->whereNull('parent_id')->get();
 
         if($product_category != null){
-           return view('user.layout.product-category.update',compact('product_category'));
+           return view('user.layout.product-category.update',compact('product_category','children'));
         }else{
             Alert::error('Error', 'ID does not exist');
             return redirect()->back();
@@ -92,7 +103,7 @@ class ShowProductCategoryController extends Controller
     public function update(Request $request, $id)
     {
         $product_category = ProductCategory::find($id);
-    
+        
         if($product_category != null){
             $product_category->name = $request->name;
             $product_category->parent_id = $request->parent_id;
