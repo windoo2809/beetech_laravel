@@ -213,7 +213,7 @@ button {
                                 </a>
                                 <a onclick="destroy(this)" data-id="{{$row->id}}" id="user_delete"
                                     class="btn btn-danger btn-sm">
-                                    <i class="fas fa-pencil-alt"></i>
+                                    <i class="fas fa-trash"></i>
                                     Delete
                                 </a>
 
@@ -231,37 +231,37 @@ button {
     <!-- /.content -->
 </div>
 <script>
-// function destroy(e) {
-//     let id = e.getAttribute('data-id');
-//     // alert(id);
-//     swal({
-//             title: "Are you sure?",
-//             text: "Once deleted, you will not be able to recover this imaginary file!",
-//             icon: "warning",
-//             buttons: true,
-//             dangerMode: true,
-//         })
-//         .then((willDelete) => {
-//             if (willDelete) {
-//                 $.ajax({
-//                     type: 'DELETE',
-//                     url: '{{route('product.destroy',$row->id)}}',
-//                     data: {
-//                         id: id,
-//                         "_token": "{{csrf_token()}}",
-//                     },
-//                     success: function(response) {
-//                         // alert
-//                         swal("Poof! Your imaginary file has been deleted!", {
-//                             icon: "success",
-//                         });
-//                         $("#" + id + "").remove(); //remove without refreshing
-//                     }
-//                 }); // ajax end
-//             } else {
-//                 swal("Your imaginary file is safe!");
-//             }
-//         });
-// }
+function destroy(e) {
+    let id = e.getAttribute('data-id');
+    // alert(id);
+    swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this imaginary file!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    type: 'DELETE',
+                    url: '{{route('product.destroy',$row->id)}}',
+                    data: {
+                        id: id,
+                        "_token": "{{csrf_token()}}",
+                    },
+                    success: function(response) {
+                        // alert
+                        swal("Poof! Your imaginary file has been deleted!", {
+                            icon: "success",
+                        });
+                        window.location='/user/product' //remove without refreshing
+                    }
+                }); // ajax end
+            } else {
+                swal("Your imaginary file is safe!");
+            }
+        });
+}
 </script>
 @endsection
