@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AdminLTE 3 | Dashboard User</title>
-
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -25,18 +24,18 @@
 
         <!-- Content Wrapper. Contains page content -->
         <!-- yield content -->
-    <!-- Content Header (Page header) -->
+        <!-- Content Header (Page header) -->
         @yield('content')
         @include('sweetalert::alert')
-    <!-- /.content-header -->
+        <!-- /.content-header -->
 
-    <!-- Main content -->
-    <!-- /.content -->
-  </div>
-        <!-- /.content-wrapper -->
+        <!-- Main content -->
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
 
-        <!-- /.control-sidebar -->
-        @include('user.layout.footer')
+    <!-- /.control-sidebar -->
+    @include('user.layout.footer')
     </div>
     <!-- ./wrapper -->
 
@@ -63,7 +62,35 @@
     <script src="{{asset ('dist/js/demo.js')}}"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{asset ('dist/js/pages/dashboard2.js')}}"></script>
-    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <!-- proudct-category json_decode -->
+    <script>
+    const buttons = document.querySelectorAll('.trigger[data-modal-trigger]');
+
+    for (let button of buttons) {
+        modalEvent(button);
+    }
+
+    function modalEvent(button) {
+        button.addEventListener('click', () => {
+            const trigger = button.getAttribute('data-modal-trigger');
+            // console.log('trigger', trigger)
+            const modal = document.querySelector(`[data-modal=${trigger}]`);
+            // console.log('modal', modal)
+            const contentWrapper = modal.querySelector('.content-wrapper');
+            const close = modal.querySelector('.close');
+
+            close.addEventListener('click', () => modal.classList.remove('open'));
+            modal.addEventListener('click', () => modal.classList.remove('open'));
+            contentWrapper.addEventListener('click', (e) => e.stopPropagation());
+
+            modal.classList.toggle('open');
+        });
+    }
+    </script>
+     <!-- end proudct-category json_decode -->
 </body>
 
 </html>
