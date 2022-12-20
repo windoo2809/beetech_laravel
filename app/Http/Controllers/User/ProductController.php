@@ -5,11 +5,16 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use PDF;
 use Alert;
+use Carbon\Carbon;
 use App\models\Product;
 use App\models\ProductCategory;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Exports\ProductExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Dompdf\Dompdf;
 
 
 class ProductController extends Controller
@@ -139,14 +144,40 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
+    {    
         $product = Product::find($id);
-        $product->delete();
-        return response()->json(
-            [
-                'success' => true,
-                'message' => 'Product has been Deleted'
-            ]
-        );
+        if($product != null){
+            $product->delete();
+            return response()->json(
+                [
+                    'success' => true,
+                    'message' => 'Product has been Deleted'
+                ]
+            );
+        }else{
+            return redirect()->back();
+        }
+    }
+    
+    public function exportcsv(){
+        return Excel::download(new ProductExport, 'Product.csv');
+    }
+    public function exportpdf(){
+
+        $product = Product::select(
+            'id',
+            'name',
+            'stock',
+            'expired_at',
+            'avatar',
+            'sku',
+            'category_id'
+        )->get();
+        $currentTime = Carbon::now('Asia/Ho_Chi_Minh');
+        $datetime=$currentTime->toDateTimeString();
+    
+        $pdf = PDF::loadView('user.layout.product.pdf',compact('product','datetime'));
+        return $pdf->download('Product.pdf');
+        
     }
 }

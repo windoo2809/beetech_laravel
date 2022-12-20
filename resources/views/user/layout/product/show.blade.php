@@ -141,15 +141,23 @@ button {
     <!-- Main content -->
     <section class="content">
         <!-- Default box -->
+        
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">@yield('title')</h3>
-                <div class="card-tools">
+                <h3 class="card-title">  
+                    <!-- <a class="btn btn-info btn-sm" href="{{route ('product.exportcsv')}}">
+                        CSV
+                    </a>
+                    <a class="btn btn-info btn-sm" href="{{route ('product.exportpdf')}}">
+                        PDF
+                    </a>    -->
+                </h3>
+                <div class="card-tools"> 
                     <a class="btn btn-info btn-sm" href="{{route ('product.create')}}">
                         <i class="fas fa-pencil-alt">
                         </i>
                         Add
-                    </a>
+                    </a>        
                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                         <i class="fas fa-minus"></i>
                     </button>
@@ -216,7 +224,6 @@ button {
                                     <i class="fas fa-trash"></i>
                                     Delete
                                 </a>
-
                             </td>
                         </tr>
                     </tbody>
@@ -231,37 +238,41 @@ button {
     <!-- /.content -->
 </div>
 <script>
-function destroy(e) {
-    let id = e.getAttribute('data-id');
-    // alert(id);
-    swal({
-            title: "Are you sure?",
-            text: "Once deleted, you will not be able to recover this imaginary file!",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        })
-        .then((willDelete) => {
-            if (willDelete) {
-                $.ajax({
-                    type: 'DELETE',
-                    url: '{{route('product.destroy',$row->id)}}',
-                    data: {
-                        id: id,
-                        "_token": "{{csrf_token()}}",
-                    },
-                    success: function(response) {
-                        // alert
-                        swal("Poof! Your imaginary file has been deleted!", {
-                            icon: "success",
-                        });
-                        window.location='/user/product' //remove without refreshing
-                    }
-                }); // ajax end
-            } else {
-                swal("Your imaginary file is safe!");
-            }
-        });
-}
+// function destroy(e) {
+//     let id = e.getAttribute('data-id');
+//     // alert(id);
+//     swal({
+//             title: "Are you sure?",
+//             text: "Do you want delete this product?",
+//             icon: "warning",
+//             buttons: true,
+//             dangerMode: true,
+//         })
+//         .then((willDelete) => {
+//             if (willDelete) {
+//                 $.ajax({
+//                     type: 'DELETE',
+//                     url: '{{route('product.destroy',$row->id)}}',
+//                     data: {
+//                         id: id,
+//                         "_token": "{{csrf_token()}}",
+//                     },
+//                     success: function(response) {
+//                         // alert
+//                         swal("Success! Your imaginary file has been deleted!", {
+//                             icon: "success",
+//                         });
+//                     },
+//                     error: function(response) {
+//                         // alert
+//                         swal("Error! Product has been deleted!", {
+//                             icon: "error",
+//                         });
+//                         window.location = '/user/product' //remove without refreshing
+//                     }
+//                 }); // ajax end
+//             }
+//         });
+// }
 </script>
 @endsection
