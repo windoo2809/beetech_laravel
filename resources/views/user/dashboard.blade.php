@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="{{asset ('dist/css/adminlte.min.css')}}">
 </head>
 
-<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">
         @include('user.layout.header')
         <!-- Main Sidebar Container -->
@@ -63,6 +63,7 @@
     <script src="{{asset ('dist/js/demo.js')}}"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{asset ('dist/js/pages/dashboard2.js')}}"></script>
+    
 </body>
 
 </html>

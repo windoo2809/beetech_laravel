@@ -63,7 +63,7 @@
             <div class="row">
                 <div class="col-12">
                     <a href="{{route ('product-category.index')}}" class="btn btn-secondary">Cancel</a>
-                    <input type="submit" value="Create new Project" class="btn btn-success">
+                    <input type="submit" value="Create new Product Category" class="btn btn-success">
                 </div>
             </div>
         </form>
