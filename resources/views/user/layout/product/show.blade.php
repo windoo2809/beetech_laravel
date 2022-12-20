@@ -143,7 +143,14 @@ button {
         <!-- Default box -->
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">@yield('title')</h3>
+                <h3 class="card-title">
+                <a class="btn btn-info btn-sm" href="{{route ('product.exportcsv')}}">                       
+                        CSV
+                    </a>
+                    <a class="btn btn-info btn-sm" href="{{route ('product.exportpdf')}}">       
+                        PDF
+                    </a>
+                </h3>
                 <div class="card-tools">
                     <a class="btn btn-info btn-sm" href="{{route ('product.create')}}">
                         <i class="fas fa-pencil-alt">
