@@ -158,26 +158,4 @@ class ProductController extends Controller
             return redirect()->back();
         }
     }
-    
-    public function exportcsv(){
-        return Excel::download(new ProductExport, 'Product.csv');
-    }
-    public function exportpdf(){
-
-        $product = Product::select(
-            'id',
-            'name',
-            'stock',
-            'expired_at',
-            'avatar',
-            'sku',
-            'category_id'
-        )->get();
-        $currentTime = Carbon::now('Asia/Ho_Chi_Minh');
-        $datetime=$currentTime->toDateTimeString();
-    
-        $pdf = PDF::loadView('user.layout.product.pdf',compact('product','datetime'));
-        return $pdf->download('Product.pdf');
-        
-    }
 }
