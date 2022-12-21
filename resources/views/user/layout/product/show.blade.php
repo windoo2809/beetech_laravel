@@ -1,127 +1,37 @@
 @extends('user.dashboard');
 @section('title', 'Product')
 @section('content')
-<style>
-button {
-    cursor: pointer;
-}
 
-
-.pdfobject-container {
-    height: 30rem;
-    border: 1rem solid rgba(0, 0, 0, 0.1);
-}
-
-.trigger {
-    border: none;
-    font-size: 0.875rem;
-    font-weight: 300;
-}
-
-.trigger i {
-    margin-right: 0.3125rem;
-}
-
-.trigger:hover {
-    box-shadow: 0 0.875rem 1.75rem rgba(0, 0, 0, 0.25), 0 0.625rem 0.625rem rgba(0, 0, 0, 0.22);
-}
-
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 0vh;
-    background-color: transparent;
-    overflow: hidden;
-    transition: background-color 0.25s ease;
-    z-index: 9999;
-}
-
-.modal.open {
-    position: fixed;
-    width: 100%;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    transition: background-color 0.25s;
-}
-
-.modal.open>.content-wrapper {
-    transform: scale(1);
-}
-
-.modal .content-wrapper {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-    justify-content: flex-start;
-    width: 50%;
-    margin: 0;
-    padding: 2.5rem;
-    background-color: white;
-
-    transform: scale(0);
-    transition: transform 0.25s;
-    transition-delay: 0.15s;
-}
-
-.modal .content-wrapper .close {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    border: none;
-    background-color: transparent;
-    font-size: 1.5rem;
-    transition: 0.25s linear;
-}
-
-.modal .content-wrapper .close:before,
-.modal .content-wrapper .close:after {
-    position: absolute;
-    content: "";
-    width: 1.25rem;
-    height: 0.125rem;
-    background-color: black;
-}
-
-.modal .content-wrapper .close:before {
-    transform: rotate(-45deg);
-}
-
-.modal .content-wrapper .close:after {
-    transform: rotate(45deg);
-}
-
-.modal .content-wrapper .close:hover {
-    transform: rotate(360deg);
-}
-
-.modal .content-wrapper .close:hover:before,
-.modal .content-wrapper .close:hover:after {
-    background-color: tomato;
-}
-
-.modal .content-wrapper .modal-header h2 {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-/*  */
-.modal .content-wrapper .content p {
-    font-size: 0.875rem;
-    line-height: 1.75;
-}
-</style>
 <div class="content-wrapper ">
+    <div class="container-fluid">
+        <form >
+            <div class="row">
+                <div class="col-8 mt-2">
+                    <div class="form-group">
+                        <div class="input-group input-group-lg">
+                            <input type="search" class="form-control form-control-lg"
+                                placeholder="Type your keywords here" value= "">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-lg btn-default">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <label>Stock By:</label>
+                        <select class="select2" style="width: 100%;">
+                            <option selected>Title</option>
+                            <option>Date</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
@@ -144,10 +54,10 @@ button {
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">
-                <a class="btn btn-info btn-sm" href="{{route ('product.exportcsv')}}">                       
+                    <a class="btn btn-info btn-sm" href="{{route ('product.exportcsv')}}">
                         CSV
                     </a>
-                    <a class="btn btn-info btn-sm" href="{{route ('product.exportpdf')}}">       
+                    <a class="btn btn-info btn-sm" href="{{route ('product.exportpdf')}}">
                         PDF
                     </a>
                 </h3>
@@ -223,7 +133,6 @@ button {
                                     <i class="fas fa-pencil-alt"></i>
                                     Delete
                                 </a>
-
                             </td>
                         </tr>
                     </tbody>
@@ -262,7 +171,7 @@ function destroy(e) {
                         swal("Poof! Your Product file has been deleted!", {
                             icon: "success",
                         });
-                        $("#" + id + "").remove(); //remove without refreshing
+                        //remove without refreshing
                     },
                     error: function(response) {
                         // alert

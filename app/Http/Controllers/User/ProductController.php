@@ -35,7 +35,6 @@ class ProductController extends Controller
             'sku',
             'category_id'
             )->paginate(15);
-           
         return view('user.layout.product.show', compact('product'));
     }
 
@@ -162,6 +161,7 @@ class ProductController extends Controller
     public function exportcsv(){
         return Excel::download(new ProductExport, 'Product.csv');
     }
+
     public function exportpdf(){
 
         $product = Product::select(
@@ -177,7 +177,6 @@ class ProductController extends Controller
         $datetime=$currentTime->toDateTimeString();
     
         $pdf = PDF::loadView('user.layout.product.pdf',compact('product','datetime'));
-        return $pdf->download('Product.pdf');
-        
+        return $pdf->download('Product.pdf');  
     }
 }

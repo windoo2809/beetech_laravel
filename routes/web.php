@@ -27,7 +27,7 @@ Route::prefix('user')->middleware('user.login')->group(function(){
     Route::resource('product', ProductController::class);
     Route::get('/export-csv', [ProductController::class, 'exportcsv'])->name('product.exportcsv');
     Route::get('/export-pdf', [ProductController::class, 'exportpdf'])->name('product.exportpdf');
-
+    Route::get('/search', [ProductController::class, 'search'])->name('product.search');
 });
 
 Route::prefix('user')->group(function (){
