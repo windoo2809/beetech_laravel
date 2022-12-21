@@ -48,13 +48,19 @@ class ShowProductCategoryController extends Controller
      */
     public function store(ProductCategoryRequest $request)
     {
-        $product_category = new ProductCategory();
-        $product_category->name = $request->name;
-        $product_category->parent_id = $request->parent_id;
-        $product_category->save();
-
-        Alert::success('Success', 'Create success');
-        return redirect()->route('product-category.index');
+        if($product_category != null){
+            $product_category = new ProductCategory();
+            $product_category->name = $request->name;
+            $product_category->parent_id = $request->parent_id;
+            $product_category->save();
+            
+            Alert::success('Success', 'Create success');
+            return redirect()->route('product-category.index');
+         }else{
+             Alert::error('Error', 'ID does not exist');
+             return redirect()->back();
+         }
+       
     }
 
     /**
