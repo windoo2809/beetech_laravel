@@ -20,14 +20,4 @@ class ProductExport implements FromCollection
             'expired_at'
         )->get();
     }
-
-    public function heading():array{
-        return [
-            'ID',
-            'Name',
-            'Stock',
-            'Category ID',
-            'Expired At'
-        ];
-    }
 }

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 
 
 class UserController extends Controller
-{   
+{
   /**
      * Display a listing of the resource.
      *
@@ -27,7 +27,7 @@ class UserController extends Controller
      */
     public function getLogin(){
         return view('user.layout.login');
-    } 
+    }
     /**
      * postLogin a newly created resource in storage.
      * @param request $request

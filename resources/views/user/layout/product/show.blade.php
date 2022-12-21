@@ -4,13 +4,13 @@
 
 <div class="content-wrapper ">
     <div class="container-fluid">
-        <form >
+        <form>
             <div class="row">
                 <div class="col-8 mt-2">
                     <div class="form-group">
                         <div class="input-group input-group-lg">
-                            <input type="search" class="form-control form-control-lg"
-                                placeholder="Type your keywords here" value= "">
+                            <input type="search" name="search" class="form-control form-control-lg"
+                                placeholder="Type your keywords here">
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-lg btn-default">
                                     <i class="fa fa-search"></i>
@@ -54,7 +54,8 @@
         <div class="card">
             <div class="card-header">
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown"
+                        aria-expanded="false">
                         Download File
                     </button>
                     <div class="dropdown-menu">
@@ -98,11 +99,12 @@
                             <td>{{ $row->sku }}</td>
                             <td>{{ $row->stock }}</td>
                             <td>{{ $row->expired_at }}</td>
+
                             <td>
                                 <img src="{{asset ('upload/product/'. $row->avatar)}}" alt="Ảnh không tồn tại"
                                     width="100px" height="100px">
                             </td>
-                            <td>{{ $row->category_id }}</td>
+                            <td>{{ $row->product_category->name }}</td>
 
                             <td class="project-actions text-right">
                                 <button class="trigger btn-primary btn-sm" data-modal-trigger="trigger-1{{$row->id}}">
@@ -129,61 +131,61 @@
                                     <i class="fas fa-pencil-alt"></i>
                                     Edit
                                 </a>
-                                <a onclick="destroy(this)" data-id="{{$row->id}}" id="user_delete"
-                                    class="btn btn-danger btn-sm">
+                                <a onclick="destroy(this)" data-id="{{route('product.destroy',$row->id)}}"
+                                    id="user_delete" class="btn btn-danger btn-sm">
                                     <i class="fas fa-pencil-alt"></i>
                                     Delete
                                 </a>
                             </td>
                         </tr>
                     </tbody>
+                    <script>
+                    function destroy(e) {
+                        let id = e.getAttribute('data-id');
+                        // alert(id);
+                        swal({
+                                title: "Are you sure?",
+                                text: "Do you want delete this product!",
+                                icon: "warning",
+                                buttons: true,
+                                dangerMode: true,
+                            })
+                            .then((willDelete) => {
+                                if (willDelete) {
+                                    $.ajax({
+                                        type: 'DELETE',
+                                        url: '{{route('product.destroy',$row->id)}}',
+                                        data: {
+                                            id: id,
+                                            "_token": "{{csrf_token()}}",
+                                        },
+                                        success: function(response) {
+                                            // alert
+                                            swal("Poof! Your Product file has been deleted!", {
+                                                icon: "success",
+                                            });
+                                            $("#" + id + "").remove(); //remove without refreshing
+                                        },
+                                        error: function(response) {
+                                            // alert
+                                            swal("Opps! Something wrong!", {
+                                                icon: "error",
+                                            });
+                                            window.location.reload(); //remove without refreshing
+                                        }
+                                    }); // ajax end
+                                }
+                            });
+                    }
+                    </script>
                     @endforeach
                 </table>
             </div>
             <!-- /.card-body -->
         </div>
-        {{$product->links()}}
+        {{$product->appends(request()->all())->links()}}
         <!-- /.card -->
     </section>
     <!-- /.content -->
 </div>
-<script>
-function destroy(e) {
-    let id = e.getAttribute('data-id');
-    // alert(id);
-    swal({
-            title: "Are you sure?",
-            text: "Do you want delete this product!",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        })
-        .then((willDelete) => {
-            if (willDelete) {
-                $.ajax({
-                    type: 'DELETE',
-                    url: '{{route('product.destroy',$row->id)}}',
-                    data: {
-                        id: id,
-                        "_token": "{{csrf_token()}}",
-                    },
-                    success: function(response) {
-                        // alert
-                        swal("Poof! Your Product file has been deleted!", {
-                            icon: "success",
-                        });
-                        //remove without refreshing
-                    },
-                    error: function(response) {
-                        // alert
-                        swal("Opps! Product has been deleted!", {
-                            icon: "error",
-                        });
-                        window.location.reload(); //remove without refreshing
-                    }
-                }); // ajax end
-            }
-        });
-}
-</script>
 @endsection

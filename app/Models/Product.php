@@ -25,4 +25,9 @@ class Product extends Model
     ];
     protected $primarykey = 'id';
     protected $table = 'product';
+
+    public function product_category() {
+        return $this->hasOne(ProductCategory::class,'id','category_id');
+    }
 }
+

@@ -21,10 +21,10 @@ class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     *  @param request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $product = Product::select(
             'id',
@@ -34,8 +34,16 @@ class ProductController extends Controller
             'avatar',
             'sku',
             'category_id'
-            )->paginate(15);
-        return view('user.layout.product.show', compact('product'));
+        );
+
+        $search = request()->search;
+        if($search){
+            $product = $product->where('name', 'LIKE','%'.$search.'%');
+        }
+
+            $product = $product->with('product_category')->paginate(15);
+
+        return view('user.layout.product.show', compact('product','search'));
     }
 
     /**
@@ -60,14 +68,14 @@ class ProductController extends Controller
     {
         $image_name = time().'.'.$request->avatar->extension();
         $request->avatar->move(public_path('upload/product/'), $image_name);
-    
+
         $product = new Product();
         $product->name = $request->name;
         $product->stock = $request->stock;
         $product->sku = $request->sku;
         $product->expired_at = $request->date('expired_at');
         $product->category_id = $request->category_id;
-        $product->avatar = $image_name; 
+        $product->avatar = $image_name;
         $product->save();
 
         Alert::success('Success', 'Create success');
@@ -82,7 +90,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
- 
+
     }
 
     /**
@@ -94,10 +102,10 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::find($id);
-        $categories = ProductCategory::whereNull('parent_id')->get();
+
 
         if($product != null){
-           return view('user.layout.product.update',compact('product','categories'));
+           return view('user.layout.product.update',compact('product'));
         }else{
             Alert::error('Error', 'ID does not exist');
             return redirect()->back();
@@ -114,7 +122,7 @@ class ProductController extends Controller
     public function update(UpdateProductRequest $request, $id)
     {
         $product = Product::find($id);
-    
+
         if($product != null){
             $product->name = $request->name;
             $product->sku = $request->sku;
@@ -131,7 +139,7 @@ class ProductController extends Controller
             Alert::success('Success', 'Update success');
             return redirect()->route('product.index');
          }else{
-             Alert::error('Error', 'ID does not exist');
+            Alert::error('Error', 'ID does not exist');
              return redirect()->back();
          }
     }
@@ -143,7 +151,7 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {    
+    {
         $product = Product::find($id);
         if($product != null){
             $product->delete();
@@ -157,11 +165,20 @@ class ProductController extends Controller
             return redirect()->back();
         }
     }
-    
+      /**
+     * Create CSV
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse;
+     */
     public function exportcsv(){
         return Excel::download(new ProductExport, 'Product.csv');
     }
 
+   /**
+     * Create PDF
+     *
+     * @return mixed
+     */
     public function exportpdf(){
 
         $product = Product::select(
@@ -175,8 +192,8 @@ class ProductController extends Controller
         )->get();
         $currentTime = Carbon::now('Asia/Ho_Chi_Minh');
         $datetime=$currentTime->toDateTimeString();
-    
+
         $pdf = PDF::loadView('user.layout.product.pdf',compact('product','datetime'));
-        return $pdf->download('Product.pdf');  
+        return $pdf->download('Product.pdf');
     }
 }
