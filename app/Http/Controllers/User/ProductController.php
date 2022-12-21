@@ -5,11 +5,16 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use PDF;
 use Alert;
+use Carbon\Carbon;
 use App\models\Product;
 use App\models\ProductCategory;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Exports\ProductExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Dompdf\Dompdf;
 
 
 class ProductController extends Controller
@@ -139,9 +144,8 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
+    {    
         $product = Product::find($id);
-      
         if($product != null){
             $product->delete();
             return response()->json(
@@ -151,7 +155,7 @@ class ProductController extends Controller
                 ]
             );
         }else{
-            redirect()->back();
+            return redirect()->back();
         }
     }
 }

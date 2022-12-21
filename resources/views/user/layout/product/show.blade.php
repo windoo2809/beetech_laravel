@@ -231,37 +231,42 @@ button {
     <!-- /.content -->
 </div>
 <script>
-// function destroy(e) {
-//     let id = e.getAttribute('data-id');
-//     // alert(id);
-//     swal({
-//             title: "Are you sure?",
-//             text: "Once deleted, you will not be able to recover this imaginary file!",
-//             icon: "warning",
-//             buttons: true,
-//             dangerMode: true,
-//         })
-//         .then((willDelete) => {
-//             if (willDelete) {
-//                 $.ajax({
-//                     type: 'DELETE',
-//                     url: '{{route('product.destroy',$row->id)}}',
-//                     data: {
-//                         id: id,
-//                         "_token": "{{csrf_token()}}",
-//                     },
-//                     success: function(response) {
-//                         // alert
-//                         swal("Poof! Your imaginary file has been deleted!", {
-//                             icon: "success",
-//                         });
-//                         $("#" + id + "").remove(); //remove without refreshing
-//                     }
-//                 }); // ajax end
-//             } else {
-//                 swal("Your imaginary file is safe!");
-//             }
-//         });
-// }
+function destroy(e) {
+    let id = e.getAttribute('data-id');
+    // alert(id);
+    swal({
+            title: "Are you sure?",
+            text: "Do you want delete this product!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    type: 'DELETE',
+                    url: '{{route('product.destroy',$row->id)}}',
+                    data: {
+                        id: id,
+                        "_token": "{{csrf_token()}}",
+                    },
+                    success: function(response) {
+                        // alert
+                        swal("Poof! Your Product file has been deleted!", {
+                            icon: "success",
+                        });
+                        $("#" + id + "").remove(); //remove without refreshing
+                    },
+                    error: function(response) {
+                        // alert
+                        swal("Opps! Product has been deleted!", {
+                            icon: "error",
+                        });
+                        window.location.reload(); //remove without refreshing
+                    }
+                }); // ajax end
+            }
+        });
+}
 </script>
 @endsection
