@@ -53,7 +53,7 @@
                         <tr>
                             <td>{{ $row->id }}</td>
                             <td>{{ $row->name }}</td>
-                           
+
                             <td>
                                {{ optional($row -> categoryChildren) -> name }}
                             </td>

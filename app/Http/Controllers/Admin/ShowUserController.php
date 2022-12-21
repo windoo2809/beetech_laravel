@@ -32,7 +32,7 @@ class ShowUserController extends Controller
             'birthday',
             'avatar',
             'flag_delete')->paginate(15);
-           
+
         return view('admin.layout.user.show', compact('user'));
     }
 
@@ -53,17 +53,17 @@ class ShowUserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(UserRequest $request)
-    {   
+    {
         $image_name = time().'.'.$request->avatar->extension();
         $request->avatar->move(public_path('upload/user/'), $image_name);
-    
+
         $user = new Users();
         $user->email = $request->email;
         $user->user_name = $request->user_name;
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->birthday = $request->birthday;
-        $user->avatar = $image_name; 
+        $user->avatar = $image_name;
         $user->password =  Hash::make($request->password);
         $user->save();
 
@@ -79,7 +79,7 @@ class ShowUserController extends Controller
      */
     public function show($id)
     {
-      
+
     }
 
     /**
@@ -110,7 +110,7 @@ class ShowUserController extends Controller
     public function update(UpdateUserRequest $request, $id)
     {
         $user = Users::find($id);
-    
+
         if($user != null){
             $user->email = $request->email;
             $user->user_name = $request->user_name;
@@ -141,11 +141,11 @@ class ShowUserController extends Controller
     public function destroy($id)
     {
         $user = Users::find($id);
-            
+
         if($user != null){
             $user->delete();
             Alert::success('Success', 'Delete succes');
-            return redirect()->route('user.index');        
+            return redirect()->route('user.index');
         }else{
             Alert::error('Error', 'ID does not exist');
             return redirect()->back();
