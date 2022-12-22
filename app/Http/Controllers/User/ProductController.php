@@ -38,12 +38,29 @@ class ProductController extends Controller
 
         $search = request()->search;
         if($search){
-            $product = $product->where('name', 'LIKE','%'.$search.'%');
+            $product = Product::whereHas('product_category', function ($query) use($search){
+                $query->where('product_category.name', 'LIKE','%'.$search.'%')
+                ->orWhere('product.name', 'LIKE','%'.$search.'%');
+            });
         }
 
-            $product = $product->with('product_category')->paginate(15);
+        $stock = request()->stock;
+        if($stock == 10){
+            $product = Product::where('stock','<', 10);
+        }
+        elseif($stock === "10-100"){
+            $product = Product::where('stock', [10,100]);
+        }
+        elseif($stock === "100-200"){
+            $product = Product::where('stock', [100,200]);
+        }
+        elseif($stock === "200"){
+            $product = Product::where('stock', '>',200 );
+        }
 
-        return view('user.layout.product.show', compact('product','search'));
+        $product = $product->paginate(15);
+
+        return view('user.layout.product.show', compact('product'));
     }
 
     /**
@@ -102,10 +119,10 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::find($id);
-
+        $categories = ProductCategory::select('id','parent_id','name')->whereNull('parent_id')->get();
 
         if($product != null){
-           return view('user.layout.product.update',compact('product'));
+           return view('user.layout.product.update',compact('product','categories'));
         }else{
             Alert::error('Error', 'ID does not exist');
             return redirect()->back();

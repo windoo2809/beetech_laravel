@@ -6,27 +6,36 @@
     <div class="container-fluid">
         <form>
             <div class="row">
-                <div class="col-8 mt-2">
-                    <div class="form-group">
+                <div class="col-7 mt-2">
+                    <form class="form-group">
                         <div class="input-group input-group-lg">
                             <input type="search" name="search" class="form-control form-control-lg"
                                 placeholder="Type your keywords here">
                             <div class="input-group-append">
-                                <button type="submit" class="btn btn-lg btn-default">
+                                <button  type="submit" class="btn btn-lg btn-default">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
-                <div class="col-2">
-                    <div class="form-group">
-                        <label>Stock By:</label>
-                        <select class="select2" style="width: 100%;">
-                            <option selected>Title</option>
-                            <option>Date</option>
-                        </select>
-                    </div>
+                <div class="col-3 mt-2">
+                    <form class="form-group">
+                        <div class="input-group input-group-lg">
+                            <label for="stock">Choose a car:</label>
+                            <select name="stock" >
+                              <option value="10">Stock < 10</option>
+                              <option value="10-100">Stock 10-100</option>
+                              <option value="100-200">Stock 100-200</option>
+                              <option value="200">Stock > 200</option>
+                            </select>
+                            <div class="input-group-append">
+                                <button  type="submit" class="btn btn-lg btn-default">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </form>
