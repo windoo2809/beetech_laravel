@@ -31,7 +31,16 @@ class ShowUserController extends Controller
             'last_name',
             'birthday',
             'avatar',
-            'flag_delete')->paginate(15);
+            'flag_delete');
+
+        $search = request()->search;
+            if($search){
+                $user = Users::where('first_name', 'LIKE','%'.$search.'%')
+                    ->orWhere('last_name', 'LIKE','%'.$search.'%')
+                    ->orWhere('user_name', 'LIKE','%'.$search.'%')
+                    ->orWhere('email', 'LIKE','%'.$search.'%');
+            }
+        $user = $user->paginate(15);
 
         return view('admin.layout.user.show', compact('user'));
     }

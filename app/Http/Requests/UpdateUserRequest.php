@@ -38,7 +38,7 @@ class UpdateUserRequest extends FormRequest
             'first_name' => 'required|max:50|',
             'last_name' => 'required|max:50|',
             'birthday' => 'required|date|',
-            'avatar' => 'required|image|max:3000|mimes:jpg,png,jpeg|'
+            'avatar' => 'image|max:3000|mimes:jpg,png,jpeg|'
 
         ];
     }
@@ -49,13 +49,13 @@ class UpdateUserRequest extends FormRequest
 
             'user_name.required' => 'Vui lòng nhập Username',
             'user_name.unique' => 'Username đã tồn tại',
-            
+
             'first_name.required' => 'Vui lòng nhập First Name',
             'first_name.max' => 'First name không được quá 50 ký tự',
-     
+
             'last_name.required' => 'Vui lòng nhập Last Name',
             'last_name.max' => 'Last name không được quá 50 ký tự',
-            
+
             'birthday.required' => 'Vui lòng chọn ngày',
             'birthday.date' => 'Birthday không đúng định dạng',
 
