@@ -25,7 +25,6 @@ Route::prefix('user')->middleware('user.login')->group(function(){
     Route::resource('product-category', ShowProductCategoryController::class);
 //crud product
     Route::resource('product', ProductController::class);
-    Route::post('product/destroy', [ProductController::class,'destroy']);
     Route::get('/export-csv', [ProductController::class, 'exportcsv'])->name('product.exportcsv');
     Route::get('/export-pdf', [ProductController::class, 'exportpdf'])->name('product.exportpdf');
 });
@@ -33,7 +32,7 @@ Route::prefix('user')->middleware('user.login')->group(function(){
 Route::prefix('user')->group(function (){
 //login
     Route::get('login', [UserController::class, 'getLogin'])->name('user.layout.login');
-    Route::post('login', [UserController::class, 'postLogin'])->name('user.layout.login'); 
+    Route::post('login', [UserController::class, 'postLogin'])->name('user.layout.login');
 
 //register
     Route::get('register', [UserController::class, 'getRegister'])->name('user.layout.register');

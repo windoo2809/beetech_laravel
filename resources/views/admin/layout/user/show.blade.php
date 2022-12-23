@@ -4,6 +4,25 @@
 
 <div class="content-wrapper ">
     <!-- Content Header (Page header) -->
+    <div class="container-fluid">
+        <form>
+            <div class="row">
+                <div class="col-7 mt-2">
+                    <form class="form-group">
+                        <div class="input-group input-group-lg">
+                            <input type="search" name="search" class="form-control form-control-lg"
+                                placeholder="Type your keywords here">
+                            <div class="input-group-append">
+                                <button  type="submit" class="btn btn-lg btn-default">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </form>
+    </div>
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -51,7 +70,7 @@
                             <th>Birthday</th>
                             <th>Avatar</th>
                             <th>Flag Delete</th>
-                          
+
                         </tr>
                     </thead>
                     @foreach($user as $row)
