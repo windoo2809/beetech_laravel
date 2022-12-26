@@ -23,7 +23,7 @@ class ProductController extends Controller
 {
     protected $ProductService;
      /**
-     * 
+     *
      * @param \App\Services\ProductService $ProductService
      * @return void
      */
@@ -184,7 +184,7 @@ class ProductController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
