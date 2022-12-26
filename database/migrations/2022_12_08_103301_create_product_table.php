@@ -18,9 +18,9 @@ return new class extends Migration
                 $table->string('sku')->varchar(255)->unique();
                 $table->string('name')->varchar(255)->unique();
                 $table->string('stock')->int();
-                $table->string('avatar')->date();
+                $table->string('avatar');
                 $table->date('expired_at');
-                $table->unsignedBigInteger('category_id');
+                $table->unsignedBigInteger('category_id')->nullable();
                 $table->foreign('category_id')->references('id')->on('product_category');
                 $table->tinyInteger('flag_delete')->tinyint(1)->default(0);
                 $table->timestamps();

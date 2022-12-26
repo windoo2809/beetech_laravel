@@ -8,7 +8,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>@yield('title')</hh1>
+                    <h1>@yield('title')</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -53,7 +53,7 @@
                             <div class="form-group">
                                 <label for="expired_at">Expired at</label>
                                 <input type="date" name="expired_at" class="form-control"
-                                    value="{{$product->expired_at}} ">
+                                    value="{{$product->expired_at}}">
                                 @error('expired_at')<small class="alert-danger">{{ $message }}</small>@enderror <br>
                             </div>
 

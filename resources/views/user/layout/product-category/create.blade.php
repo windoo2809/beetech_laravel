@@ -45,8 +45,9 @@
                             <div class="form-group">
                                 <label for="parent_id">Parent ID</label>
                                 <select class="form-select" name=" parent_id" aria-label="Default select example">
+                                    <option value="">Null</option>
                                     @foreach($children as $child)
-                                        <option value="{{$child->id }}"> 
+                                        <option value="{{$child->id }}">
                                             {{$child->name}}
                                         </option>
                                     @endforeach

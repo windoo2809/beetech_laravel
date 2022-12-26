@@ -5,12 +5,24 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ProductCategory;
+use App\Services\ProductCategoryService;
 use App\Http\Requests\ProductCategoryRequest;
 use Alert;
 
 
 class ShowProductCategoryController extends Controller
 {
+    protected $ProductCategoryService;
+
+    /**
+     *
+     * @param \App\Services\ProductCategoryService $ProductCategoryService
+     * @return void
+     */
+    public function __construct(ProductCategoryService $ProductCategoryService){
+        $this->ProductCategoryService = $ProductCategoryService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,6 +34,8 @@ class ShowProductCategoryController extends Controller
             'id',
             'name',
             'parent_id',
+            'created_at',
+            'updated_at',
             )->paginate(15);
 
         $children = ProductCategory::whereNull('parent_id')->get();
@@ -122,20 +136,20 @@ class ShowProductCategoryController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        $product_category = ProductCategory::find($id);
+        $product_category = $this->ProductCategoryService->DeleteProductCategory($id);
 
-        if($product_category != null){
-            $product_category->delete();
-            Alert::success('Success', 'Delete succes');
-
-            return redirect()->route('product-category.index');
+        if($product_category){
+             return response()->json([
+                'message' => 'delete product',
+            ], 200);
         }else{
-            Alert::error('Error', 'ID does not exist');
-            return redirect()->back();
+            return response()->json([
+                'message' => 'Error',
+            ], 404);
         }
     }
 }

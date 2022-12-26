@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use DB;
 use Auth;
 use Alert;
+use File;
 use App\Models\Users;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserRequest;
@@ -63,8 +64,8 @@ class ShowUserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        $image_name = time().'.'.$request->avatar->extension();
-        $request->avatar->move(public_path('upload/user/'), $image_name);
+        $image_name = time().'.'.$request->avatar->getClientOriginalName();
+        $request->avatar->move('upload/user/', $image_name);
 
         $user = new Users();
         $user->email = $request->email;
@@ -121,16 +122,24 @@ class ShowUserController extends Controller
         $user = Users::find($id);
 
         if($user != null){
+
+            if ($request->hasFile('avatar')) {
+                $avatar = $request->file('avatar');
+                $image_name = $avatar->getClientOriginalName();
+                $storedPath = $avatar->move('upload/user',$image_name);
+                $oldimage = $user->avatar;
+                File::delete('upload/user/' . $oldimage);
+
+                $user->avatar = $image_name;
+            }
+
             $user->email = $request->email;
             $user->user_name = $request->user_name;
             $user->first_name = $request->first_name;
             $user->last_name = $request->last_name;
             $user->birthday = $request->birthday;
-            if($request->hasFile('avatar')){
-                $image_name = time().'.'.$request->avatar->extension();
-                $request->avatar->move(public_path('upload/user/'), $image_name);
-                $user->avatar = $image_name;
-            }
+
+
             $user->save();
 
             Alert::success('Success', 'Update success');

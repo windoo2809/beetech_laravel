@@ -66,7 +66,7 @@
 
                             <div class="form-group">
                                 <label for="birthday">Birthday</label>
-                                <input type="date" name="birthday" class="form-control" value="{{$user->birthday}} ">
+                                <input type="date" name="birthday" class="form-control" value="{{$user->birthday}}">
                                 @error('birthday')<small class="alert-danger">{{ $message }}</small>@enderror <br>
                             </div>
 
@@ -75,12 +75,6 @@
                                 <input type="file" name="avatar" class="form-control" value="{{old('{$user->avatar')}} ">
                                 @error('avatar')<small class="alert-danger">{{ $message }}</small>@enderror <br>
                             </div>
-                            <!--                             
-                            <div class="form-group">
-                                <label for="birthday">Password</label>
-                                <input type="password" name="password" class="form-control" value="{{$user->password}} ">
-                                @error('password')<small class="alert-danger">{{ $message }}</small>@enderror <br>
-                            </div> -->
                         </div>
                         <!-- /.card-body -->
                     </div>
