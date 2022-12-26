@@ -14,6 +14,11 @@ class ShowProductCategoryController extends Controller
 {
     protected $ProductCategoryService;
 
+    /**
+     *
+     * @param \App\Services\ProductCategoryService $ProductCategoryService
+     * @return void
+     */
     public function __construct(ProductCategoryService $ProductCategoryService){
         $this->ProductCategoryService = $ProductCategoryService;
     }

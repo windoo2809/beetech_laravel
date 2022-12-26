@@ -22,7 +22,11 @@ use Dompdf\Dompdf;
 class ProductController extends Controller
 {
     protected $ProductService;
-
+     /**
+     * 
+     * @param \App\Services\ProductService $ProductService
+     * @return void
+     */
     public function __construct(ProductService $ProductService){
         $this->ProductService = $ProductService;
     }
