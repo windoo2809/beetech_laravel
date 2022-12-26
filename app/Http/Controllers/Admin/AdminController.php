@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 
 
 class AdminController extends Controller
-{   
+{
   /**
      * Display a listing of the resource.
      *
@@ -29,7 +29,7 @@ class AdminController extends Controller
      */
     public function getLogin(){
         return view('admin.layout.login');
-    } 
+    }
     /**
      * postLogin a newly created resource in storage.
      * @param request $request
@@ -83,7 +83,7 @@ class AdminController extends Controller
         $admin->birthday = $request->birthday;
         $admin->password = Hash::make($request->password);
         $admin->save();
-        return redirect('admin.layout.login')->with('success','Register success');
+        return redirect()->route('admin.layout.login')->with('success','Register success');
     }
     /**
      * Remove the specified resource from storage.

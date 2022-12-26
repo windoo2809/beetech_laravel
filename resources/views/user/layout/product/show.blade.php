@@ -4,7 +4,7 @@
 
 <div class="content-wrapper ">
     <div class="container-fluid">
-        <form>
+
             <div class="row">
                 <div class="col-7 mt-2">
                     <form class="form-group">
@@ -38,7 +38,7 @@
                     </form>
                 </div>
             </div>
-        </form>
+
     </div>
 
     <!-- Content Header (Page header) -->
@@ -110,7 +110,7 @@
                             <td>{{ $row->expired_at }}</td>
 
                             <td>
-                                <img src="{{asset ('upload/product/'. $row->avatar)}}" alt="Ảnh không tồn tại"
+                                <img src="{{asset ('upload/product/' .$row->avatar)}}" alt="Ảnh không tồn tại"
                                     width="100px" height="100px">
                             </td>
                             <td>{{ $row->product_category->name }}</td>
@@ -131,7 +131,7 @@
                                             <h5>Category ID: <b>{{$row->category_id}}</b></h5>
                                         </div>
                                         <footer class="modal-footer">
-                                            <img src="{{asset('upload/product')}}/{{$row->avatar}}" width="350px"
+                                            <img src="{{asset('upload/product/' .$row->avatar)}}" width="350px"
                                                 height="300px">
                                         </footer>
                                     </article>
@@ -141,7 +141,7 @@
                                     Edit
                                 </a>
                                 <a onclick="destroy(this)" data-id="{{route('product.destroy',$row->id)}}"
-                                    id="user_delete" class="btn btn-danger btn-sm">
+                                     class="btn btn-danger btn-sm">
                                     <i class="fas fa-pencil-alt"></i>
                                     Delete
                                 </a>
@@ -151,7 +151,6 @@
                     <script>
                     function destroy(e) {
                         let id = e.getAttribute('data-id');
-                        // alert(id);
                         swal({
                                 title: "Are you sure?",
                                 text: "Do you want delete this product!",
@@ -163,24 +162,24 @@
                                 if (willDelete) {
                                     $.ajax({
                                         type: 'DELETE',
-                                        url: '{{route('product.destroy',$row->id)}}',
+                                        url: id,
                                         data: {
                                             id: id,
                                             "_token": "{{csrf_token()}}",
                                         },
                                         success: function(response) {
                                             // alert
-                                            swal("Poof! Your Product file has been deleted!", {
+                                            swal("Poof! Your Product has been deleted!", {
                                                 icon: "success",
                                             });
-                                            $("#" + id + "").remove(); //remove without refreshing
+                                            //remove without refreshing
                                         },
                                         error: function(response) {
                                             // alert
                                             swal("Opps! Something wrong!", {
                                                 icon: "error",
                                             });
-                                            window.location.reload(); //remove without refreshing
+                                            window.location.reload();
                                         }
                                     }); // ajax end
                                 }

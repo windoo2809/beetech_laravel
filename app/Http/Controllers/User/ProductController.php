@@ -7,11 +7,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use PDF;
 use Alert;
+use File;
 use Carbon\Carbon;
 use App\models\Product;
 use App\models\ProductCategory;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Services\ProductService;
 use App\Exports\ProductExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Dompdf\Dompdf;
@@ -19,6 +21,11 @@ use Dompdf\Dompdf;
 
 class ProductController extends Controller
 {
+    protected $productService;
+
+    public function __construct(productService $productService){
+        $this->productService = $productService;
+    }
     /**
      * Display a listing of the resource.
      *  @param request $request
@@ -49,10 +56,10 @@ class ProductController extends Controller
             $product = Product::where('stock','<', 10);
         }
         elseif($stock === "10-100"){
-            $product = Product::where('stock', [10,100]);
+            $product = Product::whereBetween('stock', [10,100]);
         }
         elseif($stock === "100-200"){
-            $product = Product::where('stock', [100,200]);
+            $product = Product::whereBetween('stock', [100,200]);
         }
         elseif($stock === "200"){
             $product = Product::where('stock', '>',200 );
@@ -83,14 +90,16 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        $image_name = time().'.'.$request->avatar->extension();
-        $request->avatar->move(public_path('upload/product/'), $image_name);
+        $image_name = $this->productService->upload($request);
+        if (!empty($image_name)) {
+            $product['avatar'] = $image_name;
+        }
 
         $product = new Product();
         $product->name = $request->name;
         $product->stock = $request->stock;
         $product->sku = $request->sku;
-        $product->expired_at = $request->date('expired_at');
+        $product->expired_at = $request->expired_at;
         $product->category_id = $request->category_id;
         $product->avatar = $image_name;
         $product->save();
@@ -141,16 +150,22 @@ class ProductController extends Controller
         $product = Product::find($id);
 
         if($product != null){
+
+            if ($request->file('avatar')) {
+                $avatar = $request->file('avatar');
+                $image_name = $avatar->getClientOriginalName();
+                $storedPath = $avatar->move('upload/product',$image_name);
+                $oldimage = $product->avatar;
+                File::delete('upload/product/' . $oldimage);
+
+                $product->avatar = $image_name;
+            }
+
             $product->name = $request->name;
             $product->sku = $request->sku;
             $product->stock = $request->stock;
             $product->expired_at = $request->expired_at;
             $product->category_id = $request->category_id;
-            if($request->hasFile('avatar')){
-                $image_name = time().'.'.$request->avatar->extension();
-                $request->avatar->move(public_path('upload/product/'), $image_name);
-                $product->avatar = $image_name;
-            }
             $product->save();
 
             Alert::success('Success', 'Update success');
@@ -169,17 +184,16 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $product = Product::find($id);
-        if($product != null){
-            $product->delete();
-            return response()->json(
-                [
-                    'success' => true,
-                    'message' => 'Product has been Deleted'
-                ]
-            );
+        $product = $this->productService->DeleteProduct($id);
+
+        if($product){
+             return response()->json([
+                'message' => 'delete product',
+            ], 200);
         }else{
-            return redirect()->back();
+            return response()->json([
+                'message' => 'Error',
+            ], 404);
         }
     }
       /**

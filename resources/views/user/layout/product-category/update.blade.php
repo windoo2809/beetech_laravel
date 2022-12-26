@@ -8,7 +8,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>@yield('title')</hh1>
+                    <h1>@yield('title')</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -48,18 +48,18 @@
                             <div class="form-group">
                                 <label for="parent_id">Parent ID</label>
                                 <select class="form-select" name=" parent_id" aria-label="Default select example">
-                                    @if($product_category->parent_id == null) 
-                                    <option value="{{$product_category->parent_id }}"> 
+                                    @if($product_category->parent_id == null)
+                                    <option value="{{$product_category->parent_id }}">
                                         Null
                                     </option>
                                     @else
-                                    <option value="{{$product_category->categoryChildren->id}}"> 
-                                        {{$product_category -> categoryChildren -> name }}
+                                    <option value="{{$product_category->categoryChildren->id}}">
+                                        {{$product_category->categoryChildren->name }}
                                     </option>
                                     <option value=""> Null </option>
                                     @endif
                                     @foreach($children as $child)
-                                        <option value="{{$child->id }}"> 
+                                        <option value="{{$child->id }}">
                                             {{$child->name}}
                                         </option>
                                     @endforeach

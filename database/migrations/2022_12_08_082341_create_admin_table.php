@@ -17,12 +17,12 @@ return new class extends Migration
             $table->id();
             $table->string('user_name')->varchar(255)->unique();
             $table->string('email')->varchar(255)->unique() ;
-            $table->string('birthday')->date;
+            $table->date('birthday');
             $table->string('first_name')->varchar(255);
             $table->string('last_name')->varchar(255);
             $table->string('password')->varchar(255);
-            $table->string('reset_password')->varchar(255);
-            $table->string('status')->varchar(255);
+            $table->string('reset_password')->varchar(255)->nullable();
+            $table->string('status')->varchar(255)->nullable();
             $table->tinyInteger('flag_delete')->tinyint(1)->default(0);
             $table->timestamps();
         });

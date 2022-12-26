@@ -46,6 +46,8 @@
                             <th>ID</th>
                             <th>Name</th>
                             <th>Parent ID</th>
+                            <th>Create at</th>
+                            <th>Update at</th>
                         </tr>
                     </thead>
                     @foreach($product_category as $row)
@@ -53,10 +55,12 @@
                         <tr>
                             <td>{{ $row->id }}</td>
                             <td>{{ $row->name }}</td>
-
                             <td>
-                               {{ optional($row -> categoryChildren) -> name }}
-                            </td>
+                                {{ optional($row -> categoryChildren) -> name }}
+                             </td>
+                            <td>{{ $row->created_at }}</td>
+                            <td>{{ $row->updated_at }}</td>
+
                             <td class="project-actions text-right">
                                 <a class="btn btn-primary btn-sm" href="#">
                                     <i class="fas fa-folder"></i>
@@ -66,17 +70,53 @@
                                     <i class="fas fa-pencil-alt"></i>
                                     Edit
                                 </a>
-                                <form action="{{route('product-category.destroy',$row->id)}}" method="post">
-                                    @method("DELETE")
-                                    @csrf
-                                    <button class="btn btn-danger btn-sm" type="submit">
-                                        <i class="fas fa-trash"></i>
-                                        Delete
-                                    </button>
-                                </form>
+                                <a onclick="destroy(this)" data-id="{{route('product-category.destroy',$row->id)}}"
+                                    class="btn btn-danger btn-sm">
+                                   <i class="fas fa-pencil-alt"></i>
+                                   Delete
+                               </a>
                             </td>
                         </tr>
                     </tbody>
+                    <script>
+                        function destroy(e) {
+                            let id = e.getAttribute('data-id');
+                            swal({
+                                    title: "Are you sure?",
+                                    text: "Do you want delete this product!",
+                                    icon: "warning",
+                                    buttons: true,
+                                    dangerMode: true,
+                                })
+                                .then((willDelete) => {
+                                    if (willDelete) {
+                                        $.ajax({
+                                            type: 'DELETE',
+                                            url: id,
+                                            data: {
+                                                id: id,
+                                                "_token": "{{csrf_token()}}",
+                                            },
+                                            success: function(response) {
+                                                // alert
+                                                swal("Poof! Your Product has been deleted!", {
+                                                    icon: "success",
+                                                });
+                                                //remove without refreshing
+                                            },
+                                            error: function(response) {
+                                                // alert
+                                                swal("Opps! Something wrong!", {
+                                                    icon: "error",
+                                                });
+
+                                            }
+                                        }); // ajax end
+                                    }
+                                });
+                        }
+                        </script>
+
                     @endforeach
                 </table>
             </div>

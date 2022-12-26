@@ -24,7 +24,11 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:255',       
+            'name' => [
+                'required',
+                'max:255',
+                Rule::unique('product')->ignore($this->product)
+            ],
             'stock' => 'required|min:0|max:10000|numeric',
             'expired_at' => 'nullable|required|after:today',
             'avatar' => 'required|max:3MB',
