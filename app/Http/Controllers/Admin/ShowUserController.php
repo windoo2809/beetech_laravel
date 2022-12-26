@@ -13,7 +13,8 @@ use App\Models\Users;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UpdateUserRequest;
-
+use App\Jobs\SendMailJob;
+use App\Mail\SendMail;
 
 class ShowUserController extends Controller
 {
@@ -59,8 +60,8 @@ class ShowUserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\UserRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param \App\Http\Requests\UserRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(UserRequest $request)
     {
@@ -76,6 +77,10 @@ class ShowUserController extends Controller
         $user->avatar = $image_name;
         $user->password =  Hash::make($request->password);
         $user->save();
+
+        $SendMail = new SendMail();
+        $SendMailJob = new SendMailJob($SendMail);
+        dispatch($SendMailJob);
 
         Alert::success('Success', 'Create success');
         return redirect()->route('user.index');
@@ -113,9 +118,9 @@ class ShowUserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateUserRequest  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param \App\Http\Requests\UpdateUserRequest $request
+     * @param mixed $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateUserRequest $request, $id)
     {
@@ -139,8 +144,11 @@ class ShowUserController extends Controller
             $user->last_name = $request->last_name;
             $user->birthday = $request->birthday;
 
-
             $user->save();
+
+            $SendMail = new SendMail();
+            $SendMailJob = new SendMailJob($SendMail);
+            dispatch($SendMailJob);
 
             Alert::success('Success', 'Update success');
             return redirect()->route('user.index');
@@ -154,7 +162,7 @@ class ShowUserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
