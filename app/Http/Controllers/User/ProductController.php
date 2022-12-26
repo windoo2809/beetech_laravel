@@ -21,10 +21,10 @@ use Dompdf\Dompdf;
 
 class ProductController extends Controller
 {
-    protected $productService;
+    protected $ProductService;
 
-    public function __construct(productService $productService){
-        $this->productService = $productService;
+    public function __construct(ProductService $ProductService){
+        $this->ProductService = $ProductService;
     }
     /**
      * Display a listing of the resource.
@@ -90,7 +90,7 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        $image_name = $this->productService->upload($request);
+        $image_name = $this->ProductService->upload($request);
         if (!empty($image_name)) {
             $product['avatar'] = $image_name;
         }
@@ -184,7 +184,7 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $product = $this->productService->DeleteProduct($id);
+        $product = $this->ProductService->DeleteProduct($id);
 
         if($product){
              return response()->json([

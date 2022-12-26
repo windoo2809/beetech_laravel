@@ -12,10 +12,10 @@ use Alert;
 
 class ShowProductCategoryController extends Controller
 {
-    protected $productCategoryService;
+    protected $ProductCategoryService;
 
-    public function __construct(ProductCategoryService $productCategoryService){
-        $this->productCategoryService = $productCategoryService;
+    public function __construct(ProductCategoryService $ProductCategoryService){
+        $this->ProductCategoryService = $ProductCategoryService;
     }
 
     /**
@@ -129,7 +129,7 @@ class ShowProductCategoryController extends Controller
      */
     public function destroy($id)
     {
-        $product_category = $this->productCategoryService->DeleteProductCategory($id);
+        $product_category = $this->ProductCategoryService->DeleteProductCategory($id);
 
         if($product_category){
              return response()->json([
