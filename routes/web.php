@@ -48,6 +48,9 @@ Route::prefix('admin')->middleware('admin.login')->group(function(){
     Route::post('logout', [AdminController::class, 'logout'])->name('admin.logout');
 //crud-user
     Route::resource('user', ShowUserController::class);
+
+    Route::get('/get-district', [ShowUserController::class, 'getDistrict'])->name('user.district');
+    Route::get('/get-commune', [ShowUserController::class, 'getCommune'])->name('user.commune');
 });
 Route::prefix('admin')->group(function (){
     //login

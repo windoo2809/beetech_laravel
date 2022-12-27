@@ -29,7 +29,7 @@ class UserRequest extends FormRequest
             'first_name' => 'required|max:50|',
             'last_name' => 'required|max:50|',
             'birthday' => 'required|date|before:-18 years|',
-            'password' => 'required|max:100',
+            'password' => 'required|min:8|max:100',
             'avatar' => 'required|image|mimes:jpg,png,jpeg|max:3000|'
            ];
     }

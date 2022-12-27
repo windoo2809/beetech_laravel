@@ -16,12 +16,14 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('address')->varchar(255)->after('avatar');
 
-            $table->bigInteger('province_id')->unsigned()->after('address');
-            $table->foreign('province_id')->references('id')->on('province')->onDelete('cascade');
+            $table->unsignedBigInteger('province_id')->nullable()->after('address');
+            $table->foreign('province_id')->references('id')->on('province')->cascadeOnDelete();
 
-            $table->bigInteger('district_id')->after('province_id');
-            $table->bigInteger('commune_id')->after('district_id');
+            $table->unsignedBigInteger('district_id')->nullable()->after('province_id');
+            $table->foreign('district_id')->references('id')->on('district')->cascadeOnDelete();
 
+            $table->unsignedBigInteger('commune_id')->nullable()->after('district_id');
+            $table->foreign('commune_id')->references('id')->on('commune')->cascadeOnDelete();
         });
     }
 
