@@ -183,12 +183,12 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        Barryvdh\DomPDF\ServiceProvider::class, 
-        
+        Barryvdh\DomPDF\ServiceProvider::class,
+
         /*
          * Package Service Providers...
          */
-
+        Laravel\Passport\PassportServiceProvider::class,
         /*
          * Application Service Providers...
          */
