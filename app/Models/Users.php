@@ -23,8 +23,14 @@ class Users extends Authenticatable
     use HasFactory;
     public $timestamps = true;
     protected $fillable = [
-        'email','user_name','birthday','first_name','last_name','password','avatar'
+        'email','user_name','birthday',
+        'first_name','last_name','password',
+        'avatar','address','province_id','district_id','commune_id'
     ];
     protected $primarykey = 'id';
     protected $table = 'users';
+
+    public function provinceID() {
+        return $this->hasOne(Users::class,'id','province_id','name');
+    }
 }

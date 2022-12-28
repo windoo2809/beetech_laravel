@@ -5,16 +5,20 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 use DB;
 use Auth;
 use Alert;
 use File;
 use App\Models\Users;
-use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\UserRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Models\Province;
+use App\Models\District;
+use App\Models\Commune;
 use App\Jobs\SendMailJob;
 use App\Mail\SendMail;
+use App\Http\Requests\UserRequest;
+use App\Http\Requests\UpdateUserRequest;
+
 
 class ShowUserController extends Controller
 {
@@ -33,7 +37,7 @@ class ShowUserController extends Controller
             'last_name',
             'birthday',
             'avatar',
-            'flag_delete');
+            'flag_delete',);
 
         $search = request()->search;
             if($search){
@@ -54,7 +58,12 @@ class ShowUserController extends Controller
      */
     public function create()
     {
-        return view('admin.layout.user.create');
+        $province = Province::select(
+            'id',
+            'name'
+        )->get();
+
+        return view('admin.layout.user.create', compact('province'));
     }
 
     /**
@@ -75,6 +84,9 @@ class ShowUserController extends Controller
         $user->last_name = $request->last_name;
         $user->birthday = $request->birthday;
         $user->avatar = $image_name;
+        $user->province_id = $request->province_id;
+        $user->district_id = $request->district_id;
+        $user->commune_id = $request->commune_id;
         $user->password =  Hash::make($request->password);
         $user->save();
 
@@ -106,9 +118,15 @@ class ShowUserController extends Controller
     public function edit($id)
     {
         $user = Users::find($id);
+        $province = Province::select(
+            'id',
+            'name'
+        )->get();
+        $district = District::where('province_id', $user->province_id)->get();
+        $commune = Commune::where('district_id', $user->district_id)->get();
 
         if($user != null){
-           return view('admin.layout.user.update',compact('user'));
+           return view('admin.layout.user.update',compact('user','province','district','commune'));
         }else{
             Alert::error('Error', 'ID does not exist');
             return redirect()->back();
@@ -131,7 +149,7 @@ class ShowUserController extends Controller
             if ($request->hasFile('avatar')) {
                 $avatar = $request->file('avatar');
                 $image_name = $avatar->getClientOriginalName();
-                $storedPath = $avatar->move('upload/user',$image_name);
+                $image_name = $avatar->move('upload/user',$image_name);
                 $oldimage = $user->avatar;
                 File::delete('upload/user/' . $oldimage);
 
@@ -143,6 +161,9 @@ class ShowUserController extends Controller
             $user->first_name = $request->first_name;
             $user->last_name = $request->last_name;
             $user->birthday = $request->birthday;
+            $user->province_id = $request->province_id;
+            $user->district_id = $request->district_id;
+            $user->commune_id = $request->commune_id;
 
             $user->save();
 
@@ -177,4 +198,36 @@ class ShowUserController extends Controller
             return redirect()->back();
         }
     }
+
+    /**
+     * return district list.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
+    public function getDistrict(Request $request)
+    {
+        $district = District::where('province_id', $request->province_id)->get();
+
+        if (count($district) > 0) {
+            return response()->json($district);
+        }
+    }
+
+    /**
+     * return commune list
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
+    public function getCommune(Request $request)
+    {
+        $commune = Commune::where('district_id', $request->district_id)
+            ->get();
+
+        if (count($commune) > 0) {
+            return response()->json($commune);
+        }
+    }
+
 }

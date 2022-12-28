@@ -8,7 +8,8 @@ use DB;
 use Auth;
 use Alert;
 use App\Models\Admin;
-
+use App\Http\Requests\LoginAdminRequest;
+use App\Http\Requests\RegisterAdminRequest;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -32,14 +33,10 @@ class AdminController extends Controller
     }
     /**
      * postLogin a newly created resource in storage.
-     * @param request $request
+     * @param \App\Http\Requests\LoginAdminRequest $request
      * @return response()
      */
-    public function postLogin(Request $request){
-        $request->validate([
-            'email'=>'required',
-            'password'=>'required',
-        ]);
+    public function postLogin(LoginAdminRequest $request){
         $data = [
             'email' => $request->email,
             'password' => $request->password,
@@ -62,19 +59,11 @@ class AdminController extends Controller
 
     /**
      *  postRegister a newly created resource in storage.
-     *
+     * @param \App\Http\Requests\RegisterAdminRequest $request
      * @return response()
      */
-    public function postRegister(Request $request) {
-        $request->validate([
-            'email'=>'required|email',
-            'user_name'=>'required',
-            'first_name'=>'required',
-            'last_name'=>'required',
-            'birthday'=>'required',
-            'password'=>'required',
-        ]);
-        //
+    public function postRegister(RegisterAdminRequest $request) {
+
         $admin = new Admin();
         $admin->email = $request->email;
         $admin->user_name = $request->user_name;
