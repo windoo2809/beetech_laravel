@@ -33,4 +33,9 @@ class Users extends Authenticatable
     public function provinceID() {
         return $this->hasOne(Users::class,'id','province_id','name');
     }
+
+    protected $attributes = [
+        'address'=> '',
+
+    ];
 }
