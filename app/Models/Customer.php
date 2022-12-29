@@ -7,6 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+*@property integer $id
+*@property string  $phone
+*@property string  $email
+*@property string  $birthday
+*@property string  $full_name
+*@property string  $password
+*@property string  $reset_password
+*@property string  $address
+*@property integer $province_id
+*@property integer $district_id
+*@property integer $commune_id
+*@property string  $status
+*@property integer $flag_delete
+*/
+
 class Customer extends Authenticatable
 {
     use HasFactory, HasApiTokens;

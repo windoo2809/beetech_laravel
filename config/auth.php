@@ -46,10 +46,10 @@ return [
             'driver' => 'session',
             'provider' => 'admins',
         ],
-        // 'customers' => [
-        //     'driver' => 'session',
-        //     'provider' => 'customers',
-        // ],
+        'customer' => [
+            'driver' => 'session',
+            'provider' => 'customers',
+        ],
         'api'=>[
             'driver' => 'passport',
             'provider' => 'customers',

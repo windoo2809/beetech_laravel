@@ -85,7 +85,7 @@
                             <td >
                                 <img src="{{asset ('upload/user/'. $row->avatar)}}" alt="Ảnh không tồn tại"  width="100px" height="100px">
                             </td>
-                            <td  class="text-center"> {{ $row->flag_delete }}</td>
+                            <td  class="text-center">{{ $row->flag_delete}}</td>
 
                             <td class="project-actions text-right">
                                 <a class="btn btn-primary btn-sm" href="#">

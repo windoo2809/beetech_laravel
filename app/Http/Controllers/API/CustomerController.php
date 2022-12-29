@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Customer;
+use Auth;
 
 
 class CustomerController extends Controller
@@ -11,11 +13,24 @@ class CustomerController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        //
+        $customer = Customer::select(
+            'id','email','phone','birthday','full_name','password','reset_password',
+            'address','province_id','district_id','commune_id','status','flag_delete'
+        )->get();
+
+        if($customer != null){
+            return response()->json([
+                'customer' => $customer,
+            ]);
+         }else{
+            return response()->json([
+                'message' => 'No customer was found',
+            ]);
+         }
     }
 
     /**
@@ -47,7 +62,8 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        //
+
+
     }
 
     /**
@@ -64,13 +80,29 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     *@param mixed $id
+     *@param \Illuminate\Http\Request $request
+     *@return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $customer = Auth::guard('api')->user();
+
+        if($customer != null){
+            $customer->email = $request->email;
+            $customer->phone = $request->phone;
+            $customer->password = bcrypt($request->password);
+            $customer->save();
+
+            return response()->json([
+                'customer' => $customer,
+                'message' => 'Customer has been updated successfully',
+            ]);
+         }else{
+            return response()->json([
+                'message' => 'Something wrong!',
+            ]);
+         }
     }
 
     /**
@@ -82,5 +114,24 @@ class CustomerController extends Controller
     public function destroy($id)
     {
         //
+    }
+    /**
+     * Show infor customer after login
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function me(){
+        $customer = Auth::guard('api')->user();
+
+        if($customer != null){
+            return response()->json([
+                'customer' => $customer,
+                'message' => 'Customer found',
+            ]);
+        }else{
+            return response()->json([
+                'message' => 'Customer not found',
+            ]);
+        }
     }
 }

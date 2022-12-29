@@ -37,7 +37,9 @@ class ShowUserController extends Controller
             'last_name',
             'birthday',
             'avatar',
-            'flag_delete',);
+            'flag_delete',
+            'province_id'
+        );
 
         $search = request()->search;
             if($search){
@@ -149,7 +151,7 @@ class ShowUserController extends Controller
             if ($request->hasFile('avatar')) {
                 $avatar = $request->file('avatar');
                 $image_name = $avatar->getClientOriginalName();
-                $image_name = $avatar->move('upload/user',$image_name);
+                $avatar->move('upload/user/', $image_name);
                 $oldimage = $user->avatar;
                 File::delete('upload/user/' . $oldimage);
 

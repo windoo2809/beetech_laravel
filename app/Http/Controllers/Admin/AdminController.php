@@ -70,7 +70,7 @@ class AdminController extends Controller
         $admin->first_name = $request->first_name;
         $admin->last_name = $request->last_name;
         $admin->birthday = $request->birthday;
-        $admin->password = Hash::make($request->password);
+        $admin->password = bcrypt($request->password);
         $admin->save();
         return redirect()->route('admin.layout.login')->with('success','Register success');
     }

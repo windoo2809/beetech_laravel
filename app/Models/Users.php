@@ -31,9 +31,8 @@ class Users extends Authenticatable
     protected $table = 'users';
 
     public function provinceID() {
-        return $this->hasOne(Users::class,'id','province_id','name');
+        return $this->hasOne(Province::class,'id','province_id');
     }
-
     protected $attributes = [
         'address'=> '',
 
