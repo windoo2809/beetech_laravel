@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('commune_');
+        Schema::dropIfExists('commune');
     }
 };

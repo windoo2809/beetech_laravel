@@ -25,9 +25,9 @@ class AuthController extends MessageController
             'password' => $request->password,
         ];
 
-        if(Auth::guard('customers')->attempt($customer)){
+        if(Auth::guard('customer')->attempt($customer)){
 
-            $customer = Auth::guard('customers')->user();
+            $customer = Auth::guard('customer')->user();
 
             $success['email'] = $customer->email;
             $success['phone'] = $customer->phone;
