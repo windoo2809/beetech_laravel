@@ -111,7 +111,7 @@ class ProductController extends Controller
             $product->save();
             DB::commit();
 
-            Alert::success('Success', 'Create success');
+            Alert::success('Success', 'Created successfully');
             return redirect()->route('product.index');
 
         }catch(Exception $e){
