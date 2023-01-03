@@ -2,11 +2,6 @@
     <div class="row">
         <div class="col-md-8">
             <form action="{{ route('admin.layout.register') }}" method="post">
-                @if (session('success'))
-                <div class="alert alert-success text-center">
-                    {{session('success')}}
-                </div>
-                @endif
                 @csrf
                 <h1 style="text-align: center;">Admin Register</h1>
                 <div class="container">

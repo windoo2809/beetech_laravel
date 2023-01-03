@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 //UserController
 use App\Http\Controllers\user\UserController;
-use App\Http\Controllers\user\ShowProductCategoryController;
+use App\Http\Controllers\user\ProductCategoryController;
 use App\Http\Controllers\user\ProductController;
 
 //AdminController
@@ -22,7 +22,7 @@ Route::prefix('user')->middleware('user.login')->group(function(){
 //logout
     Route::post('logout', [UserController::class, 'logout'])->name('user.logout');
 //crud product-category
-    Route::resource('product-category', ShowProductCategoryController::class);
+    Route::resource('product-category', ProductCategoryController::class);
 //crud product
     Route::resource('product', ProductController::class);
     Route::get('/export-csv', [ProductController::class, 'exportcsv'])->name('product.exportcsv');

@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginUserRequest;
+use App\Http\Requests\RegisterUserRequest;
 use Illuminate\Http\Request;
-use DB;
-use Auth;
-use App\Models\Users;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Users;
 
 
 class UserController extends Controller
@@ -30,14 +31,11 @@ class UserController extends Controller
     }
     /**
      * postLogin a newly created resource in storage.
-     * @param request $request
+     *
+     * @param \App\Http\Requests\LoginAdminRequest $request
      * @return response()
      */
-    public function postLogin(Request $request){
-        $request->validate([
-            'email'=>'required',
-            'password'=>'required',
-        ]);
+    public function postLogin(LoginUserRequest $request){
         $data = [
             'email' => $request->email,
             'password' => $request->password,
@@ -63,17 +61,8 @@ class UserController extends Controller
      *
      * @return response()
      */
-    public function postRegister(Request $request) {
+    public function postRegister(RegisterUserRequest $request) {
 
-        $request->validate([
-            'email'=>'required|email',
-            'user_name'=>'required',
-            'first_name'=>'required',
-            'last_name'=>'required',
-            'birthday'=>'required',
-            'password'=>'required',
-        ]);
-        //
         $user = new Users();
         $user->email = $request->email;
         $user->user_name = $request->user_name;

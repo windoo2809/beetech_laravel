@@ -4,14 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use DB;
-use Auth;
-use Alert;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
 use App\Http\Requests\LoginAdminRequest;
 use App\Http\Requests\RegisterAdminRequest;
-use Illuminate\Support\Facades\Hash;
 
+use Exception;
 
 class AdminController extends Controller
 {
@@ -37,16 +36,23 @@ class AdminController extends Controller
      * @return response()
      */
     public function postLogin(LoginAdminRequest $request){
-        $data = [
-            'email' => $request->email,
-            'password' => $request->password,
-        ];
-        if(Auth::guard('admin')->attempt($data)){
-            return view('admin.dashboard', $data);
-         }
-         else{
-             return redirect()->route('admin.layout.login')->with('error','Wrong email or password');
-         }
+        DB::beginTransaction();
+        try {
+            $data = [
+                'email' => $request->email,
+                'password' => $request->password,
+            ];
+            if(Auth::guard('admin')->attempt($data)){
+                return view('admin.dashboard', $data);
+            }
+            else{
+                return redirect()->route('admin.layout.login')->with('error','Wrong email or password');
+            }
+            DB::commit();
+        }catch(Exception $e){
+            DB::rollBack();
+            throw new Exception($e->getMessage());
+        }
     }
     /**
      * Show the form for creating a new resource.
@@ -63,16 +69,24 @@ class AdminController extends Controller
      * @return response()
      */
     public function postRegister(RegisterAdminRequest $request) {
+        DB::beginTransaction();
+        try {
+            $admin = new Admin();
+            $admin->email = $request->emails;
+            $admin->user_name = $request->user_name;
+            $admin->first_name = $request->first_name;
+            $admin->last_name = $request->last_name;
+            $admin->birthday = $request->birthday;
+            $admin->password = bcrypt($request->password);
 
-        $admin = new Admin();
-        $admin->email = $request->email;
-        $admin->user_name = $request->user_name;
-        $admin->first_name = $request->first_name;
-        $admin->last_name = $request->last_name;
-        $admin->birthday = $request->birthday;
-        $admin->password = bcrypt($request->password);
-        $admin->save();
-        return redirect()->route('admin.layout.login')->with('success','Register success');
+            $admin->save();
+            DB::commit();
+            return redirect()->route('admin.layout.login')->with('success','Register success');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error','Something wrong!');
+            throw new Exception($e->getMessage());
+        }
     }
     /**
      * Remove the specified resource from storage.

@@ -4,10 +4,12 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 use PDF;
-use Alert;
 use File;
+use Exception;
 use Carbon\Carbon;
 use App\models\Product;
 use App\models\ProductCategory;
@@ -15,7 +17,6 @@ use App\Http\Requests\ProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Services\ProductService;
 use App\Exports\ProductExport;
-use Maatwebsite\Excel\Facades\Excel;
 use Dompdf\Dompdf;
 
 
@@ -81,8 +82,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = ProductCategory::whereNull('parent_id')->get();
-        return view('user.layout.product.create', compact('categories'));
+        $product = ProductCategory::whereNull('parent_id')->get();
+        return view('user.layout.product.create', compact('product'));
 
     }
 
@@ -94,22 +95,31 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        $image_name = $this->ProductService->upload($request);
-        if (!empty($image_name)) {
-            $product['avatar'] = $image_name;
+        DB::beginTransaction();
+        try {
+            $image_name = $this->ProductService->upload($request);
+            if (!empty($image_name)) {
+                $product['avatar'] = $image_name;
+            }
+            $product = new Product();
+            $product->name = $request->name;
+            $product->stock = $request->stock;
+            $product->sku = $request->sku;
+            $product->expired_at = $request->expired_at;
+            $product->category_id = $request->category_id;
+            $product->avatar = $image_name;
+            $product->save();
+            DB::commit();
+
+            Alert::success('Success', 'Create success');
+            return redirect()->route('product.index');
+
+        }catch(Exception $e){
+            DB::rollBack();
+            Alert::error('Error', 'Something wrong!');
+            return redirect()->back();
+            throw new Exception($e->getMessage());
         }
-
-        $product = new Product();
-        $product->name = $request->name;
-        $product->stock = $request->stock;
-        $product->sku = $request->sku;
-        $product->expired_at = $request->expired_at;
-        $product->category_id = $request->category_id;
-        $product->avatar = $image_name;
-        $product->save();
-
-        Alert::success('Success', 'Create success');
-        return redirect()->route('product.index');
     }
 
     /**
@@ -132,10 +142,10 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::find($id);
-        $categories = ProductCategory::select('id','parent_id','name')->whereNull('parent_id')->get();
+        $product_category = ProductCategory::select('id','parent_id','name')->whereNull('parent_id')->get();
 
         if($product != null){
-           return view('user.layout.product.update',compact('product','categories'));
+           return view('user.layout.product.update',compact('product','product_category'));
         }else{
             Alert::error('Error', 'ID does not exist');
             return redirect()->back();
@@ -151,33 +161,40 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, $id)
     {
-        $product = Product::find($id);
+        DB::beginTransaction();
+        try {
+            $product = Product::find($id);
+            if($product != null){
 
-        if($product != null){
+                if ($request->file('avatar')) {
+                    $avatar = $request->file('avatar');
+                    $image_name = $avatar->getClientOriginalName();
+                    $avatar->move('upload/product/', $image_name);
+                    $oldimage = $product->avatar;
+                    File::delete('upload/product/' . $oldimage);
+                    $product->avatar = $image_name;
+                }
 
-            if ($request->file('avatar')) {
-                $avatar = $request->file('avatar');
-                $image_name = $avatar->getClientOriginalName();
-                $storedPath = $avatar->move('upload/product',$image_name);
-                $oldimage = $product->avatar;
-                File::delete('upload/product/' . $oldimage);
+                $product->name = $request->name;
+                $product->sku = $request->sku;
+                $product->stock = $request->stock;
+                $product->expired_at = $request->expired_at;
+                $product->category_id = $request->category_id;
+                $product->save();
+                DB::commit();
 
-                $product->avatar = $image_name;
+                Alert::success('Success', 'Updated successfully');
+                return redirect()->route('product.index');
+            }else{
+                Alert::error('Error', 'Something wrong!');
+                return redirect()->back();
             }
-
-            $product->name = $request->name;
-            $product->sku = $request->sku;
-            $product->stock = $request->stock;
-            $product->expired_at = $request->expired_at;
-            $product->category_id = $request->category_id;
-            $product->save();
-
-            Alert::success('Success', 'Update success');
-            return redirect()->route('product.index');
-         }else{
-            Alert::error('Error', 'ID does not exist');
-             return redirect()->back();
-         }
+        }catch(Exception $e){
+            DB::rollBack();
+            Alert::error('Error', 'Something wrong!');
+            return redirect()->back();
+            throw new Exception($e->getMessage());
+        }
     }
 
     /**

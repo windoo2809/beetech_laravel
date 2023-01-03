@@ -8,7 +8,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>@yield('title')</hh1>
+                        <h1>@yield('title')</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -39,7 +39,7 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="email">Email</label>
-                                    <input type="text" name="email" class="form-control" value="{{ old('email') }} ">
+                                    <input type="text" name="email" class="form-control" value="{{old('email')}} ">
                                     @error('email')
                                         <small class="alert-danger">{{ $message }}</small>
                                     @enderror <br>
@@ -66,7 +66,7 @@
                                 <div class="form-group">
                                     <label for="last_name">Last Name</label>
                                     <input type="text" name="last_name" class="form-control"
-                                        value="{{ old('last_name') }} ">
+                                        value="{{old('last_name') }} ">
                                     @error('last_name')
                                         <small class="alert-danger">{{ $message }}</small>
                                     @enderror <br>

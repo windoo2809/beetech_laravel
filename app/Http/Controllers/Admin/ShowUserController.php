@@ -4,12 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
-use DB;
-use Auth;
-use Alert;
+use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\DB;
 use File;
+use Exception;
 use App\Models\Users;
 use App\Models\Province;
 use App\Models\District;
@@ -76,28 +75,37 @@ class ShowUserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        $image_name = time().'.'.$request->avatar->getClientOriginalName();
-        $request->avatar->move('upload/user/', $image_name);
+        DB::beginTransaction();
+        try {
+            $image_name = time().'.'.$request->avatar->getClientOriginalName();
+            $request->avatar->move('upload/user/', $image_name);
 
-        $user = new Users();
-        $user->email = $request->email;
-        $user->user_name = $request->user_name;
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
-        $user->birthday = $request->birthday;
-        $user->avatar = $image_name;
-        $user->province_id = $request->province_id;
-        $user->district_id = $request->district_id;
-        $user->commune_id = $request->commune_id;
-        $user->password =  Hash::make($request->password);
-        $user->save();
+            $user = new Users();
+            $user->email = $request->email;
+            $user->user_name = $request->user_name;
+            $user->first_name = $request->first_name;
+            $user->last_name = $request->last_name;
+            $user->birthday = $request->birthday;
+            $user->avatar = $image_name;
+            $user->province_id = $request->province_id;
+            $user->district_id = $request->district_id;
+            $user->commune_id = $request->commune_id;
+            $user->password =  Hash::make($request->password);
+            $user->save();
+            DB::commit();
 
-        $SendMail = new SendMail();
-        $SendMailJob = new SendMailJob($SendMail);
-        dispatch($SendMailJob);
+            $SendMail = new SendMail();
+            $SendMailJob = new SendMailJob($SendMail);
+            dispatch($SendMailJob);
 
-        Alert::success('Success', 'Create success');
-        return redirect()->route('user.index');
+            Alert::success('Success', 'Created successfully');
+            return redirect()->route('user.index');
+        }catch(Exception $e){
+            DB::rollBack();
+            Alert::error('Error', 'Something wrong!');
+            return redirect()->back();
+            throw new Exception($e->getMessage());
+        }
     }
 
     /**
@@ -124,13 +132,13 @@ class ShowUserController extends Controller
             'id',
             'name'
         )->get();
-        $district = District::where('province_id', $user->province_id)->get();
-        $commune = Commune::where('district_id', $user->district_id)->get();
-
         if($user != null){
+            $district = District::where('province_id', $user->province_id)->get();
+            $commune = Commune::where('district_id', $user->district_id)->get();
+
            return view('admin.layout.user.update',compact('user','province','district','commune'));
         }else{
-            Alert::error('Error', 'ID does not exist');
+            Alert::error('Error', 'Something wrong!');
             return redirect()->back();
         }
     }
@@ -144,41 +152,48 @@ class ShowUserController extends Controller
      */
     public function update(UpdateUserRequest $request, $id)
     {
-        $user = Users::find($id);
+        DB::beginTransaction();
+        try {
+            $user = Users::find($id);
 
-        if($user != null){
+            if($user != null){
+                if ($request->hasFile('avatar')) {
+                    $avatar = $request->file('avatar');
+                    $image_name = $avatar->getClientOriginalName();
+                    $avatar->move('upload/user/', $image_name);
+                    $oldimage = $user->avatar;
+                    File::delete('upload/user/' . $oldimage);
+                    $user->avatar = $image_name;
+                }
 
-            if ($request->hasFile('avatar')) {
-                $avatar = $request->file('avatar');
-                $image_name = $avatar->getClientOriginalName();
-                $avatar->move('upload/user/', $image_name);
-                $oldimage = $user->avatar;
-                File::delete('upload/user/' . $oldimage);
+                $user->email = $request->email;
+                $user->user_name = $request->user_name;
+                $user->first_name = $request->first_name;
+                $user->last_name = $request->last_name;
+                $user->birthday = $request->birthday;
+                $user->province_id = $request->province_id;
+                $user->district_id = $request->district_id;
+                $user->commune_id = $request->commune_id;
 
-                $user->avatar = $image_name;
+                $user->save();
+                DB::commit();
+
+                $SendMail = new SendMail();
+                $SendMailJob = new SendMailJob($SendMail);
+                dispatch($SendMailJob);
+
+                Alert::success('Success', 'Updated successfully');
+                return redirect()->route('user.index');
+            }else{
+                Alert::error('Error', 'Something wrong!');
+                return redirect()->back();
             }
-
-            $user->email = $request->email;
-            $user->user_name = $request->user_name;
-            $user->first_name = $request->first_name;
-            $user->last_name = $request->last_name;
-            $user->birthday = $request->birthday;
-            $user->province_id = $request->province_id;
-            $user->district_id = $request->district_id;
-            $user->commune_id = $request->commune_id;
-
-            $user->save();
-
-            $SendMail = new SendMail();
-            $SendMailJob = new SendMailJob($SendMail);
-            dispatch($SendMailJob);
-
-            Alert::success('Success', 'Update success');
-            return redirect()->route('user.index');
-         }else{
-             Alert::error('Error', 'ID does not exist');
-             return redirect()->back();
-         }
+        }catch(Exception $e){
+            DB::rollBack();
+            Alert::error('Error', 'Something wrong!');
+            return redirect()->back();
+            throw new Exception($e->getMessage());
+        }
     }
 
     /**
