@@ -8,7 +8,11 @@ use App\Http\Requests\RegisterUserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\DB;
 use App\Models\Users;
+use Exception;
+
 
 
 class UserController extends Controller
@@ -32,20 +36,27 @@ class UserController extends Controller
     /**
      * postLogin a newly created resource in storage.
      *
-     * @param \App\Http\Requests\LoginAdminRequest $request
+     * @param \App\Http\Requests\LoginUserRequest $request
      * @return response()
      */
     public function postLogin(LoginUserRequest $request){
-        $data = [
-            'email' => $request->email,
-            'password' => $request->password,
-        ];
-        if(Auth::guard('users')->attempt($data)){
-            return view('user.dashboard', $data);
-         }
-         else{
-             return redirect()->route('user.layout.login')->with('error','Wrong email or password');
-         }
+        DB::beginTransaction();
+        try {
+            $data = [
+                'email' => $request->email,
+                'password' => $request->password,
+            ];
+            if(Auth::guard('users')->attempt($data)){
+                return view('user.dashboard', $data);
+            }
+            else{
+                return redirect()->back()->with('error','Wrong email or password');
+            }
+        }catch(Exception $e){
+            DB::rollBack();
+            return redirect()->back()->with('error','Something wrong!');
+            throw new Exception($e->getMessage());
+        }
     }
     /**
      * Show the form for creating a new resource.
@@ -59,19 +70,28 @@ class UserController extends Controller
     /**
      *  postRegister a newly created resource in storage.
      *
+     * @param \App\Http\Requests\RegisterUserRequest $request
      * @return response()
      */
     public function postRegister(RegisterUserRequest $request) {
+        DB::beginTransaction();
+        try {
+            $user = new Users();
+            $user->email = $request->email;
+            $user->user_name = $request->user_name;
+            $user->first_name = $request->first_name;
+            $user->last_name = $request->last_name;
+            $user->birthday = $request->birthday;
+            $user->password = Hash::make($request->password);
+            $user->save();
+            DB::commit();
 
-        $user = new Users();
-        $user->email = $request->email;
-        $user->user_name = $request->user_name;
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
-        $user->birthday = $request->birthday;
-        $user->password = Hash::make($request->password);
-        $user->save();
-        return redirect()->route('user.layout.login')->with('success','Register success');
+            return redirect()->route('user.layout.login')->with('success','Registered successfully');
+        }catch(Exception $e){
+            DB::rollBack();
+            return redirect()->back()->with('error','Something wrong!');
+            throw new Exception($e->getMessage());
+        }
     }
     /**
      * Remove the specified resource from storage.

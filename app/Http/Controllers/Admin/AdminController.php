@@ -51,6 +51,7 @@ class AdminController extends Controller
             DB::commit();
         }catch(Exception $e){
             DB::rollBack();
+            return redirect()->back()->with('error','Something wrong!');
             throw new Exception($e->getMessage());
         }
     }
@@ -81,7 +82,7 @@ class AdminController extends Controller
 
             $admin->save();
             DB::commit();
-            return redirect()->route('admin.layout.login')->with('success','Register success');
+            return redirect()->route('admin.layout.login')->with('success','Registered successfully');
         } catch (Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error','Something wrong!');
