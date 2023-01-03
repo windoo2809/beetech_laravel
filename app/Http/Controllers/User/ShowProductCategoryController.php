@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\ProductCategory;
 use App\Services\ProductCategoryService;
 use App\Http\Requests\ProductCategoryRequest;
-use Alert;
+use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\DB;
+use Exception;
 
 
 class ShowProductCategoryController extends Controller
@@ -62,19 +64,22 @@ class ShowProductCategoryController extends Controller
      */
     public function store(ProductCategoryRequest $request)
     {
-        if($product_category != null){
+        DB::beginTransaction();
+        try {
             $product_category = new ProductCategory();
             $product_category->name = $request->name;
             $product_category->parent_id = $request->parent_id;
             $product_category->save();
-            
-            Alert::success('Success', 'Create success');
+            DB::commit();
+
+            Alert::success('Success', 'Created successfully');
             return redirect()->route('product-category.index');
-         }else{
-             Alert::error('Error', 'ID does not exist');
-             return redirect()->back();
-         }
-       
+        }catch(Exception $e){
+            DB::rollBack();
+            Alert::error('Error', 'Something wrong!');
+            return redirect()->back();
+            throw new Exception($e->getMessage());
+        }
     }
 
     /**
@@ -116,20 +121,29 @@ class ShowProductCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $product_category = ProductCategory::find($id);
+        DB::beginTransaction();
+        try {
+            $product_category = ProductCategory::find($id);
 
-        if($product_category != null){
-            $product_category->name = $request->name;
-            $product_category->parent_id = $request->parent_id;
+            if($product_category != null){
+                $product_category->name = $request->name;
+                $product_category->parent_id = $request->parent_id;
 
-            $product_category->save();
+                $product_category->save();
+                DB::commit();
 
-            Alert::success('Success', 'Update success');
-            return redirect()->route('product-category.index');
-         }else{
-             Alert::error('Error', 'ID does not exist');
-             return redirect()->back();
-         }
+                Alert::success('Success', 'Updated successfully');
+                return redirect()->route('product-category.index');
+            }else{
+                Alert::error('Error', 'Something wrong!');
+                return redirect()->back();
+            }
+        }catch(Exception $e){
+            DB::rollBack();
+            Alert::error('Error', 'Something wrong!');
+            return redirect()->back();
+            throw new Exception($e->getMessage());
+        }
     }
 
     /**

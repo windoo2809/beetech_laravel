@@ -72,9 +72,9 @@
                             <div class="form-group">
                                 <label for="category_id">Category ID</label>
                                 <select class="form-select" name="category_id" aria-label="Default select example">
-                                    @foreach($categories as $category)
+                                    @foreach($product_category as $category)
                                     <option value="{{$category->id }}">
-                                        {{$category->id }}
+                                        {{$category->name }}
                                     </option>
                                     @endforeach
                                 </select>

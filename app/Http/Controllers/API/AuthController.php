@@ -7,8 +7,9 @@ use App\Http\Controllers\API\MessageController as MessageController;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Auth;
+
 
 class AuthController extends MessageController
 {

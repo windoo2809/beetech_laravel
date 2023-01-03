@@ -7,6 +7,11 @@
                     {{session('success')}}
                 </div>
                 @endif
+                @if (session('error'))
+                <div class="alert alert-danger text-center">
+                    {{session('error')}}
+                </div>
+                @endif
                 @csrf
                 <h1 style="text-align: center;">Admin Register</h1>
                 <div class="container">
