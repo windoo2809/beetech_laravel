@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Exception;
 
 
-class ProductCategoryController extends Controller
+class ShowProductCategoryController extends Controller
 {
     protected $ProductCategoryService;
 
