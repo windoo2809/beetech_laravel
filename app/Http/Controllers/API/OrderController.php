@@ -31,7 +31,7 @@ class OrderController extends Controller
         $products = Product::select('id', 'name', 'stock', 'price')->whereIn('id', $idProduct)->get();
         $productCount = array_count_values($idProduct);
         $total = 0;
-        $quantity_order = 0;
+        $quantityOrder = 0;
         $orders = array();
         try {
             foreach ($products as $product){
@@ -40,11 +40,13 @@ class OrderController extends Controller
                     $product->save();
                     $orders = array(
                         'customer_id' => $idCustomer,
-                        'quantity' => $quantity_order += $productCount[$product->id],
+                        'quantity' => $quantityOrder += $productCount[$product->id],
                         'total' => $total += $product->price * $productCount[$product->id]
                     );
                 }else{
-                    $message = 'Out of stock product '. $product->name;
+                    return response()->json([
+                        'message' => 'Out of stock product '. $product->name
+                    ]);
                 }
             }
             $order = Order::create($orders);
@@ -59,19 +61,20 @@ class OrderController extends Controller
                     ]);
                 }
             }
-            $order_detail = OrderDetail::select('order_detail.id', 'order_id', 'product_id', 'quantity', 'order_detail.price', 'status', 'name')
+            $orderDetail = OrderDetail::select('order_detail.id', 'order_id', 'product_id', 'quantity', 'order_detail.price', 'status', 'name')
                 ->where('order_id', $order->id)->join('product', 'product.id', '=', 'order_detail.product_id')
                 ->get()->toArray();
             DB::commit();
 
             return response()->json([
                 'order' => $order,
-                'order_detail' => $order_detail,
+                'order_detail' => $orderDetail,
             ]);
-        }catch (Exception $exception){
+        }catch (Exception $e){
             DB::rollBack();
             return response()->json([
-                'message' => $message,
+                'message' => 'Somgthing wrong!',
+                throw new Exception($e->getMessage())
             ]);
         }
     }
