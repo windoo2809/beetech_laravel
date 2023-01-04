@@ -73,7 +73,7 @@ class AdminController extends Controller
         DB::beginTransaction();
         try {
             $admin = new Admin();
-            $admin->email = $request->emails;
+            $admin->email = $request->email;
             $admin->user_name = $request->user_name;
             $admin->first_name = $request->first_name;
             $admin->last_name = $request->last_name;
