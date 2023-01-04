@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\CustomerController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('customer/infor', [CustomerController::class, 'me']);
     //update
     Route::post('customer/update/' , [CustomerController::class, 'update']);
+
+    Route::post('product/orders/' , [OrderController::class, 'order']);
 });
   //show product
   Route::get('product' , [ProductController::class, 'index']);

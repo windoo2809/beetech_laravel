@@ -21,7 +21,7 @@ class Product extends Model
     use HasFactory;
     public $timestamps = true;
     protected $fillable = [
-        'sku','name','stock','avatar','expired_at','category_id','flag_delete',
+        'sku','name','stock','avatar','expired_at','category_id','flag_delete','price'
     ];
     protected $primarykey = 'id';
     protected $table = 'product';
@@ -29,6 +29,5 @@ class Product extends Model
     public function product_category() {
         return $this->hasOne(ProductCategory::class,'id','category_id');
     }
-
 }
 

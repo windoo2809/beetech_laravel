@@ -22,9 +22,12 @@ return new class extends Migration
             $table->string('password');
             $table->string('reset_password');
             $table->string('address')->varchar(255);
-            $table->integer('province_id');
-            $table->integer('district_id');
-            $table->integer('commune_id');
+            $table->unsignedBigInteger('province_id');
+            $table->foreign('province_id')->references('id')->on('province')->cascadeOnDelete();
+            $table->unsignedBigInteger('district_id');
+            $table->foreign('district_id')->references('id')->on('district')->cascadeOnDelete();
+            $table->unsignedBigInteger('commune_id');
+            $table->foreign('commune_id')->references('id')->on('commune')->cascadeOnDelete();
             $table->string('status');
             $table->boolean('flag_delete')->default(0);
             $table->timestamps();
