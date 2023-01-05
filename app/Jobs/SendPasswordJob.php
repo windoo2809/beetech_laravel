@@ -8,11 +8,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use App\Mail\SendMail;
+use App\Mail\SendPassword;
 use Illuminate\Support\Facades\Mail;
 
 
-class SendMailJob implements ShouldQueue
+class SendPasswordJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -22,10 +22,14 @@ class SendMailJob implements ShouldQueue
      * @return void
      */
     public $mail;
-    public function __construct($mail)
+    public $token;
+
+    public function __construct($mail,$token)
     {
         $this->mail= $mail;
+        $this->token= $token;
     }
+
 
     /**
      * Execute the job.
@@ -34,6 +38,6 @@ class SendMailJob implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to('dinhhn2809@gmail.com')->send(new SendMail());
+        Mail::to('dinhhn2809@gmail.com')->send(new SendPassword());
     }
 }

@@ -27,7 +27,10 @@
                 </div>
                 <div class="container" style="background-color:#f1f1f1">
                     <a href="{{url ('/')}}"> <button type="button" class="cancelbtn">Exit</button></a>
-                    <span class="psw"><a href="{{route ('user.layout.register')}}">Register?</a></span>
+                    <a href="{{route ('user.layout.register')}}"> <button type="button" class="registerbtn">Register</button></a>
+                    <span class="psw">
+                        <a href="{{route ('user.layout.forgot')}}">Forget password?</a>
+                    </span>
                 </div>
             </form>
         </div>
@@ -76,6 +79,11 @@ button:hover {
     width: auto;
     padding: 10px 18px;
     background-color: #f44336;
+}
+.registerbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: rgb(50, 50, 241);
 }
 
 /* Center the avatar image inside this container */

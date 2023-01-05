@@ -1,53 +1,34 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8">
-            <form action="{{ route('admin.layout.register') }}" method="post">
-                @if (session('success'))
+            <form action="{{ route('user.layout.forgot') }}" method="post">
+                @if(session('success'))
                 <div class="alert alert-success text-center">
                     {{session('success')}}
                 </div>
                 @endif
-                @if (session('error'))
+                @if(session('error'))
                 <div class="alert alert-danger text-center">
                     {{session('error')}}
                 </div>
                 @endif
                 @csrf
-                <h1 style="text-align: center;">Admin Register</h1>
+                <h1 style="text-align: center;">Forgot Password </h1>
                 <div class="container">
                     <label for="psw"><b>Email</b></label>
                     <input type="text" placeholder="Enter Email" name="email" value="{{old('email')}}">
                     @error('email')<small class="alert-danger">{{ $message }}</small>@enderror <br>
-                    <label for="uname"><b>Username</b></label>
 
-                    <input type="text" placeholder="Enter Username" name="user_name" value="{{old('user_name')}}">
-                    @error('user_name')<small class="alert-danger">{{ $message }}</small>@enderror <br>
-                    <label for="fname"><b>First Name</b></label>
-
-                    <input type="text" placeholder="Enter first name" name="first_name" value="{{old('first_name')}}">
-                    @error('first_name')<small class="alert-danger">{{ $message }}</small>@enderror <br>
-
-                    <label for="fname"><b>Last Name</b></label>
-                    <input type="text" placeholder="Enter last name" name="last_name" value="{{old('last_name')}}">
-                    @error('last_name')<small class="alert-danger">{{ $message }}</small>@enderror <br>
-
-                    <label for="birthday"><b>Birthday</b></label>
-                    <input type="date" placeholder="Enter last name" name="birthday" value="{{old('birthday')}}"> <br>
-                    @error('birthday')<small class="alert-danger">{{ $message }}</small>@enderror <br>
-
-                    <label for="psw"><b>Password</b></label>
-                    <input type="password" placeholder="Enter Password" name="password">
-                    @error('password')<small class="alert-danger">{{ $message }}</small>@enderror
-                    <button type="submit">Register</button>
+                    <button type="submit">Send</button>
                 </div>
                 <div class="container" style="background-color:#f1f1f1">
-                    <a href="{{url('/')}}"> <button type="button" class="cancelbtn">Cancel</button></a>
-                    <span class="psw"><a href="{{route ('admin.layout.login')}}">Login?</a></span>
+                    <a href="{{url ('/')}}"> <button type="button" class="cancelbtn">Exit</button></a>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
 <style>
 /* Bordered form */
 
@@ -91,6 +72,11 @@ button:hover {
     padding: 10px 18px;
     background-color: #f44336;
 }
+.registerbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: rgb(50, 50, 241);
+}
 
 /* Center the avatar image inside this container */
 .imgcontainer {
@@ -127,9 +113,6 @@ span.psw {
     }
 }
 </style>
-<link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
-<script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
-<script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
     integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
