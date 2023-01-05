@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\API\MessageController as MessageController;
+use App\Http\Requests\ApiAuthLoginRequest;
+use App\Http\Requests\ApiAuthRegisterRequest;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Laravel\Passport\HasApiTokens;
@@ -16,17 +18,18 @@ class AuthController extends MessageController
     /**
      * Post Login api
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \App\Http\Request\ApiAuthLoginRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function postLogin(Request $request){
+    public function postLogin(ApiAuthLoginRequest $request)
+    {
 
         $customer = [
             'phone' => $request->phone,
             'password' => $request->password,
         ];
 
-        if(Auth::guard('customer')->attempt($customer)){
+        if (Auth::guard('customer')->attempt($customer)) {
 
             $customer = Auth::guard('customer')->user();
 
@@ -35,32 +38,23 @@ class AuthController extends MessageController
             $success['token'] = $customer->createToken('Token')->accessToken;
 
             return $this->SendResponse($success, 'Customer login successfully');
-         }else{
+        } else {
             return $this->SendError('Phone or password wrong!');
-         }
+        }
     }
     /**
      * Post Register api
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \App\Http\Request\ApiAuthRegisterRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function postRegister(Request $request)
+    public function postRegister(ApiAuthRegisterRequest $request)
     {
-        $validator = Validator::make($request->all(),[
-            'email' => 'required',
-            'password' => 'required',
-            'phone' => 'required',
-        ]);
-
-        if($validator->fails()){
-            return $this ->SendError('Validation Error', $validator->errors());
-        }
 
         $customer = Customer::create([
-           'email' => $request->email,
-           'password' => bcrypt($request->password),
-           'phone' => $request->phone,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'phone' => $request->phone,
         ]);
 
         $success['email'] = $customer->email;

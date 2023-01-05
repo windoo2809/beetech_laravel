@@ -4,8 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-class UserLoginmiddleware
+use Illuminate\Support\Facades\session;
+use Illuminate\Support\Facades\app;
+
+class Localization
 {
     /**
      * Handle an incoming request.
@@ -16,10 +18,9 @@ class UserLoginmiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::guard('web')->check()) {
-            return $next($request);
-        } else {
-            return redirect()->route('user.layout.login')->with('error', 'Permission denied');
+        if (session()->has('locale')) {
+            App::setLocale(session()->get('locale'));
         }
+        return $next($request);
     }
 }

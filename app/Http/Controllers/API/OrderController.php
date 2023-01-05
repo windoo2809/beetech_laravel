@@ -23,7 +23,7 @@ class OrderController extends Controller
         DB::beginTransaction();
         $idCustomer = auth()->guard('api')->user()->id;
         $idProduct = $request->ids;
-        if(empty($idProduct)){
+        if (empty($idProduct)) {
             return response()->json([
                 'message' => 'No ids was found',
             ]);
@@ -34,8 +34,8 @@ class OrderController extends Controller
         $quantityOrder = 0;
         $orders = array();
         try {
-            foreach ($products as $product){
-                if($product->stock > 0){
+            foreach ($products as $product) {
+                if ($product->stock > 0) {
                     $product->stock -= $productCount[$product->id];
                     $product->save();
                     $orders = array(
@@ -43,15 +43,15 @@ class OrderController extends Controller
                         'quantity' => $quantityOrder += $productCount[$product->id],
                         'total' => $total += $product->price * $productCount[$product->id]
                     );
-                }else{
+                } else {
                     return response()->json([
-                        'message' => 'Out of stock product '. $product->name
+                        'message' => 'Out of stock product ' . $product->name
                     ]);
                 }
             }
             $order = Order::create($orders);
-            foreach ($products as $pro){
-                if($pro->stock > 0){
+            foreach ($products as $pro) {
+                if ($pro->stock > 0) {
                     OrderDetail::create([
                         'order_id' => $order->id,
                         'product_id' => $pro->id,
@@ -61,8 +61,17 @@ class OrderController extends Controller
                     ]);
                 }
             }
-            $orderDetail = OrderDetail::select('order_detail.id', 'order_id', 'product_id', 'quantity', 'order_detail.price', 'status', 'name')
-                ->where('order_id', $order->id)->join('product', 'product.id', '=', 'order_detail.product_id')
+            $orderDetail = OrderDetail::select(
+                'order_detail.id',
+                'order_id',
+                'product_id',
+                'quantity',
+                'order_detail.price',
+                'status',
+                'name'
+            )
+                ->where('order_id', $order->id)
+                ->join('product', 'product.id', '=', 'order_detail.product_id')
                 ->get()->toArray();
             DB::commit();
 
@@ -70,7 +79,7 @@ class OrderController extends Controller
                 'order' => $order,
                 'order_detail' => $orderDetail,
             ]);
-        }catch (Exception $e){
+        } catch (Exception $e) {
             DB::rollBack();
             return response()->json([
                 'message' => 'Somgthing wrong!',
@@ -78,7 +87,6 @@ class OrderController extends Controller
             ]);
         }
     }
-
 
     /**
      * Show the form for creating a new resource.

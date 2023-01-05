@@ -49,27 +49,26 @@ class ProductController extends Controller
         );
 
         $search = request()->search;
-        if($search){
+        if($search != null){
             $product = Product::whereHas('product_category', function ($query) use($search){
                 $query->where('product_category.name', 'LIKE','%'.$search.'%')
-                ->orWhere('product.name', 'LIKE','%'.$search.'%');
+                ->orWhere('product.name', 'LIKE','%'.$search.'%')
+                ->orWhere('product.sku', 'LIKE','%'.$search.'%');
             });
+            if($search == 10){
+                $product = Product::where('stock','<', 10);
+            }
+            elseif($search === "10-100"){
+                $product = Product::whereBetween('stock', [10,100]);
+            }
+            elseif($search === "100-200"){
+                $product = Product::whereBetween('stock', [100,200]);
+            }
+            elseif($search === "200"){
+                $product = Product::where('stock', '>',200 );
+            }
         }
-
-        $stock = request()->stock;
-        if($stock == 10){
-            $product = Product::where('stock','<', 10);
-        }
-        elseif($stock === "10-100"){
-            $product = Product::whereBetween('stock', [10,100]);
-        }
-        elseif($stock === "100-200"){
-            $product = Product::whereBetween('stock', [100,200]);
-        }
-        elseif($stock === "200"){
-            $product = Product::where('stock', '>',200 );
-        }
-
+        
         $product = $product->paginate(15);
 
         return view('user.layout.product.show', compact('product'));

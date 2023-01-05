@@ -1,5 +1,4 @@
 @extends('user.dashboard')
-@section('title','Edit Product Category')
 @section('content')
 
 <div class="content-wrapper">
@@ -8,12 +7,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>@yield('title')</h1>
+                    <h1>{{ __('Update Product Category') }}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Project Add</li>
+                        {{-- <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Project Add</li> --}}
                     </ol>
                 </div>
             </div>
@@ -39,14 +38,14 @@
                         </div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="name">Name</label>
+                                <label for="name">{{ __('Name') }}</label>
                                 <input type="text" name="name" class="form-control"
                                     value="{{$product_category->name}} ">
                                 @error('name')<small class="alert-danger">{{ $message }}</small>@enderror <br>
                             </div>
 
                             <div class="form-group">
-                                <label for="parent_id">Parent ID</label>
+                                <label for="parent_id">{{ __('Parent ID') }}</label>
                                 <select class="form-select" name=" parent_id" aria-label="Default select example">
                                     @if($product_category->parent_id == null)
                                     <option value="{{$product_category->parent_id }}">
@@ -75,8 +74,8 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <a href="{{route ('product-category.index')}}" class="btn btn-secondary">Cancel</a>
-                    <input type="submit" value="Edit Product Category" class="btn btn-success">
+                    <a href="{{route ('product-category.index')}}" class="btn btn-secondary">{{ __('Cancel') }}</a>
+                    <input type="submit" value="{{ __('Update') }}" class="btn btn-success">
                 </div>
             </div>
         </form>

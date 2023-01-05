@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -43,7 +43,7 @@ class AdminController extends Controller
                 'password' => $request->password,
             ];
             if(Auth::guard('admin')->attempt($data)){
-                return view('admin.dashboard', $data);
+                return redirect('admin');
             }
             else{
                 return redirect()->route('admin.layout.login')->with('error','Wrong email or password');

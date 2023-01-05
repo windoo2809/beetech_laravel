@@ -17,18 +17,25 @@ class ProductController extends Controller
     {
 
         $product = Product::select(
-           'id','sku','name','stock','avatar','expired_at','category_id','flag_delete',
+            'id',
+            'sku',
+            'name',
+            'stock',
+            'avatar',
+            'expired_at',
+            'category_id',
+            'flag_delete',
         )->paginate(10);
 
-        if($product != null){
+        if ($product != null) {
             return response()->json([
                 'product' => $product,
             ]);
-         }else{
+        } else {
             return response()->json([
                 'message' => 'No product was found',
             ]);
-         }
+        }
     }
 
     /**
@@ -62,15 +69,15 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
 
-        if($product != null){
+        if ($product != null) {
             return response()->json([
                 'product' => $product,
             ]);
-         }else{
+        } else {
             return response()->json([
                 'message' => 'No product was found',
             ]);
-         }
+        }
     }
 
     /**

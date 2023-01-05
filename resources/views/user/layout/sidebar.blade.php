@@ -13,7 +13,7 @@
                 <img src="{{asset ('dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">{{Auth::guard('users')->user()->email}}</a>
+                {{-- <a href="#" class="d-block">{{Auth::guard('users')->user()->user_name}}</a> --}}
             </div>
         </div>
 
@@ -38,7 +38,7 @@
                     <a href="#" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
-                            Product Category
+                            {{ __('Product Category') }}
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -46,7 +46,7 @@
                         <li class="nav-item">
                             <a href="{{route ('product-category.index')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Danh sách</p>
+                                <p>{{ __('List') }}</p>
                             </a>
                         </li>
                     </ul>
@@ -55,7 +55,7 @@
                     <a href="#" class="nav-link active">
                     <i class="nav-icon fas fa-th"></i>
                         <p>
-                            Product 
+                            {{ __('Product') }}
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -63,7 +63,7 @@
                         <li class="nav-item">
                             <a href="{{route ('product.index')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Danh sách</p>
+                                <p>{{ __('List') }}</p>
                             </a>
                         </li>
                     </ul>
