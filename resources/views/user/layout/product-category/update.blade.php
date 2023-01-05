@@ -75,7 +75,7 @@
             <div class="row">
                 <div class="col-12">
                     <a href="{{route ('product-category.index')}}" class="btn btn-secondary">{{ __('Cancel') }}</a>
-                    <input type="submit" value="{{ __('Update Product Category') }}" class="btn btn-success">
+                    <input type="submit" value="{{ __('Update') }}" class="btn btn-success">
                 </div>
             </div>
         </form>

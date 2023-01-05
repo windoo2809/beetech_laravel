@@ -8,7 +8,13 @@ use Illuminate\Support\Facades\App;
 
 class LangController extends Controller
 {
-    public function index($locale){ 
+    /**
+     * Set language
+     *
+     * @param mixed $locale
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function index($locale){
         App::setLocale($locale);
         session()->put('locale', $locale);
         return redirect()->back();

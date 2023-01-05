@@ -17,13 +17,14 @@
     "Search": "Tìm kiếm",
     "List": "Danh sách",
     "Add Product": "Thêm sản phẩm",
-    "Edit Product": "Cập nhật sản phẩm",
+    "Update Product": "Cập nhật sản phẩm",
     "Expired at": "Ngày hết hạn",
     "Cancel": "Hủy",
     "Add Product Category": "Thêm danh mục sản phẩm",
-    "Edit Product Category": "Cập nhật danh mục sản phẩm",
+    "Update Product Category": "Cập nhật danh mục sản phẩm",
     "Parent ID":"ID danh mục cha",
     "Created at": "Ngày thêm",
-    "Updated at": "Ngày cập nhật"
+    "Updated at": "Ngày cập nhật",
+    "Update":"Cập nhật"
 
 }
