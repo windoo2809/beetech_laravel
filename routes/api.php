@@ -30,13 +30,13 @@ Route::middleware('auth:api')->group(function () {
     Route::get('customer/infor', [CustomerController::class, 'me']);
     //update
     Route::post('customer/update/' , [CustomerController::class, 'update']);
-
+    //show product
+    Route::get('product' , [ProductController::class, 'index']);
+    //infor product
+    Route::get('product/infor/{id}' , [ProductController::class, 'show']);
+    //product cart
     Route::post('product/orders/' , [OrderController::class, 'order']);
 });
-  //show product
-  Route::get('product' , [ProductController::class, 'index']);
-  //infor product
-  Route::get('product/infor/{id}' , [ProductController::class, 'show']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

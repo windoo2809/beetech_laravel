@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ApiUpdateCustomerRequest;
 use Illuminate\Http\Request;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Exception;
 
 class CustomerController extends Controller
 {
@@ -17,19 +20,30 @@ class CustomerController extends Controller
     public function index()
     {
         $customer = Customer::select(
-            'id','email','phone','birthday','full_name','password','reset_password',
-            'address','province_id','district_id','commune_id','status','flag_delete'
+            'id',
+            'email',
+            'phone',
+            'birthday',
+            'full_name',
+            'password',
+            'reset_password',
+            'address',
+            'province_id',
+            'district_id',
+            'commune_id',
+            'status',
+            'flag_delete'
         )->get();
 
-        if($customer != null){
+        if ($customer != null) {
             return response()->json([
                 'customer' => $customer,
             ]);
-         }else{
+        } else {
             return response()->json([
                 'message' => 'No customer was found',
             ]);
-         }
+        }
     }
 
     /**
@@ -61,8 +75,6 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-
-
     }
 
     /**
@@ -80,28 +92,38 @@ class CustomerController extends Controller
      * Update the specified resource in storage.
      *
      *@param mixed $id
-     *@param \Illuminate\Http\Request $request
+     * @param \App\Http\Request\ApiUpdateCustomerRequest  $request
      *@return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request)
+    public function update(ApiUpdateCustomerRequest $request)
     {
-        $customer = Auth::guard('api')->user();
+        DB::beginTransaction();
+        try {
+            $customer = Auth::guard('api')->user();
 
-        if($customer != null){
-            $customer->email = $request->email;
-            $customer->phone = $request->phone;
-            $customer->password = bcrypt($request->password);
-            $customer->save();
+            if ($customer != null) {
+                $customer->email = $request->email;
+                $customer->phone = $request->phone;
+                $customer->password = bcrypt($request->password);
+                $customer->save();
+                DB::commit();
 
+                return response()->json([
+                    'customer' => $customer,
+                    'message' => 'Customer has been updated successfully',
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'Something wrong!',
+                ]);
+            }
+        } catch (Exception $e) {
+            DB::rollBack();
             return response()->json([
-                'customer' => $customer,
-                'message' => 'Customer has been updated successfully',
+                'message' => 'Somgthing wrong!',
+                throw new Exception($e->getMessage())
             ]);
-         }else{
-            return response()->json([
-                'message' => 'Something wrong!',
-            ]);
-         }
+        }
     }
 
     /**
@@ -119,15 +141,16 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function me(){
+    public function me()
+    {
         $customer = Auth::guard('api')->user();
 
-        if($customer != null){
+        if ($customer != null) {
             return response()->json([
                 'customer' => $customer,
                 'message' => 'Customer found',
             ]);
-        }else{
+        } else {
             return response()->json([
                 'message' => 'Customer not found',
             ]);

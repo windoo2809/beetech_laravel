@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="{{asset ('plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{asset ('dist/css/adminlte.min.css')}}">
-    
+
 </head>
 
 <style>
@@ -146,12 +146,8 @@ button {
 
         <!-- Content Wrapper. Contains page content -->
         <!-- yield content -->
-        <!-- Content Header (Page header) -->
         @yield('content')
         @include('sweetalert::alert')
-        <!-- /.content-header -->
-
-        <!-- Main content -->
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->

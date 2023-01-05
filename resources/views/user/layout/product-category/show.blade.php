@@ -1,5 +1,4 @@
 @extends('user.dashboard');
-@section('title', 'Product Category')
 @section('content')
 
 <div class="content-wrapper ">
@@ -8,12 +7,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>@yield('title')</h1>
+                    <h1> {{ __('Product Category') }}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Projects</li>
+                        {{-- <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Projects</li> --}}
                     </ol>
                 </div>
             </div>
@@ -24,12 +23,11 @@
         <!-- Default box -->
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">@yield('title')</h3>
                 <div class="card-tools">
                     <a class="btn btn-info btn-sm" href="{{route ('product-category.create')}}">
                         <i class="fas fa-pencil-alt">
                         </i>
-                        Add
+                        {{ __('Add') }}
                     </a>
                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                         <i class="fas fa-minus"></i>
@@ -40,14 +38,14 @@
                 </div>
             </div>
             <div class="card-body p-0">
-                <table class="table table-striped projects">
+                <table class="table table-striped projects text-center">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Name</th>
-                            <th>Parent ID</th>
-                            <th>Create at</th>
-                            <th>Update at</th>
+                            <th>{{ __('Name') }}</th>
+                            <th>{{ __('Parent ID') }}</th>
+                            <th>{{ __('Created at') }}</th>
+                            <th>{{ __('Updated at') }}</th>
                         </tr>
                     </thead>
                     @foreach($product_category as $row)
@@ -64,16 +62,16 @@
                             <td class="project-actions text-right">
                                 <a class="btn btn-primary btn-sm" href="#">
                                     <i class="fas fa-folder"></i>
-                                    View
+                                    {{ __('View') }}
                                 </a>
                                 <a class="btn btn-info btn-sm" href="{{route ('product-category.edit',$row->id)}}">
                                     <i class="fas fa-pencil-alt"></i>
-                                    Edit
+                                    {{ __('Edit') }}
                                 </a>
                                 <a onclick="destroy(this)" data-id="{{route('product-category.destroy',$row->id)}}"
                                     class="btn btn-danger btn-sm">
                                    <i class="fas fa-pencil-alt"></i>
-                                   Delete
+                                   {{ __('Delete') }}
                                </a>
                             </td>
                         </tr>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginUserRequest;
@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
 use App\Models\Users;
 use Exception;
 
@@ -46,8 +47,8 @@ class UserController extends Controller
                 'email' => $request->email,
                 'password' => $request->password,
             ];
-            if(Auth::guard('users')->attempt($data)){
-                return view('user.dashboard', $data);
+            if(Auth::guard('web')->attempt($data)){
+                return redirect('user');
             }
             else{
                 return redirect()->back()->with('error','Wrong email or password');
@@ -102,5 +103,7 @@ class UserController extends Controller
         Auth::logout();
         return redirect()->route('user.layout.login')->with('success','Logout success');
     }
+
+
 
 }
