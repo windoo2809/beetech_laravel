@@ -41,7 +41,7 @@
                     <button type="submit">Register</button>
                 </div>
                 <div class="container" style="background-color:#f1f1f1">
-                    <a href="{{url('/')}}"> <button type="button" class="cancelbtn">Thoát</button></a>
+                    <a href="{{url('/')}}"> <button type="button" class="cancelbtn">Cancel</button></a>
                     <span class="psw"><a href="{{route ('user.layout.login')}}">Login?</a></span>
                 </div>
             </form>

@@ -9,7 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Mail\SendMail;
-use Mail;
+use Illuminate\Support\Facades\Mail;
 
 
 class SendMailJob implements ShouldQueue
@@ -21,6 +21,7 @@ class SendMailJob implements ShouldQueue
      *
      * @return void
      */
+    public $mail;
     public function __construct($mail)
     {
         $this->mail= $mail;

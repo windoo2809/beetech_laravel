@@ -4,18 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
 /**
  *@property integer $id
- *@property string  $name
+ *@property string $token
  */
-class Province extends Model
+class PasswordReset extends Model
 {
     use HasFactory;
-    public $timestamps = true;
     protected $fillable = [
-        'name', 'id'
+        'email',
+        'token',
+        'created_at',
+        'updated_at'
     ];
-    protected $primarykey = 'id';
-    protected $table = 'province';
+    public $timestamps = true;
+    protected $table = 'password_resets';
 }

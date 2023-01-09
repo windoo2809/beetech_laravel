@@ -25,6 +25,13 @@
     "Parent ID":"ID danh mục cha",
     "Created at": "Ngày thêm",
     "Updated at": "Ngày cập nhật",
-    "Update":"Cập nhật"
+    "Update":"Cập nhật",
+    "Wrong email or password" : "Sai email hoặc mật khẩu",
+    "Something wrong!": "Lỗi hệ thống",
+    "Registered successfully": "Đăng ký thành công",
+    "Logout successfully" : "Đăng xuất thành công",
+    "Send mail successfully" : "Gửi mail thành công",
+    "Invalid token" : "Token không tồn tại",
+    "Your password has been changed! You can login with new password": "Mật khẩu đã cập nhật! Bạn có thể đăng nhập với mật khẩu mới"
 
 }
