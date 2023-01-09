@@ -14,17 +14,17 @@
                 @endif
                 @csrf
                 <h1 style="text-align: center;">Reset Password</h1>
-                <input type="hidden" name="token" value="{{ $token }}">
+                <input type="hidden" name="tokenpassword" value="{{ $token }}">
                 <div class="container">
                     <label for="psw"><b>New Password</b></label>
                     <input type="password" placeholder="Enter Password" name="password">
                     @error('password')<small class="alert-danger">{{ $message }}</small>@enderror <br>
 
                     <label for="psw"><b>Confirm Password</b></label>
-                    <input type="password" placeholder="Confirm Password" name="reset_password">
+                    <input type="password" placeholder="Confirm Password" name="reset_password" >
                     @error('reset_password')<small class="alert-danger">{{ $message }}</small>@enderror <br>
 
-                    <button type="submit">Login</button>
+                    <button type="submit">Reset Password</button>
                 </div>
                 <div class="container" style="background-color:#f1f1f1">
                     <a href="{{url ('/')}}"> <button type="button" class="cancelbtn">Exit</button></a>

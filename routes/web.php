@@ -24,8 +24,8 @@ Route::prefix('auth')->group(function () {
     //user-foget pass
     Route::get('user-fogot', [UserController::class, 'getForgot'])->name('user.layout.forgot');
     Route::post('user-fogot', [UserController::class, 'postForgot'])->name('user.layout.forgot');
-    Route::get('user-reset-password/{token}',[UserController::class, 'getResetPassword'])->name('user.layout.resetpassword');
-    Route::post('user-reset-password/{token}',[UserController::class, 'postResetPassword'])->name('user.layout.resetpassword');
+    Route::get('user-reset-password',[UserController::class, 'getResetPassword'])->name('user.layout.resetpassword');
+    Route::post('user-reset-password',[UserController::class, 'postResetPassword'])->name('user.layout.resetpassword');
 
     Route::get('admin-login', [AdminController::class, 'getLogin'])->name('admin.layout.login');
     Route::post('admin-login', [AdminController::class, 'postLogin'])->name('admin.layout.login');

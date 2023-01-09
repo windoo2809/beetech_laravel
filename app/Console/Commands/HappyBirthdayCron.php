@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\Users;
-use Mail;
+use Illuminate\Support\Facades\Mail;
 use App\Mail\HappyBirthdayMail;
 
 class HappyBirthdayCron extends Command
@@ -34,7 +34,7 @@ class HappyBirthdayCron extends Command
         ->whereDay('birthday', date('d'))
         ->get();
 
-        foreach($users as $key => $user)
+        foreach($users as $user)
         {
             $email = $user->email;
             Mail::to($user)->send(new HappyBirthdayMail($user));
