@@ -11,6 +11,7 @@ use App\Http\Requests\ForgotRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -61,11 +62,11 @@ class UserController extends Controller
             if (Auth::guard('web')->attempt($data)) {
                 return redirect('user');
             } else {
-                return redirect()->back()->with('error', 'Wrong email or password');
+                return redirect()->back()->with('error', Lang::get('Wrong email or password'));
             }
         } catch (Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Something wrong!');
+            return redirect()->back()->with('error', Lang::get('Something wrong!'));
             throw new Exception($e->getMessage());
         }
     }
@@ -100,10 +101,10 @@ class UserController extends Controller
             $user->save();
             DB::commit();
 
-            return redirect()->route('user.layout.login')->with('success', 'Registered successfully');
+            return redirect()->route('user.layout.login')->with('success', Lang::get('Registered successfully'));
         } catch (Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Something wrong!');
+            return redirect()->back()->with('error', Lang::get('Something wrong!'));
             throw new Exception($e->getMessage());
         }
     }
@@ -116,7 +117,7 @@ class UserController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('user.layout.login')->with('success', 'Logout success');
+        return redirect()->route('user.layout.login')->with('success', Lang::get('Logout successfully'));
     }
 
     /**
@@ -149,10 +150,10 @@ class UserController extends Controller
             $user = Users::where('email',  $password_reset->email)->first();
             $user->notify(new ResetPasswordNotifications($token));
 
-            return back()->with('success', 'Send email successfully');
+            return back()->with('success', Lang::get('Send mail successfully'));
         } catch (Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Something wrong!');
+            return redirect()->back()->with('error', Lang::get('Something wrong!'));
             throw new Exception($e->getMessage());
         }
     }
@@ -189,18 +190,18 @@ class UserController extends Controller
             if (Carbon::parse($password_reset->created_at)->addHour(3)->isPast()) {
                 $password_reset->delete();
 
-                return redirect()->route('user.layout.login')->with('error', 'Invalid token');
+                return redirect()->route('user.layout.login')->with('error', Lang::get('Invalid token'));
             } else {
                 Users::select('email', $request->email)->update([
                     'password' => bcrypt($request->password)
                 ]);
                 $password_reset->delete();
 
-                return redirect()->route('user.layout.login')->with('success', 'Your password has been changed! You can login with new password');
+                return redirect()->route('user.layout.login')->with('success', Lang::get('Your password has been changed! You can login with new password'));
             }
         } catch (Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Something wrong!');
+            return redirect()->back()->with('error', Lang::get('Something wrong!'));
             throw new Exception($e->getMessage());
         }
     }
