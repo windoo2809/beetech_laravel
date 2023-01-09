@@ -131,21 +131,30 @@ class UserController extends Controller
     /**
      * Send mail
      *
+     * @param \App\Http\Requests\ForgotRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function postForgot(ForgotRequest $request)
     {
-        $token = Str::random(60);
+        DB::beginTransaction();
+        try {
+            $token = Str::random(60);
 
-        $password_reset = new PasswordReset();
-        $password_reset->email = $request->email;
-        $password_reset->token = $token;
-        $password_reset->created_at = Carbon::now('Asia/Ho_Chi_Minh');
-        $password_reset->save();
+            $password_reset = new PasswordReset();
+            $password_reset->email = $request->email;
+            $password_reset->token = $token;
+            $password_reset->created_at = Carbon::now('Asia/Ho_Chi_Minh');
+            $password_reset->save();
 
-        $user = Users::where('email',  $password_reset->email)->first();
-        $user->notify(new ResetPasswordNotifications($token));
+            $user = Users::where('email',  $password_reset->email)->first();
+            $user->notify(new ResetPasswordNotifications($token));
 
-        return back()->with('success', 'Send email successfully');
+            return back()->with('success', 'Send email successfully');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Something wrong!');
+            throw new Exception($e->getMessage());
+        }
     }
 
     /**
@@ -171,21 +180,28 @@ class UserController extends Controller
      */
     public function postResetPassword(ResetpasswordRequest $request)
     {
-        $password_reset = PasswordReset::where([
-            'token' => $request->token,
-        ])->first();
+        DB::beginTransaction();
+        try {
+            $password_reset = PasswordReset::where([
+                'token' => $request->token,
+            ])->first();
 
-        if (Carbon::parse($password_reset->created_at)->addHour(3)->isPast()) {
-            $password_reset->delete();
+            if (Carbon::parse($password_reset->created_at)->addHour(3)->isPast()) {
+                $password_reset->delete();
 
-            return redirect()->route('user.layout.login')->with('error', 'Invalid token');
-        } else {
-            Users::select('email', $request->email)->update([
-                'password' => bcrypt($request->password)
-            ]);
-            $password_reset->delete();
+                return redirect()->route('user.layout.login')->with('error', 'Invalid token');
+            } else {
+                Users::select('email', $request->email)->update([
+                    'password' => bcrypt($request->password)
+                ]);
+                $password_reset->delete();
 
-            return redirect()->route('user.layout.login')->with('success', 'Your password has been changed! You can login with new password');
+                return redirect()->route('user.layout.login')->with('success', 'Your password has been changed! You can login with new password');
+            }
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Something wrong!');
+            throw new Exception($e->getMessage());
         }
     }
 }
