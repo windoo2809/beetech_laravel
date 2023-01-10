@@ -21,10 +21,11 @@ class OrderController extends Controller
     {
         $this->OrderService = $OrderService;
     }
+    
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function index()
     {
@@ -65,7 +66,7 @@ class OrderController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function show($id)
     {
@@ -109,24 +110,14 @@ class OrderController extends Controller
     public function destroy($id)
     {
         $order = $this->OrderService->DeleteOrder($id);
-
-        if ($order) {
-            return response()->json([
-                'message' => 'delete order',
-            ], 200);
-        } else {
-            return response()->json([
-                'message' => 'Error',
-            ], 404);
-        }
-    }
-    public function viewPDF($id)
-    {
-        $order = Order::findOrFail($id);
-
-        return view('user.layout.order.pdf', compact('order'));
     }
 
+    /**
+     * download pdf
+     *
+     * @param mixed $id
+     * @return \Illuminate\Http\Response
+     */
     public function downPDF($id)
     {
         $order = Order::findOrFail($id);
