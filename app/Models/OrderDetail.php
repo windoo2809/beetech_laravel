@@ -24,7 +24,7 @@ class OrderDetail extends Model
     protected $table = 'order_detail';
 
     /**
-     * Get the product for the Order detail.
+     * Get the Product for the Order detail.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

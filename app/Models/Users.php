@@ -31,7 +31,11 @@ class Users extends Authenticatable
     ];
     protected $primarykey = 'id';
     protected $table = 'users';
-
+    /**
+     * get the province
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function provinceID()
     {
         return $this->hasOne(Province::class, 'id', 'province_id');

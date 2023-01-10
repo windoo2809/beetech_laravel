@@ -19,7 +19,11 @@ class ProductCategory extends Model
     ];
     protected $primarykey = 'id';
     protected $table = 'product_category';
-
+    /**
+     * get the product category
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function categoryChildren()
     {
         return $this->belongsTo(ProductCategory::class, 'parent_id', 'id');

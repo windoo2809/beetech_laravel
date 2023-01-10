@@ -25,7 +25,11 @@ class Product extends Model
     ];
     protected $primarykey = 'id';
     protected $table = 'product';
-
+    /**
+     * get the Product category for the product
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function product_category()
     {
         return $this->hasOne(ProductCategory::class, 'id', 'category_id');
