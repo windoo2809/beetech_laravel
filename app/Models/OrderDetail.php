@@ -23,6 +23,11 @@ class OrderDetail extends Model
     protected $primarykey = 'id';
     protected $table = 'order_detail';
 
+    /**
+     * Get the product for the Order detail.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function Product(){
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }
