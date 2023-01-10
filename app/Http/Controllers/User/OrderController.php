@@ -21,7 +21,6 @@ class OrderController extends Controller
     {
         $this->OrderService = $OrderService;
     }
-    
     /**
      * Display a listing of the resource.
      *
@@ -105,11 +104,21 @@ class OrderController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
         $order = $this->OrderService->DeleteOrder($id);
+
+        if ($order) {
+            return response()->json([
+                'message' => 'delete order',
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Error',
+            ], 404);
+        }
     }
 
     /**
