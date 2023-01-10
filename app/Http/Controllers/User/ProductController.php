@@ -5,8 +5,9 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
-use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Lang;
 use PDF;
 use File;
 use Exception;
@@ -45,7 +46,8 @@ class ProductController extends Controller
             'expired_at',
             'avatar',
             'sku',
-            'category_id'
+            'category_id',
+            'price'
         );
 
         $search = request()->search;
@@ -68,7 +70,7 @@ class ProductController extends Controller
                 $product = Product::where('stock', '>',200 );
             }
         }
-        
+
         $product = $product->paginate(15);
 
         return view('user.layout.product.show', compact('product'));
@@ -106,16 +108,17 @@ class ProductController extends Controller
             $product->sku = $request->sku;
             $product->expired_at = $request->expired_at;
             $product->category_id = $request->category_id;
+            $product->price = $request->price;
             $product->avatar = $image_name;
             $product->save();
             DB::commit();
 
-            Alert::success('Success', 'Created successfully');
+            Alert::success('Success', Lang::get('Created successfully'));
             return redirect()->route('product.index');
 
         }catch(Exception $e){
             DB::rollBack();
-            Alert::error('Error', 'Something wrong!');
+            Alert::error('Error', Lang::get('Something wrong!'));
             return redirect()->back();
             throw new Exception($e->getMessage());
         }
@@ -146,7 +149,7 @@ class ProductController extends Controller
         if($product != null){
            return view('user.layout.product.update',compact('product','product_category'));
         }else{
-            Alert::error('Error', 'ID does not exist');
+            Alert::error('Error', Lang::get('Something wrong!'));
             return redirect()->back();
         }
     }
@@ -182,15 +185,15 @@ class ProductController extends Controller
                 $product->save();
                 DB::commit();
 
-                Alert::success('Success', 'Updated successfully');
+                Alert::success('Success', Lang::get('Updated successfully'));
                 return redirect()->route('product.index');
             }else{
-                Alert::error('Error', 'Something wrong!');
+                Alert::error('Error', Lang::get('Something wrong!'));
                 return redirect()->back();
             }
         }catch(Exception $e){
             DB::rollBack();
-            Alert::error('Error', 'Something wrong!');
+            Alert::error('Error', Lang::get('Something wrong!'));
             return redirect()->back();
             throw new Exception($e->getMessage());
         }
@@ -239,7 +242,8 @@ class ProductController extends Controller
             'expired_at',
             'avatar',
             'sku',
-            'category_id'
+            'category_id',
+            'price'
         )->get();
         $currentTime = Carbon::now('Asia/Ho_Chi_Minh');
         $datetime=$currentTime->toDateTimeString();

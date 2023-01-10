@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Lang;
 use File;
 use Exception;
 use App\Models\Users;
@@ -98,11 +99,11 @@ class ShowUserController extends Controller
             $SendMailJob = new SendMailJob($SendMail);
             dispatch($SendMailJob);
 
-            Alert::success('Success', 'Created successfully');
+            Alert::success('Success', Lang::get('Created successfully'));
             return redirect()->route('user.index');
         }catch(Exception $e){
             DB::rollBack();
-            Alert::error('Error', 'Something wrong!');
+            Alert::error('Error', Lang::get('Something wrong!'));
             return redirect()->back();
             throw new Exception($e->getMessage());
         }
@@ -138,7 +139,7 @@ class ShowUserController extends Controller
 
            return view('admin.layout.user.update',compact('user','province','district','commune'));
         }else{
-            Alert::error('Error', 'Something wrong!');
+            Alert::error('Error', Lang::get('Something wrong!'));
             return redirect()->back();
         }
     }
@@ -182,15 +183,15 @@ class ShowUserController extends Controller
                 $SendMailJob = new SendMailJob($SendMail);
                 dispatch($SendMailJob);
 
-                Alert::success('Success', 'Updated successfully');
+                Alert::success('Success', Lang::get('Updated successfully'));
                 return redirect()->route('user.index');
             }else{
-                Alert::error('Error', 'Something wrong!');
+                Alert::error('Error', Lang::get('Something wrong!'));
                 return redirect()->back();
             }
         }catch(Exception $e){
             DB::rollBack();
-            Alert::error('Error', 'Something wrong!');
+            Alert::error('Error', Lang::get('Something wrong!'));
             return redirect()->back();
             throw new Exception($e->getMessage());
         }
@@ -208,10 +209,10 @@ class ShowUserController extends Controller
 
         if($user != null){
             $user->delete();
-            Alert::success('Success', 'Delete succes');
+            Alert::success('Success', Lang::get('Deleted successfully'));
             return redirect()->route('user.index');
         }else{
-            Alert::error('Error', 'ID does not exist');
+            Alert::error('Error', Lang::get('Something wrong!'));
             return redirect()->back();
         }
     }

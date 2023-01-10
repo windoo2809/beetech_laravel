@@ -17,11 +17,13 @@
         <li class="nav-item d-none d-sm-inline-block">
             <a href="#" class="nav-link">{{ __('Contact') }}</a>
         </li>
-    </ul>
-    <form action="{{route ('user.logout')}}" method="post">
+       <li>
+        <form action="{{route ('user.logout')}}" method="post">
             <button type="submit">{{ __('Logout') }}</button>
             @csrf
-    </form>
+        </form>
+       </li>
+    </ul>
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
         <!-- Navbar Search -->

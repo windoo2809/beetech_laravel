@@ -16,8 +16,16 @@ class Order extends Model
     use HasFactory;
     public $timestamps = true;
     protected $fillable = [
-        'customer_id', 'quantity', 'total'
+        'id','customer_id', 'quantity', 'total','created_at','updated_at'
     ];
     protected $primarykey = 'id';
     protected $table = 'orders';
+
+    public function OrderDetail(){
+        return $this->hasMany(OrderDetail::class, 'order_id','id');
+    }
+
+    public function CustomerDetail(){
+        return $this->belongsTo(Customer::class, 'customer_id');
+    }
 }

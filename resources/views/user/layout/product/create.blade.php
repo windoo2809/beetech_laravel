@@ -56,6 +56,13 @@
                             </div>
 
                             <div class="form-group">
+                                <label for="price">{{ __('Price') }}</label>
+                                <input type="text" name="price" class="form-control"
+                                    value="{{old('price')}} ">
+                                @error('price')<small class="alert-danger">{{ $message }}</small>@enderror <br>
+                            </div>
+
+                            <div class="form-group">
                                 <label for="avatar">{{ __('Avatar') }}</label>
                                 <input type="file" name="avatar" class="form-control" value="{{old('avatar')}} ">
                                 @error('avatar')<small class="alert-danger">{{ $message }}</small>@enderror <br>

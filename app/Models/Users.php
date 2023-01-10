@@ -38,6 +38,5 @@ class Users extends Authenticatable
     }
     protected $attributes = [
         'address' => '',
-
     ];
 }

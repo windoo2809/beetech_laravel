@@ -32,6 +32,7 @@ class ProductRequest extends FormRequest
             'stock' => 'required|min:0|max:10000|numeric',
             'expired_at' => 'nullable|required|after:today',
             'avatar' => 'required|max:3MB',
+            'price' => 'required|numeric',
             'sku' => [
                 'min:10',
                 'max:20',

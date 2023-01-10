@@ -32,6 +32,20 @@
     "Logout successfully" : "Đăng xuất thành công",
     "Send mail successfully" : "Gửi mail thành công",
     "Invalid token" : "Token không tồn tại",
-    "Your password has been changed! You can login with new password": "Mật khẩu đã cập nhật! Bạn có thể đăng nhập với mật khẩu mới"
+    "Your password has been changed! You can login with new password": "Mật khẩu đã cập nhật! Bạn có thể đăng nhập với mật khẩu mới",
+    "Created successfully": "Tạo thành công",
+    "Updated successfully": "Cập nhật thành công",
+    "Deleted successfully":"Xóa thành công",
+    "Order" : "Đơn hàng",
+    "Order Detail" : "Chi tiết đơn hàng",
+    "Customer ID" : "ID khách hàng",
+    "Quantity" : "Số lượng",
+    "Total" : "Tổng giá",
+    "Customer" : "Khách hàng",
+    "Phone" : "SĐT",
+    "Address" : "Địa chỉ",
+    "Order ID" : "ID đơn hàng",
+    "Price" : "Giá",
+    "Total Amount" : "Tổng đơn giá"
 
 }
