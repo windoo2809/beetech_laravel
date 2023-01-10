@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Services\OrderService;
 use Barryvdh\DomPDF\Facade\Pdf;
-
+use Illuminate\Http\Response;
 
 class OrderController extends Controller
 {
@@ -113,11 +113,11 @@ class OrderController extends Controller
         if ($order) {
             return response()->json([
                 'message' => 'delete order',
-            ], 200);
+            ], Response::HTTP_OK);
         } else {
             return response()->json([
                 'message' => 'Error',
-            ], 404);
+            ], Response::HTTP_NOT_FOUND);
         }
     }
 

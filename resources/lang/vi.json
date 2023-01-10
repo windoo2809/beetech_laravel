@@ -47,5 +47,8 @@
     "Order ID" : "ID đơn hàng",
     "Price" : "Giá",
     "Total Amount" : "Tổng đơn giá",
-    "Considering" : "Đang duyệt"
+    "Considering" : "Đang duyệt",
+    "Waiting for delivery": "Chờ giao hàng",
+    "Delivering" : "Đang giao",
+    "Delivered" : "Đã giao"
 }
