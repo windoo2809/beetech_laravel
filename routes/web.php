@@ -29,11 +29,10 @@ Route::prefix('auth')->group(function () {
     Route::post('user-fogot', [UserController::class, 'postForgot'])->name('user.layout.forgot');
     Route::get('user-reset-password', [UserController::class, 'getResetPassword'])->name('user.layout.resetpassword');
     Route::post('user-reset-password', [UserController::class, 'postResetPassword'])->name('user.layout.resetpassword');
-
+    //admin login
     Route::get('admin-login', [AdminController::class, 'getLogin'])->name('admin.layout.login');
     Route::post('admin-login', [AdminController::class, 'postLogin'])->name('admin.layout.login');
-
-    //register
+    //admin register
     Route::get('admin-register', [AdminController::class, 'getRegister'])->name('admin.layout.register');
     Route::post('admin-register', [AdminController::class, 'postRegister'])->name('admin.layout.register');
 });
@@ -52,7 +51,8 @@ Route::prefix('user')->middleware('user.login')->group(function () {
     Route::get('/export-pdf', [ProductController::class, 'exportpdf'])->name('product.exportpdf');
     //crud order
     Route::resource('order', OrderController::class);
-    Route::get('/order-pdf', [OrderController::class, 'exportpdf'])->name('order.exportpdf');
+    Route::get('/order-pdf/{id}', [OrderController::class, 'viewPDF']);
+    Route::get('/order-pdf/down/{id}', [OrderController::class, 'downPDF']);
 });
 //end-user
 

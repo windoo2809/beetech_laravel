@@ -41,13 +41,13 @@
         <div class="card">
             <div class="card-header">
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown"
+                    {{-- <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown"
                         aria-expanded="false">
                         {{ __('Download file') }}
                     </button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="{{route ('order.exportpdf')}}">PDF</a>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="card-tools">
                     <a class="btn btn-info btn-sm" href="{{route ('order.create')}}">
@@ -63,6 +63,7 @@
                     </button>
                 </div>
             </div>
+            @if ($order)
             <div class="card-body p-0">
                 <table class="table table-striped projects text-center">
                     <thead>
@@ -123,7 +124,7 @@
                                             swal("Poof! Your Order has been deleted!", {
                                                 icon: "success",
                                             });
-                                            //remove without refreshing
+                                            window.location.reload();
                                         },
                                         error: function(response) {
                                             // alert
@@ -140,6 +141,9 @@
                     @endforeach
                 </table>
             </div>
+            @else
+               <p class="text-center"> No order was found.</p>
+            @endif
             <!-- /.card-body -->
         </div>
         {{ $order->links()}}

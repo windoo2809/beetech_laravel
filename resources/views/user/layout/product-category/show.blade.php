@@ -100,14 +100,14 @@
                                                 swal("Poof! Your Product has been deleted!", {
                                                     icon: "success",
                                                 });
-                                                //remove without refreshing
+                                                window.location.reload();
                                             },
                                             error: function(response) {
                                                 // alert
                                                 swal("Opps! Something wrong!", {
                                                     icon: "error",
                                                 });
-
+                                            window.location.reload();
                                             }
                                         }); // ajax end
                                     }

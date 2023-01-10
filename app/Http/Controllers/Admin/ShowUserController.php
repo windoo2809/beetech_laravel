@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
-use File;
+use Illuminate\Support\Facades\File;
 use Exception;
 use App\Models\Users;
 use App\Models\Province;

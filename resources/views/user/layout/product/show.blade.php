@@ -149,7 +149,7 @@
                                             swal("Poof! Your Product has been deleted!", {
                                                 icon: "success",
                                             });
-                                            //remove without refreshing
+                                            window.location.reload();
                                         },
                                         error: function(response) {
                                             // alert

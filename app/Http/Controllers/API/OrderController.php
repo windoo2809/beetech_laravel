@@ -56,7 +56,7 @@ class OrderController extends Controller
                         'order_id' => $order->id,
                         'product_id' => $pro->id,
                         'quantity' => $productCount[$pro->id],
-                        'price' => $pro->price * $productCount[$pro->id],
+                        'price' => $pro->price,
                         'status' => 1
                     ]);
                 }

@@ -8,6 +8,16 @@
           <div class="col-sm-6">
             <h1>{{ __('Order Detail') }}</h1>
           </div>
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown"
+                aria-expanded="false">
+                {{ __('Download file') }}
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{{url ('user/order-pdf/'.$order->id)}}">view PDF</a>
+                <a class="dropdown-item" href="{{url ('user/order-pdf/down/'.$order->id)}}">down PDF</a>
+            </div>
+        </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               {{-- <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -100,8 +110,9 @@
                       <th>{{ __('Order ID') }}</th>
                       <th>{{ __('Avatar') }}</th>
                       <th>{{ __('Name') }}</th>
-                      <th>{{ __('Price') }}</th>
                       <th>{{ __('Quantity') }}</th>
+                      <th>{{ __('Status') }}</th>
+                      <th>{{ __('Price') }}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -116,8 +127,13 @@
                             <img src="{{asset('upload/product/' .$row->Product->avatar)}}" width="100px" height="100px">
                         </td>
                         <td>{{$row->Product->name}}</td>
-                        <td>{{$row->price}}</td>
                         <td>{{$row->quantity}}</td>
+                        <td>
+                            @if ($row->status == 1)
+                                <a href="" class="btn btn-sm btn-primary">{{ __('Considering') }}</a>
+                            @endif
+                        </td>
+                        <td>{{$row->price}}</td>
                         @php
                             $totalPrice += $row->quantity * $row->price;
                         @endphp

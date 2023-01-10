@@ -8,8 +8,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
-use PDF;
-use File;
+use Illuminate\Support\Facades\File;
 use Exception;
 use Carbon\Carbon;
 use App\models\Product;
@@ -18,7 +17,7 @@ use App\Http\Requests\ProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Services\ProductService;
 use App\Exports\ProductExport;
-use Dompdf\Dompdf;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 class ProductController extends Controller

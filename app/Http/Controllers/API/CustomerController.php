@@ -99,6 +99,7 @@ class CustomerController extends Controller
     {
         DB::beginTransaction();
         try {
+            /** @var \App\Models\Customer $customer */
             $customer = Auth::guard('api')->user();
 
             if ($customer != null) {

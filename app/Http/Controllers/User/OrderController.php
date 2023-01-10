@@ -4,16 +4,23 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
 use App\Models\Order;
-use App\Models\OrderDetail;
-use PDF;
+use App\Services\OrderService;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class OrderController extends Controller
 {
+    protected $OrderService;
+    /**
+     *
+     * @param \App\Services\OrderService; $OrderService;
+     * @return void
+     */
+    public function __construct(OrderService $OrderService)
+    {
+        $this->OrderService = $OrderService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -63,9 +70,9 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::where('id', $id)->first();
-        if($order != null) {
+        if ($order != null) {
             return view('user.layout.order.view', compact('order'));
-        }else{
+        } else {
             abort(404);
         }
     }
@@ -101,23 +108,33 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $order = $this->OrderService->DeleteOrder($id);
+
+        if ($order) {
+            return response()->json([
+                'message' => 'delete order',
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Error',
+            ], 404);
+        }
+    }
+    public function viewPDF($id)
+    {
+        $order = Order::findOrFail($id);
+
+        return view('user.layout.order.pdf', compact('order'));
     }
 
-    public function exportpdf()
+    public function downPDF($id)
     {
-        $order = Order::select(
-            'id',
-            'customer_id',
-            'quantity',
-            'total',
-            'created_at',
-            'updated_at'
-        )->get();
-        $currentTime = Carbon::now('Asia/Ho_Chi_Minh');
-        $datetime = $currentTime->toDateTimeString();
+        $order = Order::findOrFail($id);
+        $data = [
+            'order' => $order,
+        ];
 
-        $pdf = PDF::loadView('user.layout.order.pdf', compact('order', 'datetime'));
+        $pdf = PDF::loadView('user.layout.order.pdf', $data);
         return $pdf->download('Order.pdf');
     }
 }
