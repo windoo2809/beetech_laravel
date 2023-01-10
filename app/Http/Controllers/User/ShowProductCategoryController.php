@@ -9,6 +9,7 @@ use App\Services\ProductCategoryService;
 use App\Http\Requests\ProductCategoryRequest;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Lang;
 use Exception;
 
 
@@ -72,11 +73,11 @@ class ShowProductCategoryController extends Controller
             $product_category->save();
             DB::commit();
 
-            Alert::success('Success', 'Created successfully');
+            Alert::success('Success', Lang::get('Created successfully'));
             return redirect()->route('product-category.index');
         }catch(Exception $e){
             DB::rollBack();
-            Alert::error('Error', 'Something wrong!');
+            Alert::error('Error', Lang::get('Something wrong!'));
             return redirect()->back();
             throw new Exception($e->getMessage());
         }
@@ -132,15 +133,15 @@ class ShowProductCategoryController extends Controller
                 $product_category->save();
                 DB::commit();
 
-                Alert::success('Success', 'Updated successfully');
+                Alert::success('Success', Lang::get('Updated successfully'));
                 return redirect()->route('product-category.index');
             }else{
-                Alert::error('Error', 'Something wrong!');
+                Alert::error('Error', Lang::get('Something wrong!'));
                 return redirect()->back();
             }
         }catch(Exception $e){
             DB::rollBack();
-            Alert::error('Error', 'Something wrong!');
+            Alert::error('Error', Lang::get('Something wrong!'));
             return redirect()->back();
             throw new Exception($e->getMessage());
         }

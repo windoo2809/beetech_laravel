@@ -45,4 +45,34 @@ class Customer extends Authenticatable
         'commune_id' => 1,
         'status' => '',
     ];
+
+    /**
+     * Get customer that owns the Province.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function province()
+    {
+        return $this->belongsTo(Province::class, 'province_id');
+    }
+
+    /**
+     * Get customer that owns the District.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function district()
+    {
+        return $this->belongsTo(District::class, 'district_id');
+    }
+    
+    /**
+     * Get customer that owns the Commune.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function commune()
+    {
+        return $this->belongsTo(Commune::class, 'commune_id');
+    }
 }

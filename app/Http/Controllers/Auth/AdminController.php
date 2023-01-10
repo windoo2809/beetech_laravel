@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Lang;
 use App\Models\Admin;
 use App\Http\Requests\LoginAdminRequest;
 use App\Http\Requests\RegisterAdminRequest;
@@ -46,12 +47,12 @@ class AdminController extends Controller
                 return redirect('admin');
             }
             else{
-                return redirect()->route('admin.layout.login')->with('error','Wrong email or password');
+                return redirect()->route('admin.layout.login')->with('error', Lang::get('Wrong email or password'));
             }
             DB::commit();
         }catch(Exception $e){
             DB::rollBack();
-            return redirect()->back()->with('error','Something wrong!');
+            return redirect()->back()->with('error', Lang::get('Something wrong!'));
             throw new Exception($e->getMessage());
         }
     }
@@ -82,10 +83,10 @@ class AdminController extends Controller
 
             $admin->save();
             DB::commit();
-            return redirect()->route('admin.layout.login')->with('success','Registered successfully');
+            return redirect()->route('admin.layout.login')->with('success', Lang::get('Registered successfully'));
         } catch (Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error','Something wrong!');
+            return redirect()->back()->with('error', Lang::get('Something wrong!'));
             throw new Exception($e->getMessage());
         }
     }
@@ -96,7 +97,7 @@ class AdminController extends Controller
      */
     public function logout(){
         Auth::logout();
-        return redirect()->route('admin.layout.login')->with('success','Logout success');
+        return redirect()->route('admin.layout.login')->with('success', Lang::get('Logout success'));
 
     }
 

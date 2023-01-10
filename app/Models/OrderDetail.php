@@ -18,8 +18,17 @@ class OrderDetail extends Model
     use HasFactory;
     public $timestamps = true;
     protected $fillable = [
-        'order_id', 'product_id', 'quantity', 'price', 'status'
+        'order_id', 'product_id', 'quantity', 'price', 'status','created_at','updated_at'
     ];
     protected $primarykey = 'id';
     protected $table = 'order_detail';
+
+    /**
+     * Get the Product for the Order detail.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function Product(){
+        return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
 }

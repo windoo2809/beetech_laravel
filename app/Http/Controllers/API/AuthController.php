@@ -20,17 +20,17 @@ class AuthController extends MessageController
      *
      * @param  \App\Http\Request\ApiAuthLoginRequest  $request
      * @return \Illuminate\Http\JsonResponse
+     *
      */
     public function postLogin(ApiAuthLoginRequest $request)
     {
-
         $customer = [
             'phone' => $request->phone,
             'password' => $request->password,
         ];
 
         if (Auth::guard('customer')->attempt($customer)) {
-
+            /** @var \App\Models\Customer $customer **/
             $customer = Auth::guard('customer')->user();
 
             $success['email'] = $customer->email;
